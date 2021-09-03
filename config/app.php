@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\ObserverServiceProvider::class,
 
         /*
          * Application Service Providers...

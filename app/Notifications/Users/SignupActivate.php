@@ -34,7 +34,7 @@ class SignupActivate extends Notification
         return (new MailMessage)
             ->subject('Confirm your account')
             ->line('Thank you for joining Digible. Please follow the link below to confirm your account.')
-            ->action('Confirm Account', $url)
+            ->action('Confirm Account', $url);
     }
 
     /**

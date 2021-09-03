@@ -11,10 +11,10 @@ class EmailVerifications extends BaseObserver
 
     public function handle(User $user)
     {
-        $user->wallets()->create([
-            'currency_id' => 1,
-            'balance' => 0,
-        ]);
+        // $user->wallets()->create([
+        //     'currency_id' => 1,
+        //     'balance' => 0,
+        // ]);
     }
 }
 

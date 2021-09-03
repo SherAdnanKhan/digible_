@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'frontend' => 'http://google.com',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

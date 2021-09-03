@@ -287,9 +287,9 @@ class AuthController extends Controller
     {
         $verified = $this->service->userActivate($token);
         if (!$verified) {
-            return Redirect::to(config('app.frontend.url').'/email/verify-failure');
+            return Redirect::to(config('app.frontend').'/email/verify-failure');
         }
-        return Redirect::to(config('app.frontend.url').'/email/verify-success');
+        return Redirect::to(config('app.frontend').'/email/verify-success');
     }
 
     public function forget(ForgetPasswordRequest $request)

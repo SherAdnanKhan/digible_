@@ -48,7 +48,6 @@ class AuthRepository
     {
         $tokenResult = $user->createToken(env('APP_PERSONAL_TOKEN'));
         $token = $tokenResult->token;
-
         if ($rememberMe) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
@@ -86,7 +85,6 @@ class AuthRepository
      */
     public function userActivate(User $user) : User
     {
-        $user->status = User::USER_STATUS_ACTIVE;
         $user->email_verified_at = now();
         $user->activation_token = '';
         $user->save();

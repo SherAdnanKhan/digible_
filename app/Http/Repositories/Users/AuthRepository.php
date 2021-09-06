@@ -20,9 +20,11 @@ class AuthRepository
     public function register(array $userData) : void
     {
         $user = new User($userData);
+        
         $user->notify(new SignupActivate($user));
         Log::info(__METHOD__ . " -- Email verification notification sent to user", ["email" => $user->email]);
         $user->save();
+        $user->assignRole('user');
 
     }
 

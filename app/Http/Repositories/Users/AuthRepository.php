@@ -114,7 +114,7 @@ class AuthRepository
 
     public function validateTokenAndGetUser(string $token)
     {
-        $passwordReset = PasswordReset::where(['token' => $token])->first();
+        $passwordReset = PasswordReset::with('user')->where(['token' => $token])->first();
         if (!isset($passwordReset) || ($passwordReset->created_at->diffInMinutes(\Carbon\Carbon::now()) > 30)) {
             return null;
         }

@@ -26,7 +26,7 @@ Route::prefix('auth')->group(function () {
     Route::get('logout' , [AuthController::class, 'logout'])->middleware('auth:api');
     Route::prefix('forget-password')->group(function(){
         Route::post('' , [AuthController::class, 'forget']);
-        Route::post('{token}' , [AuthController::class, 'reset']);
+        Route::get('{token}' , [AuthController::class, 'reset']);
         Route::post('confirm' , [AuthController::class, 'confirm']);
     });
 });

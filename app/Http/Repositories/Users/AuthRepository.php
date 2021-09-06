@@ -104,9 +104,8 @@ class AuthRepository
         if (!isset($passwordReset)) {
             return null;
         }
-
-        $passwordReset->delete();
-
+        PasswordReset::where(['token' => $data['token'], 'email' => $data['email']])->delete();
+        
         return $passwordReset->user()->update([
             'password' => bcrypt($data['password'])
         ]);

@@ -99,13 +99,13 @@ class AuthRepository
 
     public function confirm(array $data)
     {
-        $passwordReset = PasswordReset::where(['token' => $data['token'], 'email' => $data['email']])->first();
+        $passwordReset = PasswordReset::where(['token' => $data['token']])->first();
 
         if (!isset($passwordReset)) {
             return null;
         }
-        PasswordReset::where(['token' => $data['token'], 'email' => $data['email']])->delete();
-        
+        PasswordReset::where(['token' => $data['token']])->delete();
+
         return $passwordReset->user()->update([
             'password' => bcrypt($data['password'])
         ]);

@@ -34,9 +34,9 @@ Route::prefix('auth')->group(function () {
 /*
  * USER ROUTES
  */
-Route::group(['middleware' => ['auth:api', 'is_user']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::prefix('users/{user}')->group(function () {
-        Route::put('update-password' , [UserController::class, 'updatePassword']);
+        Route::post('update-password' , [UserController::class, 'updatePassword']);
     });
     
     Route::resource('users', UserController::class)->only(['update']);

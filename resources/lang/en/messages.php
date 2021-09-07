@@ -25,4 +25,9 @@ return [
     'forget_password_reset_success' => 'Forget password reset successfully',
     'forget_password_invalid_token' => 'Invalid Token!',
     'forget_password_invalid_token_or_email' => 'Invalid Token or Email!',
+    'collectible_create_success' => 'Collectible created successfully',
+    'collectible_update_success' => 'Collectible updated successfully',
+    'collectible_delete_success' => 'Collectible deleted successfully',
+    'general_error' => 'Something is wrong with the database',
+    'general_empty_data' => 'No result found',
 ];

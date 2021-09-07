@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
-use Throwable;
 use Exception;
+use Throwable;
+use InvalidArgumentException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -58,5 +59,6 @@ class Handler extends ExceptionHandler
                 'message' => trans($exception->getName(), $exception->getParams()),
             ], $exception->getStatusCode());
         });
+
     }
 }

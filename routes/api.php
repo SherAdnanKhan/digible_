@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\CollectibleController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
 use Illuminate\Support\Facades\Route;
@@ -40,8 +41,6 @@ Route::group(['middleware' => ['auth:api']], function () {
  Route::resource('users', UserController::class)->only(['update']);
 
  Route::group(['middleware' => ['role:admin']], function () {
-  Route::get('/test', function () {
-   return response()->json('You can access this route');
-  });
+  Route::resource('collectibles', CollectibleController::class);
  });
 });

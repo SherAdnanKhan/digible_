@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Collectible extends Model {
+class CollectionItemType extends Model {
  use HasFactory;
-
  /**
   * @OA\Schema(
   *     schema="Collectible",
@@ -28,4 +27,5 @@ class Collectible extends Model {
   'name',
  ];
 
+ protected $hidden = ['created_at', 'updated_at'];
 }

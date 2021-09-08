@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\V1\CollectibleController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +41,6 @@ Route::group(['middleware' => ['auth:api']], function () {
  Route::resource('users', UserController::class)->only(['update']);
 
  Route::group(['middleware' => ['role:admin']], function () {
-  Route::resource('collectibles', CollectibleController::class);
+  Route::resource('collection-item-type', ItemTypeController::class);
  });
 });

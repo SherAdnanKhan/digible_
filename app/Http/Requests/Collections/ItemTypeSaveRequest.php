@@ -4,7 +4,7 @@ namespace App\Http\Requests\Collections;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CollectibleRequest extends FormRequest {
+class ItemTypeSaveRequest extends FormRequest {
  /**
   * Determine if the user is authorized to make this request.
   *
@@ -21,7 +21,7 @@ class CollectibleRequest extends FormRequest {
   */
  public function rules() {
   return [
-   'name' => 'required|string|max:255|unique:collectibles',
+   'name' => 'required|string|max:255|unique:collection_item_types',
   ];
  }
 }

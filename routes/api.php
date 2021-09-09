@@ -1,9 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\Collections\CollectionController;
+use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
-use App\Http\Controllers\API\V1\Collections\ItemTypeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +45,12 @@ Route::group(['middleware' => ['auth:api']], function () {
  Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('collection-item-type', ItemTypeController::class);
  });
+ Route::group(['middleware' => ['role:admin|user|seller']], function () {
+  Route::resource('collection', CollectionController::class);
+  Route::resource('collection-item', CollectionItemController::class);
+ });
+});
+Route::group(['middleware' => ['role:user']], function () {
+ Route::post('apply-for-verification', [UserController::class, 'updatePassword']);
+ 
 });

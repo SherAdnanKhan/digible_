@@ -10,12 +10,12 @@ return [
     | The following language lines contain the default success messages used in
     | Controllers and Services.
     |
-    */
+     */
 
     'success' => 'Success',
     'user_create_success' => 'User created successfully',
-    'user_login_success'   => 'User logged in successfully',
-    'user_logout_success'   => 'User logged out successfully',
+    'user_login_success' => 'User logged in successfully',
+    'user_logout_success' => 'User logged out successfully',
     'user_delete_success' => 'User deleted successfully',
     'update_user_account' => 'Information is updated',
     'update_user_password' => 'Password is changed',
@@ -34,6 +34,10 @@ return [
     'collection_item_create_success' => 'Collection item created successfully',
     'collection_item_update_success' => 'Collection item updated successfully',
     'collection_item_delete_success' => 'Collection item deleted successfully',
+    'seller_request_create_success' => 'Seller request created successfully',
+    'seller_request_update_success' => 'Seller request updated successfully',
+    'seller_request_delete_success' => 'Seller request deleted successfully',
+    'seller_request_exist' => 'Seller request already exist',
     'general_error' => 'Something is wrong with the database',
     'general_empty_data' => 'No result found',
 ];

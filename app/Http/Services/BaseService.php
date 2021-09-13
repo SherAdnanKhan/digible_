@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Services;
-
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -10,12 +8,12 @@ use Illuminate\Pagination\Paginator;
 
 class BaseService
 {
-    protected function success($data, $message = '' , $statusCode = 200)
+    protected function success($data, $message = '', $statusCode = 200)
     {
         if ($message === '') {
             $message = trans('messages.success');
         }
-        if( array_key_exists('data', $data)) {
+        if (array_key_exists('data', $data)) {
             $data = array_merge([
                 'message' => $message,
             ], $data);
@@ -23,7 +21,7 @@ class BaseService
 
             $data = [
                 'message' => $message,
-                'data'    => $data
+                'data' => $data,
             ];
         }
         return response()->json($data, $statusCode);
@@ -36,7 +34,7 @@ class BaseService
         }
         return response()->json([
             'message' => $message,
-            'error'   => $error
+            'error' => $error,
         ], $statusCode);
     }
 
@@ -47,7 +45,7 @@ class BaseService
      * @param array $options
      * @return LengthAwarePaginator
      */
-    public function paginate($items, $perPage = 10, $page = null, $options = []) : LengthAwarePaginator
+    public function paginate($items, $perPage = 10, $page = null, $options = []): LengthAwarePaginator
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
 

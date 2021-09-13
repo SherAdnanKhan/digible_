@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Users\UserUpdateRequest;
 use App\Http\Requests\Users\UpdatePasswordRequest;
+use App\Http\Requests\Users\UserUpdateRequest;
 use App\Http\Services\Users\UserService;
 use App\Http\Transformers\Users\UserTransformer;
 use App\Models\User;
@@ -17,12 +17,12 @@ class UserController extends Controller
     /**
      * @var UserService
      */
-    private UserService $service;
+    private $service;
 
     /**
      * @var UserTransformer
      */
-    private UserTransformer $transformer;
+    private $transformer;
 
     public function __construct(
         UserService $service,
@@ -64,9 +64,9 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-       $user = $this->service->getAll();
+        $user = $this->service->getAll();
 
-       return $this->success($user, $this->transformer);
+        return $this->success($user, $this->transformer);
     }
 
     /**
@@ -131,7 +131,7 @@ class UserController extends Controller
      * @param User $user
      * @return JsonResponse
      */
-    public function updatePassword(UpdatePasswordRequest $request, User $user) : JsonResponse
+    public function updatePassword(UpdatePasswordRequest $request, User $user): JsonResponse
     {
         $response = $this->service->updatePassword($user, $request->validated());
 
@@ -237,7 +237,7 @@ class UserController extends Controller
      * @param User $user
      * @return JsonResponse
      */
-    public function update(UserUpdateRequest $request, User $user) : JsonResponse
+    public function update(UserUpdateRequest $request, User $user): JsonResponse
     {
         $this->service->updateUser($user, $request->validated());
 

@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::get('signup/activate/{token}', [AuthController::class, 'userActivate'])->name('token-activation');
     Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::prefix('forget-password')->group(function () {
@@ -37,16 +37,16 @@ Route::prefix('auth')->group(function () {
 /*
  * USER ROUTES
  */
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:api','email_verify']], function () {
     Route::prefix('users/{user}')->group(function () {
-        Route::post('update-password', [UserController::class, 'updatePassword']);
+        Route::put('update-password', [UserController::class, 'updatePassword']);
     });
     Route::resource('users', UserController::class)->only(['update']);
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::resource('collection-item-type', ItemTypeController::class);
         Route::get('/get-verify-request', [SellerRequestController::class, 'index']);
-        Route::post('/approve-seller-request/{id}', [SellerRequestController::class, 'update']);
+        Route::put('/approve-seller-request/{id}', [SellerRequestController::class, 'update']);
 
     });
 

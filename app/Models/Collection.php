@@ -9,8 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Collection extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
+
+    const STATUS_PENDING = "Pending";
+    const STATUS_APPROVED = "Approved";
+    const STATUS_REJECTED = "Rejected";
+
+    protected $guarded = [
+        'created_at',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
@@ -19,8 +24,18 @@ class Collection extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+    }
+
+    public static function statuses(): array
+    {
+        return [
+            static::STATUS_PENDING => "Pending",
+            static::STATUS_APPROVED => "Approved",
+            static::STATUS_REJECTED => "Rejected",
+        ];
     }
 }

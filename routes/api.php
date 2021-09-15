@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\API\V1\Collections\CollectionController;
-use App\Http\Controllers\API\V1\Collections\CollectionItemController;
-use App\Http\Controllers\API\V1\Collections\ItemTypeController;
-use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
+use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use App\Http\Controllers\API\V1\Collections\CollectionController;
+use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
+use App\Http\Controllers\API\V1\Collections\CollectionItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,17 +38,16 @@ Route::prefix('auth')->group(function () {
 /*
  * USER ROUTES
  */
-Route::group(['middleware' => ['auth:api','email_verify']], function () {
+Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     Route::prefix('users/{user}')->group(function () {
         Route::put('update-password', [UserController::class, 'updatePassword']);
     });
     Route::resource('users', UserController::class)->only(['update']);
 
-    Route::group(['prefix' => 'admin','middleware' => ['role:admin']], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
         Route::resource('collection-item-type', ItemTypeController::class);
-        Route::get('/get-verify-request', [SellerRequestController::class, 'index']);
-        Route::put('/approve-seller-request/{id}', [SellerRequestController::class, 'update']);
-
+        Route::put('/approve-seller-request/{id}', [SellerProfileAdminController::class, 'update']);
+        Route::get('/get-verify-request', [SellerProfileAdminController::class, 'index']);
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth:api','email_verify']], function () {
         Route::resource('collection-items', CollectionItemController::class);
     });
 
-    Route::group(['prefix' => 'users','middleware' => ['role:user']], function () {
-        Route::post('/seller-verify-requests', [SellerRequestController::class, 'store']);
+    Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {
+        Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
     });
 });

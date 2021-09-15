@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth:api','email_verify']], function () {
     });
     Route::resource('users', UserController::class)->only(['update']);
 
-    Route::group(['middleware' => ['role:admin']], function () {
+    Route::group(['prefix' => 'admin','middleware' => ['role:admin']], function () {
         Route::resource('collection-item-type', ItemTypeController::class);
         Route::get('/get-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/approve-seller-request/{id}', [SellerRequestController::class, 'update']);
@@ -51,11 +51,11 @@ Route::group(['middleware' => ['auth:api','email_verify']], function () {
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
-        Route::resource('collection', CollectionController::class);
-        Route::resource('collection-item', CollectionItemController::class);
+        Route::resource('collections', CollectionController::class);
+        Route::resource('collection-items', CollectionItemController::class);
     });
 
-    Route::group(['middleware' => ['role:user']], function () {
-        Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
+    Route::group(['prefix' => 'users','middleware' => ['role:user']], function () {
+        Route::post('/seller-verify-requests', [SellerRequestController::class, 'store']);
     });
 });

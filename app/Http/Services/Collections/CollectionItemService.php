@@ -1,62 +1,106 @@
 <?php
 namespace App\Http\Services\Collections;
 
+use App\Exceptions\ErrorException;
 use App\Http\Repositories\Collections\CollectionItemRepository;
 use App\Http\Services\BaseService;
+use App\Http\Services\Images\ImageDeleteService;
+use App\Http\Services\Images\ImageUploadService;
+use App\Models\CollectionItem;
 use Exception;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-use InvalidArgumentException;
 
-class CollectionItemService extends BaseService {
- protected $repository;
+class CollectionItemService extends BaseService
+{
+    protected $repository;
+    protected $uploadService;
+    protected $deleteService;
+    protected $service;
 
- public function __construct(CollectionItemRepository $repository) {
-  $this->repository = $repository;
- }
+    public function __construct(CollectionItemRepository $repository, ImageUploadService $uploadService, ImageDeleteService $deleteService)
+    {
+        $this->repository = $repository;
+        $this->uploadService = $uploadService;
+        $this->deleteService = $deleteService;
+    }
 
- public function getAll() {
-  Log::info(__METHOD__ . " -- Collection item data all fetched: ");
-  return $this->repository->getAll();
- }
+    public function getAll()
+    {
+        Log::info(__METHOD__ . " -- Collection item data all fetched: ");
+        return $this->repository->getAll();
+    }
 
- public function getById($id) {
-  Log::info(__METHOD__ . " -- Collection item data fetched ");
-  return $this->repository->getById($id);
- }
+    public function save($image, array $data): void
+    {
+        try {
+            $newData['image'] = null;
+            if (isset($data['image'])) {
+                $image = $this->uploadService->uploadImage($image, 'collectionsItem');
+                $newData['image'] = $image['image_url'];
+            }
+            $newData['collection_item_type_id'] = $data['collection_item_type_id'];
+            $newData['collection_id'] = $data['collection_id'];
+            $newData['physical'] = Arr::exists($data, 'physical') ? $data['physical'] : false;
+            $newData['name'] = $data['name'];
+            $newData['description'] = Arr::exists($data, 'description') ? $data['description'] : null;
+            $newData['edition'] = Arr::exists($data, 'edition') ? $data['edition'] : null;
+            $newData['graded'] = Arr::exists($data, 'graded') ? $data['graded'] : null;
+            $newData['year'] = Arr::exists($data, 'year') ? $data['year'] : null;
+            $newData['population'] = Arr::exists($data, 'population') ? $data['population'] : null;
+            $newData['publisher'] = Arr::exists($data, 'publisher') ? $data['publisher'] : null;
+            $newData['status'] = Arr::exists($data, 'status') ? $data['status'] : "Pending";
+            Log::info(__METHOD__ . " -- New collection request info: ", $newData);
+            $this->repository->save($newData);
+        } catch (Exception $e) {
+            throw new ErrorException($e);
+        }
+    }
 
- public function saveCollectionItem(array $data): void {
-  Log::info(__METHOD__ . " -- New collection item request info: ", $data);
-  $this->repository->save($data);
- }
+    public function delete(CollectionItem $collectionItem)
+    {
+        try {
+            if (isset($collectionItem['image'])) {
+                $this->deleteService->removeImage($collectionItem['image']);
+            }
+            $collectionItem->delete();
 
- public function deleteById($id) {
-  DB::beginTransaction();
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            throw new ErrorException(trans('messages.general_error'));
+        }
+    }
 
-  try {
-   Log::info(__METHOD__ . " -- Collection item data deleted ");
-   $collectionItem = $this->repository->delete($id);
-  } catch (Exception $e) {
-   DB::rollBack();
-   Log::info($e->getMessage());
-   throw new InvalidArgumentException('Unable to delete collection item data');
-  }
+    public function update(CollectionItem $collectionItem, $image, array $data)
+    {
+        try {
+            if (isset($data['image'])) {
+                if ($collectionItem['image']) {
+                    $this->deleteService->removeImage($collectionItem['image']);
+                }
+                $image = $this->uploadService->uploadImage($image, 'collectionsItem');
+                $data['image'] = $image['image_url'];
+            }
+            $newData['collection_item_type_id'] = $data['collection_item_type_id'];
+            $newData['collection_id'] = $data['collection_id'];
+            $newData['physical'] = Arr::exists($data, 'physical') ? $data['physical'] : false;
+            $newData['name'] = $data['name'];
+            $newData['image'] = Arr::exists($data, 'image') ? $data['image'] : null;
+            $newData['description'] = Arr::exists($data, 'description') ? $data['description'] : null;
+            $newData['edition'] = Arr::exists($data, 'edition') ? $data['edition'] : null;
+            $newData['graded'] = Arr::exists($data, 'graded') ? $data['graded'] : null;
+            $newData['year'] = Arr::exists($data, 'year') ? $data['year'] : null;
+            $newData['population'] = Arr::exists($data, 'population') ? $data['population'] : null;
+            $newData['publisher'] = Arr::exists($data, 'publisher') ? $data['publisher'] : null;
+            $newData['status'] = Arr::exists($data, 'status') ? $data['status'] : "Pending";
 
-  DB::commit();
-  return $collectionItem;
- }
+            $collectionItem = $this->repository->update($newData, $collectionItem);
 
- public function updateCollectionItem($data, $id) {
-  DB::beginTransaction();
-  try {
-   $collection = $this->repository->update($data, $id);
-  } catch (Exception $e) {
-   DB::rollBack();
-   Log::info($e->getMessage());
-   throw new InvalidArgumentException('Unable to update collection item data');
-  }
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            throw new ErrorException(trans('messages.general_error'));
+        }
+        return $collectionItem;
 
-  DB::commit();
-  return $collection;
- }
+    }
 }

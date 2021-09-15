@@ -1,144 +1,80 @@
 <?php
 
 namespace App\Http\Controllers\API\V1\Collections;
-use Exception;
-use Illuminate\Support\Arr;
+
 use Illuminate\Http\Request;
 use App\Models\CollectionItem;
-use App\Traits\ImageUploadTrait;
-use App\Traits\RemoveImageTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Collections\CollectionItemService;
 use App\Http\Requests\Collections\CollectionItemSaveRequest;
 use App\Http\Requests\Collections\CollectionItemUpdateRequest;
+use App\Http\Transformers\Collections\CollectionItemTransformer;
 
-class CollectionItemController extends Controller {
- use ImageUploadTrait;
- use RemoveImageTrait;
- protected $service;
+class CollectionItemController extends Controller
+{
+    protected $service;
+    protected $transformer;
 
- public function __construct(CollectionItemService $service) {
-  $this->service = $service;
- }
- public function index(): JsonResponse {
-
-  try {
-   $result = $this->service->getAll();
-   if (count($result) == 0) {
-    return $this->success([], null, trans('messages.general_empty_data'));
-   }
-  } catch (Exception $e) {
-   return $this->failure([], null, trans('messages.general_error'));
-  }
-
-  return $this->success($result);
- }
-
- /**
-  * Show the form for creating a new resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
- public function create() {
-  //
- }
-
- /**
-  * Store a newly created resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @return \Illuminate\Http\Response
-  */
- public function store(CollectionItemSaveRequest $request): JsonResponse {
-  $data = $request->all();
-  $image = null;
-
-  try {
-   if ($request->hasFile('image')) {
-    $image = $this->uploadImage($request->image, 'collectionItems');
-    $data['image_url'] = $image['image_url'];
-   }
-   $this->service->saveCollectionItem($data);
-  } catch (Execption $e) {
-   return $this->failure([], null, trans('messages.general_error'));
-  }
-
-  return $this->success([], null, trans('messages.collection_item_create_success'));
-
- }
-
- /**
-  * Display the specified resource.
-  *
-  * @param  \App\Models\CollectionItem  $CollectionItem
-  * @return \Illuminate\Http\Response
-  */
- public function show($id) {
-
-  try {
-   $result = $this->service->getById($id);
-   if (count($result) == 0) {
-    return $this->success([], null, trans('messages.general_empty_data'));
-   }
-  } catch (Exception $e) {
-   return $this->failure([], null, trans('messages.general_error'));
-  }
-
-  return $this->success($result);
- }
-
- /**
-  * Show the form for editing the specified resource.
-  *
-  * @param  \App\Models\CollectionItem  $CollectionItem
-  * @return \Illuminate\Http\Response
-  */
- public function edit(CollectionItem $CollectionItem) {
-  //
- }
-
- /**
-  * Update the specified resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @param  \App\Models\CollectionItem  $CollectionItem
-  * @return \Illuminate\Http\Response
-  */
- public function update(CollectionItemUpdateRequest $request, $id) {
-  $data = $request->all();
-  $collectionItem = CollectionItem::find($id);
-  $data['image'] = Arr::exists($collectionItem, 'image') ? $collectionItem['image'] : null;
-  try {
-   if ($request->hasFile('image')) {
-    if ($collectionItem['image']) {
-     $this->removeImage($collectionItem['image']);
+    public function __construct(CollectionItemService $service, CollectionItemTransformer $transformer)
+    {
+        $this->service = $service;
+        $this->transformer = $transformer;
     }
-    $image = $this->uploadImage($request->image, 'collectionItems');
-    $data['image_url'] = $image['image_url'];
-   }
-   $result = $this->service->updateCollectionItem($data, $id);
-  } catch (Exception $e) {
-   return $this->failure([], null, trans('messages.general_error'));
-  }
+    public function index(): JsonResponse
+    {
 
-  return $this->success([$result], null, trans('messages.collection_item_update_success'));
- }
+        $result = $this->service->getAll();
+        return $this->success($result, $this->transformer);
+    }
 
- /**
-  * Remove the specified resource from storage.
-  *
-  * @param  \App\Models\CollectionItem  $CollectionItem
-  * @return \Illuminate\Http\Response
-  */
- public function destroy($id) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CollectionItemSaveRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $result = $this->service->save(isset($request->image) ? $request->image : null , $data);
+        return $this->success($result, $this->transformer, trans('messages.collection_item_create_success'));
+    }
 
-  try {
-   $result = $this->service->deleteById($id);
-  } catch (Exception $e) {
-   return $this->failure([], null, trans('messages.general_error'));
-  }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\CollectionItem  $CollectionItem
+     * @return \Illuminate\Http\Response
+     */
+    public function show(CollectionItem $collectionItem)
+    {
+        return $this->success($collectionItem, $this->transformer);
+    }
 
-  return $this->success([], null, trans('messages.collection_item_delete_success'));
- }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\CollectionItem  $CollectionItem
+     * @return \Illuminate\Http\Response
+     */
+    public function update(CollectionItemUpdateRequest $request, CollectionItem $collectionItem)
+    {
+        $data = $request->validated();
+        $result = $this->service->update($collectionItem, isset($request->image) ? $request->image : null , $data);
+        return $this->success($result, $this->transformer, trans('messages.collection_item_update_success'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\CollectionItem  $CollectionItem
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(CollectionItem $collectionItem)
+    {
+        $result = $this->service->delete($collectionItem);
+        return $this->success([], null, trans('messages.collection_item_delete_success'));
+    }
 }

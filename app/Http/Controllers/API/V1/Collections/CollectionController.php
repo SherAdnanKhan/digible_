@@ -40,7 +40,7 @@ class CollectionController extends Controller
     public function store(CollectionSaveRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $result = $this->service->save($request->image, $data);
+        $result = $this->service->save(isset($request->image) ? $request->image : null, $data);
         return $this->success($result, $this->transformer, trans('messages.collection_create_success'));
 
     }
@@ -67,7 +67,7 @@ class CollectionController extends Controller
     {
         $data = $request->validated();
 
-        $result = $this->service->update($collection, $request->image, $data);
+        $result = $this->service->update($collection, isset($request->image) ? $request->image : null, $data);
 
         return $this->success($result, $this->transformer, trans('messages.collection_update_success'));
     }

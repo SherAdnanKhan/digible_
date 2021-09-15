@@ -3,15 +3,21 @@
 namespace App\Models;
 
 use App\Models\Collection;
-use Laravel\Passport\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    const USER_STATUS_NEW = 'new';
+    const USER_STATUS_ACTIVE = 'active';
+    const USER_STATUS_DISABLED = 'disabled';
+
+    protected $guard_name = 'web';
 
     /**
      * @OA\Schema(
@@ -84,10 +90,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $guard_name = 'web';
-
     public function collections()
     {
         return $this->hasMany(Collection::class);
+    }
+
+    public static function statuses(): array
+    {
+        return [
+            static::USER_STATUS_NEW => "New",
+            static::USER_STATUS_ACTIVE => "Active",
+            static::USER_STATUS_DISABLED => "Disabled",
+        ];
     }
 }

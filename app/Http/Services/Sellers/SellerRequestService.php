@@ -3,10 +3,11 @@ namespace App\Http\Services\Sellers;
 
 use App\Http\Repositories\Sellers\SellerRequestRepository;
 use App\Http\Services\BaseService;
-use Exception;
-use Illuminate\Support\Facades\DB;
+use App\Models\SellerProfile;
+use App\Models\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use InvalidArgumentException;
 
 class SellerRequestService extends BaseService
 {
@@ -23,47 +24,32 @@ class SellerRequestService extends BaseService
         return $this->repository->getAll();
     }
 
-    public function getById($id)
+    public function save(array $data): void
     {
-        Log::info(__METHOD__ . " -- Seller data fetched ");
-        return $this->repository->getById($id);
-    }
+        $newData['name'] = Auth::user()->name;
+        $newData['surname'] = Arr::exists($data, 'surname') ? $data['surname'] : null;
+        $newData['wallet_address'] = Arr::exists($data, 'wallet_address') ? $data['wallet_address'] : null;
+        $newData['physical_address'] = Arr::exists($data, 'physical_address') ? $data['physical_address'] : null;
+        $newData['phone_no'] = Arr::exists($data, 'phone_no') ? $data['phone_no'] : null;
+        $newData['twitter_link'] = Arr::exists($data, 'twitter_link') ? $data['twitter_link'] : null;
+        $newData['insta_link'] = Arr::exists($data, 'insta_link') ? $data['insta_link'] : null;
+        $newData['twitch_link'] = Arr::exists($data, 'twitch_link') ? $data['twitch_link'] : null;
+        $newData['type'] = Arr::exists($data, 'type') ? $data['type'] : null;
+        $newData['status'] = 'Pending';
+        $newData['user_id'] = auth()->id();
 
-    public function saveSeller(array $data): void
-    {
         Log::info(__METHOD__ . " -- New Seller request info: ", $data);
-        $this->repository->save($data);
+        $this->repository->save($newData);
     }
 
-    public function deleteById($id)
+    public function update($data, $id)
     {
-        DB::beginTransaction();
-
-        try {
-            Log::info(__METHOD__ . " -- Seller data deleted ");
-            $Seller = $this->repository->delete($id);
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::info($e->getMessage());
-            throw new InvalidArgumentException('Unable to delete Seller data');
+        $sellerProfile = SellerProfile::find($id);
+        $sellerProfile->status = $data['status'];
+        $sellerProfile->update();
+        if ($data['status'] == 'approved') {
+            $user = User::find($sellerProfile->user_id);
+            $user->assignRole(['seller']);
         }
-
-        DB::commit();
-        return $Seller;
-    }
-
-    public function updateSellerRequest($data, $id)
-    {
-        DB::beginTransaction();
-        try {
-            $Seller = $this->repository->update($data, $id);
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::info($e->getMessage());
-            throw new InvalidArgumentException($e);
-        }
-
-        DB::commit();
-        return $Seller;
     }
 }

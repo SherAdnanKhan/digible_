@@ -1,12 +1,13 @@
 <?php
 namespace App\Http\Services\Comments;
 
+use App\Exceptions\ErrorException;
 use App\Http\Repositories\Comments\CommentRepository;
 use App\Http\Services\BaseService;
+use App\Models\Comment;
 use Exception;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use InvalidArgumentException;
 
 class Commentservice extends BaseService
 {
@@ -17,44 +18,52 @@ class Commentservice extends BaseService
         $this->repository = $repository;
     }
 
-    public function getAll()
+    public function getPending()
     {
         Log::info(__METHOD__ . " -- Comment data all fetched: ");
-        return $this->repository->getAll();
+        return $this->repository->getPending();
     }
 
-    public function getById($id)
+    public function get(Comment $comment)
     {
-        Log::info(__METHOD__ . " -- Comment data fetched ");
-        return $this->repository->getById($id);
-    }
-
-    public function storeComment(array $data): void
-    {
-        Log::info(__METHOD__ . " -- New Comment request info: ", $data);
-        $this->repository->saveComment($data);
-    }
-
-     public function replyStore(array $data): void
-    {
-        Log::info(__METHOD__ . " -- New Comment reply request info: ", $data);
-        $this->repository->saveReply($data);
-    }
-
-    public function deleteById($id)
-    {
-        DB::beginTransaction();
-
         try {
-            Log::info(__METHOD__ . " -- Comment data deleted ");
-            $Comment = $this->repository->delete($id);
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::info($e->getMessage());
-            throw new InvalidArgumentException('Unable to delete Comment data');
-        }
 
-        DB::commit();
-        return $Comment;
+            Log::info(__METHOD__ . " -- Comment data all fetched: ");
+            return $this->repository->get($comment);
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
     }
+
+    public function save(array $data)
+    {
+        try {
+            $newData['comment'] = $data['comment'];
+            $newData['user_id'] = Auth::user()->id;
+            $newData['status'] = 'pending';
+            $newData['comment_id'] = null;
+
+            if (isset($data['comment_id'])) {
+                $commentExist = Comment::where(['id'=> $data['comment_id'] , 'status' => 'approved']);
+                if ($commentExist) {
+                    $newData['comment_id'] = $data['comment_id'];
+                } else {
+                    return false;
+                }
+            }
+            $newData['collection_id'] = $data['collection_id'];
+            Log::info(__METHOD__ . " -- New comment request info: ", $newData);
+            $this->repository->save($newData);
+            return true;
+
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
+    }
+
+    public function delete(Comment $comment)
+    {
+        $comment = $this->repository->delete($comment);
+    }
+
 }

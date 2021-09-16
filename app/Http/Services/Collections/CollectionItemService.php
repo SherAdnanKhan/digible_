@@ -53,7 +53,7 @@ class CollectionItemService extends BaseService
             Log::info(__METHOD__ . " -- New collection request info: ", $newData);
             $this->repository->save($newData);
         } catch (Exception $e) {
-            throw new ErrorException($e);
+            throw new ErrorException(trans('messages.general_error'));
         }
     }
 

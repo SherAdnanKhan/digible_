@@ -4,7 +4,7 @@ namespace App\Http\Requests\Comments;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReplyStoreRequest extends FormRequest
+class UpdateCommentRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,8 +15,6 @@ class ReplyStoreRequest extends FormRequest
     {
         return [
             'comment' => 'required|string|max:255',
-            'comment_id' => 'required',
-            'collection_id' => 'required',
         ];
     }
 }

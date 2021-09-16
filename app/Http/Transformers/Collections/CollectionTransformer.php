@@ -4,12 +4,14 @@ namespace App\Http\Transformers\Collections;
 use App\Models\Collection;
 use App\Http\Transformers\BaseTransformer;
 use App\Http\Transformers\Users\UserTransformer;
+use App\Http\Transformers\Comments\CommentTransformer;
 
 class CollectionTransformer extends BaseTransformer
 {
     protected $defaultIncludes = [
-        'user',
+        'user', 'comments'
     ];
+
 
     public function transform(Collection $collection)
     {
@@ -27,6 +29,12 @@ class CollectionTransformer extends BaseTransformer
     {
         $user = $collection->user;
         return $this->item($user, new UserTransformer);
+    }
+
+     public function includeComments(Collection $collection)
+    {
+        $comments = $collection->comments;
+        return $this->collection($comments, new CommentTransformer);
     }
 
 }

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\Admin\CommentAdminController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;
@@ -48,6 +50,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::resource('collection-item-type', ItemTypeController::class);
         Route::put('/approve-seller-request/{id}', [SellerProfileAdminController::class, 'update']);
         Route::get('/get-verify-request', [SellerProfileAdminController::class, 'index']);
+        Route::get('/comment-pending', [CommentAdminController::class, 'index']);
+        Route::put('/comment-action/{id}', [CommentAdminController::class, 'update']);
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
@@ -57,5 +61,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {
         Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
+        Route::resource('comments', CommentController::class);
+        Route::post('/comments/{id}/reply', [CommentController::class, 'storeReply']);
+
     });
 });

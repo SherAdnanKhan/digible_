@@ -2,8 +2,10 @@
 
 namespace App\Http\Repositories\Collections;
 
-use App\Models\CollectionItem;
 use Illuminate\Support\Arr;
+use App\Models\CollectionItem;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class CollectionItemRepository
 {
@@ -19,7 +21,11 @@ class CollectionItemRepository
 
     public function getAll()
     {
-        return $this->collectionItem->get();
+       $collection_item = QueryBuilder::for($this->collectionItem)
+        ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
+            AllowedFilter::exact('nft_type')])->get();
+        
+        return $collection_item;
     }
 
     public function save(array $data): void

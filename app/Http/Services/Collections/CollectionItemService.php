@@ -31,6 +31,13 @@ class CollectionItemService extends BaseService
         return $this->repository->getAll();
     }
 
+    public function filter()
+    {
+
+        Log::info(__METHOD__ . " -- Filter collection item data all fetched: ");
+        return $this->repository->filter();
+    }
+
     public function save($image, array $data): void
     {
         try {
@@ -41,7 +48,7 @@ class CollectionItemService extends BaseService
             }
             $newData['collection_item_type_id'] = $data['collection_item_type_id'];
             $newData['collection_id'] = $data['collection_id'];
-            $newData['physical'] = Arr::exists($data, 'physical') ? $data['physical'] : false;
+            $newData['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : 'non_nft';
             $newData['name'] = $data['name'];
             $newData['description'] = Arr::exists($data, 'description') ? $data['description'] : null;
             $newData['edition'] = Arr::exists($data, 'edition') ? $data['edition'] : null;
@@ -53,7 +60,7 @@ class CollectionItemService extends BaseService
             Log::info(__METHOD__ . " -- New collection request info: ", $newData);
             $this->repository->save($newData);
         } catch (Exception $e) {
-            throw new ErrorException(trans('messages.general_error'));
+            throw new ErrorException($e);
         }
     }
 
@@ -83,7 +90,7 @@ class CollectionItemService extends BaseService
             }
             $newData['collection_item_type_id'] = $data['collection_item_type_id'];
             $newData['collection_id'] = $data['collection_id'];
-            $newData['physical'] = Arr::exists($data, 'physical') ? $data['physical'] : false;
+            $newData['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : 'non_nft';
             $newData['name'] = $data['name'];
             $newData['image'] = Arr::exists($data, 'image') ? $data['image'] : null;
             $newData['description'] = Arr::exists($data, 'description') ? $data['description'] : null;

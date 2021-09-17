@@ -5,6 +5,7 @@ use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\API\V1\CommentController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Collections\FilterController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;

@@ -30,6 +30,11 @@ class Collection extends Model
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
 
+     public function collectionitems()
+    {
+        return $this->hasMany(CollectionItem::class);
+    }
+
     public static function statuses(): array
     {
         return [

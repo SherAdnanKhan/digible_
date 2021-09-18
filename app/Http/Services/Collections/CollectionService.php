@@ -5,8 +5,7 @@ use App\Exceptions\ErrorException;
 use App\Http\Repositories\Collections\CollectionRepository;
 use App\Http\Services\BaseService;
 use App\Http\Services\Collections\CollectionService;
-use App\Http\Services\Images\ImageDeleteService;
-use App\Http\Services\Images\ImageUploadService;
+use App\Http\Services\Images\ImageService;
 use App\Models\Collection;
 use Exception;
 use Illuminate\Support\Arr;
@@ -16,15 +15,13 @@ use Illuminate\Support\Facades\Log;
 class CollectionService extends BaseService
 {
     protected $repository;
-    protected $uploadService;
-    protected $deleteService;
+    protected $imageService;
     protected $service;
 
-    public function __construct(CollectionRepository $repository, ImageUploadService $uploadService, ImageDeleteService $deleteService)
+    public function __construct(CollectionRepository $repository, ImageService $imageService)
     {
         $this->repository = $repository;
-        $this->uploadService = $uploadService;
-        $this->deleteService = $deleteService;
+        $this->imageService = $imageService;
     }
 
     public function getAll()
@@ -33,20 +30,17 @@ class CollectionService extends BaseService
         return $this->repository->getAll();
     }
 
-    public function save($image, array $data): void
+    public function save(array $data): void
     {
         try {
-            $newData['image'] = null;
             if (isset($data['image'])) {
-                $image = $this->uploadService->uploadImage($image, 'collections');
-                $newData['image'] = $image['image_url'];
+                $image = $this->imageService->uploadImage($data['image'], 'collections');
+                $data['image'] = $image;
             }
-            $newData['name'] = $data['name'];
-            $newData['status'] = Arr::exists($data, 'status') ? $data['status'] : "Pending";
-            $newData['user_id'] = Auth::user()->id;
-
-            Log::info(__METHOD__ . " -- New collection request info: ", $newData);
-            $this->repository->save($newData);
+            $data['status'] = Collection::STATUS_PENDING;
+            $data['user_id'] = Auth::user()->id;
+            Log::info(__METHOD__ . " -- New collection request info: ", $data);
+            $this->repository->save($data);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }
@@ -55,26 +49,24 @@ class CollectionService extends BaseService
     public function delete(Collection $collection)
     {
         if (isset($collection['image'])) {
-            $this->deleteService->removeImage($collection['image']);
+            $this->imageService->removeImage($collection['image']);
         }
         $collection->delete();
     }
 
-    public function update(Collection $collection, $image, array $data)
+    public function update(Collection $collection, array $data)
     {
         try {
             if (isset($data['image'])) {
                 if ($collection['image']) {
-                    $this->deleteService->removeImage($collection['image']);
+                    $this->imageService->removeImage($collection['image']);
                 }
-                $image = $this->uploadService->uploadImage($image, 'collections');
-                $data['image'] = $image['image_url'];
+                $image = $this->imageService->uploadImage($data['image'], 'collections');
+                $data['image'] = $image;
             }
-            $newData['name'] = $data['name'];
-            $newData['status'] = Arr::exists($data, 'status') ? $data['status'] : "Pending";
-            $newData['user_id'] = Auth::user()->id;
-            $newData['image'] = Arr::exists($data, 'image') ? $data['image'] : null;
-            $collection = $this->repository->update($newData, $collection);
+            $data['status'] = Arr::exists($data, 'status') ? $data['status'] : Collection::STATUS_PENDING;
+            $data['user_id'] = Auth::user()->id;
+            $collection = $this->repository->update($data, $collection);
 
         } catch (Exception $e) {
             Log::info($e->getMessage());

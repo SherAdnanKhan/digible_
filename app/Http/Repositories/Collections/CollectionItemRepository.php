@@ -2,34 +2,26 @@
 
 namespace App\Http\Repositories\Collections;
 
-use App\Models\CollectionItem;
+use App\Models\Collection;
 use Illuminate\Support\Arr;
+use App\Models\CollectionItem;
 
 class CollectionItemRepository
 {
-    protected $collectionItem;
-    /**
-     * @param array $
-     */
-    public function __construct(CollectionItem $collectionItem)
+    
+    public function getAll(Collection $collection)
     {
-        $this->collectionItem = $collectionItem;
-
+        return $collection->collectionitems()->with('collection.user', 'collectionItemType')->get();
     }
 
-    public function getAll()
+    public function save(array $data , Collection $collection): void
     {
-        return $this->collectionItem->get();
+       $collection->collectionitems()->create($data);
     }
 
-    public function save(array $data): void
+    public function update(array $data, CollectionItem $collectionItem , Collection $collection)
     {
-        $this->collectionItem->create($data);
-    }
-
-    public function update(array $data, CollectionItem $collectionItem)
-    {
-        $collectionItem->update($data);
+        $collection->collectionitems()->find($collectionItem->id)->update($data);
         return $collectionItem;
     }
 

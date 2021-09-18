@@ -20,7 +20,7 @@ class SellerProfileAdminController extends Controller
 
     }
 
-    public function index(): JsonResponse
+    public function index()
     {
         $result = $this->service->getAll();
         return $this->service->paginate($result);

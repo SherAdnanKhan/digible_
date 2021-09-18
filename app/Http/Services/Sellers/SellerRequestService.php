@@ -5,7 +5,6 @@ use App\Http\Repositories\Sellers\SellerRequestRepository;
 use App\Http\Services\BaseService;
 use App\Models\SellerProfile;
 use App\Models\User;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -26,25 +25,15 @@ class SellerRequestService extends BaseService
 
     public function save(array $data): void
     {
-        $newData['name'] = Auth::user()->name;
-        $newData['surname'] = Arr::exists($data, 'surname') ? $data['surname'] : null;
-        $newData['wallet_address'] = Arr::exists($data, 'wallet_address') ? $data['wallet_address'] : null;
-        $newData['physical_address'] = Arr::exists($data, 'physical_address') ? $data['physical_address'] : null;
-        $newData['phone_no'] = Arr::exists($data, 'phone_no') ? $data['phone_no'] : null;
-        $newData['twitter_link'] = Arr::exists($data, 'twitter_link') ? $data['twitter_link'] : null;
-        $newData['insta_link'] = Arr::exists($data, 'insta_link') ? $data['insta_link'] : null;
-        $newData['twitch_link'] = Arr::exists($data, 'twitch_link') ? $data['twitch_link'] : null;
-        $newData['type'] = Arr::exists($data, 'type') ? $data['type'] : null;
-        $newData['status'] = 'Pending';
-        $newData['user_id'] = auth()->id();
-
+        $data['name'] = Auth::user()->name;
+        $data['status'] = SellerProfile::STATUS_PENDING;
+        $data['user_id'] = auth()->id();
         Log::info(__METHOD__ . " -- New Seller request info: ", $data);
-        $this->repository->save($newData);
+        $this->repository->save($data);
     }
 
-    public function update($data, $id)
+    public function update($data, SellerProfile $sellerProfile)
     {
-        $sellerProfile = SellerProfile::find($id);
         $sellerProfile->status = $data['status'];
         $sellerProfile->update();
         if ($data['status'] == 'approved') {

@@ -3,40 +3,74 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Comments\ReplyStoreRequest;
 use App\Http\Requests\Comments\StoreCommentRequest;
+use App\Http\Requests\Comments\UpdateCommentRequest;
+use App\Http\Services\Comments\CommentService;
+use App\Http\Transformers\Collections\ReplyTransformer;
+use App\Http\Transformers\Comments\CommentTransformer;
+use App\Models\Comment;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
     protected $service;
+    protected $transformer;
+    protected $replyTransformer;
 
-    public function __construct(CommentService $service)
+    public function __construct(CommentService $service, CommentTransformer $transformer, ReplyTransformer $replyTransformer)
     {
         $this->service = $service;
-    }
-    public function store(StoreCommentRequest $request)
-    {
-        $data = $request->all();
+        $this->transformer = $transformer;
+        $this->replyTransformer = $replyTransformer;
 
-        try {
-            $this->service->storeComment($data);
-        } catch (Execption $e) {
-            return $this->failure([], null, trans('messages.general_error'));
-        }
-
-        return $this->success([], null, trans('messages.collection_create_success'));
     }
 
-    public function replyStore(ReplyStoreRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreCommentRequest $request): JsonResponse
     {
-        $data = $request->all();
-        try {
-            $this->service->replyStore($data);
-        } catch (Execption $e) {
-            return $this->failure([], null, trans('messages.general_error'));
+        $result = $this->service->save($request->validated());
+        return $this->success($result, $this->transformer, trans('messages.comment_create_success'));
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Collection  $Collection
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Comment $comment): JsonResponse
+    {
+        $result = $this->service->get($comment);
+        return $this->success($result, $this->replyTransformer);
+    }
+
+    public function destroy(Comment $comment): JsonResponse
+    {
+        $result = $this->service->delete($comment);
+        return $this->success([], null, trans('messages.comment_delete_success'));
+    }
+
+    public function update(Comment $comment, UpdateCommentRequest $request): JsonResponse
+    {
+        $comment->update($request->validated());
+        return $this->success([], $this->transformer, trans('messages.comment_updated_success'));
+    }
+
+    public function storeReply(StoreCommentRequest $request, Comment $comment): JsonResponse
+    {
+        $data = $request->validated();
+        $data['comment_id'] = $comment->id;
+        $result = $this->service->save($data);
+        if ($result) {
+            return $this->success([], $this->transformer, trans('messages.comment_reply_create_success'));
         }
-
-        return $this->success([], null, trans('messages.collection_create_success'));
-
+        return $this->failure('', trans('messages.comment_not_exist'), Response::HTTP_BAD_REQUEST);
     }
 }

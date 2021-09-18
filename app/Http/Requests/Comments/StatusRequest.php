@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Comments;
 
+use App\Models\Comment;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReplyStoreRequest extends FormRequest
+class StatusRequest extends FormRequest
 {
-    /**
+   /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -14,9 +16,7 @@ class ReplyStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'required|string|max:255',
-            'comment_id' => 'required',
-            'collection_id' => 'required',
+            'status' => ['string', 'max:255', Rule::in(array_keys(Comment::statuses()))],
         ];
     }
 }

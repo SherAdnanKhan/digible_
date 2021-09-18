@@ -2,9 +2,8 @@
 
 namespace App\Http\Repositories\Comments;
 
-use App\Models\Comment;
 use App\Models\Collection;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Comment;
 
 class CommentRepository
 {
@@ -18,43 +17,30 @@ class CommentRepository
 
     }
 
-    public function getAll()
+    public function getPending()
     {
-        return $this->comment->with('replies','user')
-            ->get();
+        return $this->comment->where(['status' => 'pending'])->get();
     }
 
-    public function getById($id)
+    public function get(Comment $comment)
     {
-        return $this->comment
-            ->where('id', $id)->with('replies','user')
-            ->get();
+        $comments = Comment::where(['parent_id' => $comment->id , 'status' => 'approved'])->get();
+        return $comments;
     }
-
-    public function saveComment(array $data): void
+    public function save(array $data): void
     {
         $comment = new $this->comment;
         $comment->comment = $data['comment'];
-        $comment->user()->associate($request->user());
+        $comment->status = $data['status'];
+        $comment->parent_id = $data['comment_id'];
+        $comment->user()->associate($data['user_id']);
         $collection = Collection::find($data['collection_id']);
         $collection->comments()->save($comment);
-
     }
 
-    public function saveReply(array $data): void
+    public function delete(Comment $comment)
     {
-        $comment = new $this->comment;
-        $reply->comment = $data['comment'];
-        $reply->user()->associate(Auth::user()->id);
-        $reply->parent_id = $data['comment_id'];
-        $collection = Collection::find($data['collection_id']);
-        $collection->comments()->save($reply);
-
-    }
-
-    public function delete($id)
-    {
-        $comment = $this->comment->find($id);
+        $this->comment->where('parent_id', $comment->id)->delete();
         $comment->delete();
         return $comment;
     }

@@ -27,11 +27,8 @@ class ItemTypeService extends BaseService
     public function save(array $data): void
     {
         try {
-            $newData['name'] = $data['name'];
-            $newData['label'] = Arr::exists($data, 'label') ? $data['label'] : null;
-
-            Log::info(__METHOD__ . " -- New collection item type request info: ", $newData);
-            $this->repository->save($newData);
+            Log::info(__METHOD__ . " -- New collection item type request info: ", $$data);
+            $this->repository->save($data);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }
@@ -40,9 +37,7 @@ class ItemTypeService extends BaseService
     public function update(CollectionItemType $collectionItemType, array $data)
     {
         try {
-            $newData['name'] = $data['name'];
-            $newData['label'] = Arr::exists($data, 'label') ? $data['label'] : null;
-            $collectionItemType = $this->repository->update($newData, $collectionItemType);
+            $collectionItemType = $this->repository->update($data, $collectionItemType);
 
         } catch (Exception $e) {
             Log::info($e->getMessage());

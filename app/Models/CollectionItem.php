@@ -12,6 +12,9 @@ class CollectionItem extends Model
     const STATUS_PENDING = "Pending";
     const STATUS_APPROVED = "Approved";
     const STATUS_REJECTED = "Rejected";
+    const NFT_TYPE_BACKED = "backed";
+    const NFT_TYPE_NON_BACKED = "non_backed";
+    const NFT_TYPE_NON_NFT = "non_nft";
 
     protected $guarded = ['created_at'];
 
@@ -30,6 +33,14 @@ class CollectionItem extends Model
             static::STATUS_PENDING => "Pending",
             static::STATUS_APPROVED => "Approved",
             static::STATUS_REJECTED => "Rejected",
+        ];
+    }
+    public static function nfttype(): array
+    {
+        return [
+            static::NFT_TYPE_BACKED => "backed",
+            static::NFT_TYPE_NON_BACKED => "non_backed",
+            static::NFT_TYPE_NON_NFT => "non_nft",
         ];
     }
 }

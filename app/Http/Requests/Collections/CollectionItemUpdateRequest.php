@@ -18,6 +18,7 @@ class CollectionItemUpdateRequest extends FormRequest
     {
         return [
             'collection_item_type_id' => 'required',
+            'nft_type' => ['required', Rule::in(array_keys(CollectionItem::nfttype()))],
             'name' => 'required|string|max:255|unique:collection_items',
             'image' => 'base64img',
             'status' => ['string', 'max:255', Rule::in(array_keys(CollectionItem::statuses()))],

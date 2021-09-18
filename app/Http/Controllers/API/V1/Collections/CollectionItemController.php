@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\API\V1\Collections;
 
-use Illuminate\Http\Request;
-use App\Models\CollectionItem;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Services\Collections\CollectionItemService;
 use App\Http\Requests\Collections\CollectionItemSaveRequest;
 use App\Http\Requests\Collections\CollectionItemUpdateRequest;
+use App\Http\Services\Collections\CollectionItemService;
 use App\Http\Transformers\Collections\CollectionItemTransformer;
+use App\Models\Collection;
+use App\Models\CollectionItem;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CollectionItemController extends Controller
 {
@@ -21,11 +22,11 @@ class CollectionItemController extends Controller
         $this->service = $service;
         $this->transformer = $transformer;
     }
-    public function index(): JsonResponse
+    public function index(Collection $collection)
     {
 
-        $result = $this->service->getAll();
-        return $this->success($result, $this->transformer);
+        $result = $this->service->getAll($collection);
+        return $this->service->paginate($result);
     }
 
     /**
@@ -34,10 +35,9 @@ class CollectionItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CollectionItemSaveRequest $request): JsonResponse
+    public function store(CollectionItemSaveRequest $request, Collection $collection): JsonResponse
     {
-        $data = $request->validated();
-        $result = $this->service->save(isset($request->image) ? $request->image : null , $data);
+        $result = $this->service->save($request->validated(), $collection);
         return $this->success($result, $this->transformer, trans('messages.collection_item_create_success'));
     }
 
@@ -47,7 +47,7 @@ class CollectionItemController extends Controller
      * @param  \App\Models\CollectionItem  $CollectionItem
      * @return \Illuminate\Http\Response
      */
-    public function show(CollectionItem $collectionItem)
+    public function show(Collection $collection, CollectionItem $collectionItem): JsonResponse
     {
         return $this->success($collectionItem, $this->transformer);
     }
@@ -59,10 +59,9 @@ class CollectionItemController extends Controller
      * @param  \App\Models\CollectionItem  $CollectionItem
      * @return \Illuminate\Http\Response
      */
-    public function update(CollectionItemUpdateRequest $request, CollectionItem $collectionItem)
+    public function update(CollectionItemUpdateRequest $request, Collection $collection, CollectionItem $collectionItem): JsonResponse
     {
-        $data = $request->validated();
-        $result = $this->service->update($collectionItem, isset($request->image) ? $request->image : null , $data);
+        $result = $this->service->update($collectionItem, $collection, $request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_update_success'));
     }
 
@@ -72,9 +71,9 @@ class CollectionItemController extends Controller
      * @param  \App\Models\CollectionItem  $CollectionItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CollectionItem $collectionItem)
+    public function destroy(Collection $collection, CollectionItem $collectionItem): JsonResponse
     {
-        $result = $this->service->delete($collectionItem);
+        $this->service->delete($collectionItem);
         return $this->success([], null, trans('messages.collection_item_delete_success'));
     }
 }

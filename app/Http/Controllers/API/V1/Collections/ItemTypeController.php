@@ -27,14 +27,10 @@ class ItemTypeController extends Controller
         $this->transformer = $transformer;
     }
 
-    public function index(): JsonResponse
+    public function index()
     {
         $result = $this->service->getAll();
-        if (count($result) == 0) {
-            return $this->success($result, $this->transformer, trans('messages.general_empty_data'));
-        }
-
-        return $this->success($result, $this->transformer);
+        return $this->service->paginate($result);
     }
 
     /**
@@ -45,8 +41,7 @@ class ItemTypeController extends Controller
      */
     public function store(ItemTypeSaveRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $result = $this->service->save($data);
+        $result = $this->service->save($request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_type_create_success'));
 
     }
@@ -57,7 +52,7 @@ class ItemTypeController extends Controller
      * @param  \App\Models\CollectionItemType  $CollectionItemType
      * @return \Illuminate\Http\Response
      */
-    public function show(CollectionItemType $collectionItemType)
+    public function show(CollectionItemType $collectionItemType): JsonResponse
     {
         return $this->success($collectionItemType, $this->transformer);
     }
@@ -69,10 +64,9 @@ class ItemTypeController extends Controller
      * @param  \App\Models\CollectionItemType  $CollectionItemType
      * @return \Illuminate\Http\Response
      */
-    public function update(ItemTypeUpdateRequest $request, CollectionItemType $collectionItemType)
+    public function update(ItemTypeUpdateRequest $request, CollectionItemType $collectionItemType): JsonResponse
     {
-        $data = $request->validated();
-        $result = $this->service->update($collectionItemType, $data);
+        $result = $this->service->update($collectionItemType, $request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_type_update_success'));
 
     }
@@ -83,7 +77,7 @@ class ItemTypeController extends Controller
      * @param  \App\Models\CollectionItemType  $CollectionItemType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CollectionItemType $collectionItemType)
+    public function destroy(CollectionItemType $collectionItemType): JsonResponse
     {
         $collectionItemType->delete();
         return $this->success([], null, trans('messages.collection_item_type_delete_success'));

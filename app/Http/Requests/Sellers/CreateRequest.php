@@ -23,7 +23,7 @@ class CreateRequest extends FormRequest
             'twitter_link' => 'required|string|max:255',
             'insta_link' => 'required|string|max:255',
             'twitch_link' => 'required|string|max:255',
-            'type' => ['string', 'max:255', Rule::in(array_keys(SellerProfile::typees()))],
+            'type' => ['string', 'max:255', Rule::in(array_keys(SellerProfile::types()))],
         ];
     }
 }

@@ -95,6 +95,11 @@ class User extends Authenticatable
         return $this->hasMany(Collection::class);
     }
 
+    public function sellerProfile()
+    {
+        return $this->hasOne(SellerProfile::class);
+    }
+
     public static function statuses(): array
     {
         return [

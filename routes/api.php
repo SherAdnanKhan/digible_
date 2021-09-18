@@ -46,13 +46,15 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
         Route::resource('collection-item-type', ItemTypeController::class);
-        Route::put('/approve-seller-request/{id}', [SellerProfileAdminController::class, 'update']);
+        Route::put('/approve-seller-request/{seller_profile}', [SellerProfileAdminController::class, 'update']);
         Route::get('/get-verify-request', [SellerProfileAdminController::class, 'index']);
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
-        Route::resource('collections', CollectionController::class);
-        Route::resource('collection-items', CollectionItemController::class);
+          Route::group(['prefix' => 'collections/{collection}'], function () {
+              Route::resource('collection-items', CollectionItemController::class);
+          });
+          Route::resource('collections', CollectionController::class);
     });
 
     Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {

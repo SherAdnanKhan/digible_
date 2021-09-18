@@ -21,14 +21,11 @@ class CollectionController extends Controller
         $this->service = $service;
         $this->transformer = $transformer;
     }
-    public function index(): JsonResponse
+    public function index()
     {
 
         $result = $this->service->getAll();
-        if (count($result) == 0) {
-            return $this->success($result, $this->transformer, trans('messages.general_empty_data'));
-        }
-        return $this->success($result, $this->transformer);
+        return $this->service->paginate($result);
     }
 
     /**
@@ -39,8 +36,7 @@ class CollectionController extends Controller
      */
     public function store(CollectionSaveRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $result = $this->service->save(isset($request->image) ? $request->image : null, $data);
+        $result = $this->service->save($request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_create_success'));
 
     }
@@ -65,10 +61,7 @@ class CollectionController extends Controller
      */
     public function update(CollectionUpdateRequest $request, Collection $collection)
     {
-        $data = $request->validated();
-
-        $result = $this->service->update($collection, isset($request->image) ? $request->image : null, $data);
-
+        $result = $this->service->update($collection, $request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_update_success'));
     }
 
@@ -80,7 +73,7 @@ class CollectionController extends Controller
      */
     public function destroy(Collection $collection)
     {
-        $result = $this->service->delete($collection);
+        $this->service->delete($collection);
         return $this->success([], null, trans('messages.collection_delete_success'));
     }
 }

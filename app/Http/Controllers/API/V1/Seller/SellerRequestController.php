@@ -26,14 +26,13 @@ class SellerRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request): JsonResponse
     {
-        $seller = SellerProfile::where('user_id', auth()->id())->first();
-        if ($seller) {
+        $user = auth()->user()->sellerProfile;
+        if ($user) {
             return $this->failure([], trans('messages.seller_request_exist'));
         }
-        $data = $request->validated();
-        $result = $this->service->save($data);
+        $result = $this->service->save($request->validated());
         return $this->success($result, $this->transformer, trans('messages.seller_request_create_success'));
 
 

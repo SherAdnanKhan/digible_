@@ -33,7 +33,7 @@ class SellerProfile extends Model
             static::STATUS_REJECTED => "rejected",
         ];
     }
-    public static function typees(): array
+    public static function types(): array
     {
         return [
             static::SELLER_TYPE_INDIVIDUAL => "individual",

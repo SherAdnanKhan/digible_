@@ -8,7 +8,7 @@ use App\Http\Transformers\Comments\CommentTransformer;
 
 class CollectionTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'user', 'comments'
     ];
 

@@ -21,11 +21,10 @@ class CollectionController extends Controller
         $this->service = $service;
         $this->transformer = $transformer;
     }
+
     public function index()
     {
-
-        $result = $this->service->getAll();
-        return $this->service->paginate($result);
+        return $this->service->getAll();
     }
 
     /**
@@ -38,7 +37,6 @@ class CollectionController extends Controller
     {
         $result = $this->service->save($request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_create_success'));
-
     }
 
     /**

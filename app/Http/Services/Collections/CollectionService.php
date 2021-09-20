@@ -16,7 +16,6 @@ class CollectionService extends BaseService
 {
     protected $repository;
     protected $imageService;
-    protected $service;
 
     public function __construct(CollectionRepository $repository, ImageService $imageService)
     {
@@ -27,19 +26,22 @@ class CollectionService extends BaseService
     public function getAll()
     {
         Log::info(__METHOD__ . " -- Collection data all fetched: ");
-        return $this->repository->getAll();
+        $result = $this->repository->getAll();
+        return $this->imageService->paginate($result);
     }
 
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Pending Collection data all fetched: ");
-        return $this->repository->getPending();
+        $result = $this->repository->getPending();
+        return $this->imageService->paginate($result);
     }
 
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Collection data all fetched: ");
-        return $this->repository->getApproved();
+        $result = $this->repository->getApproved();
+        return $this->imageService->paginate($result);
     }
 
     public function save(array $data): void
@@ -78,7 +80,7 @@ class CollectionService extends BaseService
             }
             $data['status'] = Arr::exists($data, 'status') ? $data['status'] : Collection::STATUS_PENDING;
             $data['user_id'] = Auth::user()->id;
-            $collection = $this->repository->update($data, $collection);
+            $collection = $this->repository->update($collection, $data);
 
         } catch (Exception $e) {
             Log::info($e->getMessage());

@@ -15,8 +15,8 @@ class ReplyStoreRequest extends FormRequest
     {
         return [
             'comment' => 'required|string|max:255',
-            'comment_id' => 'required',
-            'collection_id' => 'required',
+            'comment_id' => 'required|exists:comments,id',
+            'collection_id' => 'required|exists:collections,id',
         ];
     }
 }

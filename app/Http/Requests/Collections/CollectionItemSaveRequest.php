@@ -17,7 +17,7 @@ class CollectionItemSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'collection_item_type_id' => 'required',
+            'collection_item_type_id' => 'required|exists:collection_item_types,id',
             'nft_type' => ['required', Rule::in(array_keys(CollectionItem::nfttype()))],
             'name' => 'required|string|max:255|unique:collection_items',
             'image' => 'base64img',
@@ -28,18 +28,6 @@ class CollectionItemSaveRequest extends FormRequest
             'year' => ['string', 'max:255'],
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'base64img' => 'The image must be a type of png, jpg, jpeg',
         ];
     }
 }

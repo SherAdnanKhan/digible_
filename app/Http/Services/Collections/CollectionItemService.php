@@ -22,13 +22,14 @@ class CollectionItemService extends BaseService
         $this->imageService = $imageService;
     }
 
-    public function getAll(Collection $collection)
+    public function getAll()
     {
         Log::info(__METHOD__ . " -- Collection item data all fetched: ");
-        return $this->repository->getAll($collection);
+        $result = $this->repository->getAll();
+        return $this->imageService->paginate($result);
     }
 
-    public function save(array $data, Collection $collection): void
+    public function save(Collection $collection, array $data): void
     {
         try {
             if (isset($data['image'])) {
@@ -38,7 +39,7 @@ class CollectionItemService extends BaseService
             $data['status'] = CollectionItem::STATUS_PENDING;
             $data['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : CollectionItem::NFT_TYPE_NON_NFT;
             Log::info(__METHOD__ . " -- New collection request info: ", $data);
-            $this->repository->save($data, $collection);
+            $this->repository->save($collection, $data);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }
@@ -58,7 +59,7 @@ class CollectionItemService extends BaseService
         }
     }
 
-    public function update(CollectionItem $collectionItem, Collection $collection, array $data)
+    public function update(CollectionItem $collectionItem, array $data)
     {
         try {
             if (isset($data['image'])) {
@@ -70,7 +71,7 @@ class CollectionItemService extends BaseService
             }
             $data['status'] = Arr::exists($data, 'status') ? $data['status'] : CollectionItem::STATUS_PENDING;
             $data['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : CollectionItem::NFT_TYPE_NON_NFT;
-            $collectionItem = $this->repository->update($data, $collectionItem, $collection);
+            $collectionItem = $this->repository->update($collectionItem, $data);
 
         } catch (Exception $e) {
             Log::info($e->getMessage());

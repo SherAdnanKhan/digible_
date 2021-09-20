@@ -8,7 +8,7 @@ use App\Http\Transformers\Collections\CollectionTransformer;
 
 class CollectionItemTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'user', 'collection',
     ];
 

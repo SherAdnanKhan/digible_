@@ -22,11 +22,10 @@ class CollectionItemController extends Controller
         $this->service = $service;
         $this->transformer = $transformer;
     }
+
     public function index(Collection $collection)
     {
-
-        $result = $this->service->getAll($collection);
-        return $this->service->paginate($result);
+        return $this->service->getAll();
     }
 
     /**
@@ -61,7 +60,7 @@ class CollectionItemController extends Controller
      */
     public function update(CollectionItemUpdateRequest $request, Collection $collection, CollectionItem $collectionItem): JsonResponse
     {
-        $result = $this->service->update($collectionItem, $collection, $request->validated());
+        $result = $this->service->update($collectionItem, $request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_update_success'));
     }
 

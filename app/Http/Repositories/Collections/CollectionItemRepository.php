@@ -3,31 +3,29 @@
 namespace App\Http\Repositories\Collections;
 
 use App\Models\Collection;
-use Illuminate\Support\Arr;
 use App\Models\CollectionItem;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CollectionItemRepository
 {
-    
-    public function getAll(Collection $collection)
+
+    public function getAll()
     {
-       $collection_item = QueryBuilder::for(new CollectionItem)
-        ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
-            AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();
-        
-        return $collection_item;
+        $collectionItems = QueryBuilder::for(new CollectionItem)
+                ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
+                    AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();
+        return $collectionItems;
     }
 
-    public function save(array $data , Collection $collection): void
+    public function save(Collection $collection, array $data): void
     {
-       $collection->collectionitems()->create($data);
+        $collection->collectionitems()->create($data);
     }
 
-    public function update(array $data, CollectionItem $collectionItem , Collection $collection)
+    public function update(CollectionItem $collectionItem, array $data)
     {
-        $collection->collectionitems()->find($collectionItem->id)->update($data);
+        $collectionItem->update($data);
         return $collectionItem;
     }
 

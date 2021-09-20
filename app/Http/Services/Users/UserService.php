@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Services\Users;
 
+use App\Http\Repositories\Users\UserRepository;
 use App\Http\Services\BaseService;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -10,12 +11,24 @@ use Illuminate\Support\Str;
 
 class UserService extends BaseService
 {
-    /**
-     * @return Authenticatable|null
-     */
+    protected $repository;
+    protected $service;
+
+    public function __construct(UserRepository $repository, BaseService $service)
+    {
+        $this->repository = $repository;
+        $this->service = $service;
+    }
+
     public function getAll(): ?Authenticatable
     {
         return Auth()->user();
+    }
+
+    public function getUsers()
+    {
+        $result = $this->repository->getUsers();
+        return $this->service->paginate($result);
     }
 
     /**

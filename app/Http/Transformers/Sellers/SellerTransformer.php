@@ -8,7 +8,7 @@ use App\Http\Transformers\Users\UserTransformer;
 
 class SellerTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'user',
     ];
 

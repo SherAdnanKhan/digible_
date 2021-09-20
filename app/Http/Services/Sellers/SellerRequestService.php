@@ -11,16 +11,26 @@ use Illuminate\Support\Facades\Log;
 class SellerRequestService extends BaseService
 {
     protected $repository;
+    protected $service;
 
-    public function __construct(SellerRequestRepository $repository)
+    public function __construct(SellerRequestRepository $repository, BaseService $service)
     {
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function getAll()
     {
         Log::info(__METHOD__ . " -- Seller data all fetched: ");
-        return $this->repository->getAll();
+        $result = $this->repository->getAll();
+        return $this->service->paginate($result);
+    }
+
+    public function getApproved()
+    {
+        Log::info(__METHOD__ . " -- Approved Sellers data all fetched: ");
+        $result = $this->repository->getApproved();
+        return $this->service->paginate($result);
     }
 
     public function save(array $data): void

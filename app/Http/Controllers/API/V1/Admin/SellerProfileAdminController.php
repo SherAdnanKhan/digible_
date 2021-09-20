@@ -13,22 +13,24 @@ class SellerProfileAdminController extends Controller
 {
     protected $service;
 
-    public function __construct(SellerRequestService $service, SellerTransformer $transformer)
+    public function __construct(SellerRequestService $service)
     {
         $this->service = $service;
-        $this->transformer = $transformer;
-
     }
 
     public function index()
     {
-        $result = $this->service->getAll();
-        return $this->service->paginate($result);
+        return $this->service->getAll();
     }
 
     public function update(UpdateRequest $request, SellerProfile $sellerProfile): JsonResponse
     {
         $this->service->update($request->validated(), $sellerProfile);
         return $this->success([], null, trans('messages.seller_request_update_success'));
+    }
+
+    public function approved()
+    {
+        return $this->service->getApproved();
     }
 }

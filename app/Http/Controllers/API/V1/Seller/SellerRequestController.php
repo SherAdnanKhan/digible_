@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\API\V1\Seller;
 
-use Illuminate\Http\Request;
-use App\Models\SellerProfile;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sellers\CreateRequest;
 use App\Http\Services\Sellers\SellerRequestService;
 use App\Http\Transformers\Sellers\SellerTransformer;
+use App\Models\SellerProfile;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SellerRequestController extends Controller
 {
     protected $service;
+    protected $transformer;
 
     public function __construct(SellerRequestService $service, SellerTransformer $transformer)
     {
@@ -28,13 +29,11 @@ class SellerRequestController extends Controller
      */
     public function store(CreateRequest $request): JsonResponse
     {
-        $user = auth()->user()->sellerProfile;
-        if ($user) {
+        $user = auth()->user();
+        if ($user->sellerProfile) {
             return $this->failure([], trans('messages.seller_request_exist'));
         }
         $result = $this->service->save($request->validated());
         return $this->success($result, $this->transformer, trans('messages.seller_request_create_success'));
-
-
     }
 }

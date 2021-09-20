@@ -8,6 +8,7 @@ use App\Http\Controllers\API\V1\Admin\CommentAdminController;
 use App\Http\Controllers\API\V1\Collections\FilterController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;
 use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
 use App\Http\Controllers\API\V1\Collections\CollectionItemController;
@@ -53,6 +54,9 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::get('/get-verify-request', [SellerProfileAdminController::class, 'index']);
         Route::get('/comment-pending', [CommentAdminController::class, 'index']);
         Route::put('/comment-action/{comment}', [CommentAdminController::class, 'update']);
+        Route::get('/collection-pending', [CollectionAdminController::class, 'index']);
+        Route::put('/collection-action/{collection}', [CollectionAdminController::class, 'update']);
+        Route::get('/collection-approved', [CollectionAdminController::class, 'approved']);
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {

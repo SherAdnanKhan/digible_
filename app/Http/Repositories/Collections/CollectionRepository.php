@@ -20,6 +20,17 @@ class CollectionRepository
     {
         return $this->collection->get();
     }
+
+    public function getPending()
+    {
+        return $this->collection->where(['status' => Collection::STATUS_PENDING])->get();
+    }
+
+     public function getApproved()
+    {
+        return $this->collection->where(['status' => Collection::STATUS_APPROVED])->get();
+    }
+
     public function save(array $data): void
     {
         $this->collection->create($data);

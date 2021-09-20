@@ -6,28 +6,17 @@ use App\Models\CollectionItemType;
 
 class ItemTypeRepository
 {
-    protected $collectionItemType;
-    /**
-     * @param array $
-     */
-    public function __construct(CollectionItemType $collectionItemType)
-    {
-        $this->collectionItemType = $collectionItemType;
-
-    }
-
     public function getAll()
     {
-        return $this->collectionItemType
-            ->get();
+        return CollectionItemType::get();
     }
 
     public function save(array $data): void
     {
-        $this->collectionItemType->create($data);
+        CollectionItemType::create($data);
     }
 
-    public function update(array $data, CollectionItemType $collectionItemType)
+    public function update(CollectionItemType $collectionItemType, array $data)
     {
         $collectionItemType->update($data);
         return $collectionItemType;

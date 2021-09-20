@@ -29,8 +29,7 @@ class ItemTypeController extends Controller
 
     public function index()
     {
-        $result = $this->service->getAll();
-        return $this->service->paginate($result);
+        return $this->service->getAll();
     }
 
     /**
@@ -43,7 +42,6 @@ class ItemTypeController extends Controller
     {
         $result = $this->service->save($request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_type_create_success'));
-
     }
 
     /**
@@ -68,7 +66,6 @@ class ItemTypeController extends Controller
     {
         $result = $this->service->update($collectionItemType, $request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_type_update_success'));
-
     }
 
     /**
@@ -79,8 +76,7 @@ class ItemTypeController extends Controller
      */
     public function destroy(CollectionItemType $collectionItemType): JsonResponse
     {
-        $collectionItemType->delete();
+        $this->service->delete($collectionItemType);
         return $this->success([], null, trans('messages.collection_item_type_delete_success'));
-
     }
 }

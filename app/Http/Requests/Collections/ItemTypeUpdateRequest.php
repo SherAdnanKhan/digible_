@@ -15,7 +15,7 @@ class ItemTypeUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:collection_item_types',
-            'label' => ['string', 'max:255'],
+            'label' => 'string|max:255',
         ];
     }
 }

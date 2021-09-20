@@ -15,7 +15,7 @@ class StoreCommentRequest extends FormRequest
     {
         return [
             'comment' => 'required|string|max:255',
-            'collection_id' => 'required',
+            'collection_id' => 'required|exists:collections,id',
         ];
     }
 }

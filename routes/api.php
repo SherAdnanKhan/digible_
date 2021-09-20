@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
-use App\Http\Controllers\API\V1\Collections\FilterController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
 use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
@@ -50,26 +50,42 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
         Route::resource('collection-item-types', ItemTypeController::class);
-        Route::put('/approve-seller-request/{seller_profile}', [SellerProfileAdminController::class, 'update']);
-        Route::get('/get-verify-request', [SellerProfileAdminController::class, 'index']);
-        Route::get('/comment-pending', [CommentAdminController::class, 'index']);
-        Route::put('/comment-action/{comment}', [CommentAdminController::class, 'update']);
-        Route::get('/collection-pending', [CollectionAdminController::class, 'index']);
-        Route::put('/collection-action/{collection}', [CollectionAdminController::class, 'update']);
-        Route::get('/collection-approved', [CollectionAdminController::class, 'approved']);
+        
+        Route::group(['prefix' => 'sellers'], function () {
+            Route::get('/pending', [SellerProfileAdminController::class, 'index']);
+            Route::put('/action/{seller_profile}', [SellerProfileAdminController::class, 'update']);
+            Route::get('/approved', [SellerProfileAdminController::class, 'approved']);
+        });
+
+        Route::group(['prefix' => 'users'], function () {
+            Route::get('/', [UserAdminController::class, 'index']);
+         
+        });
+
+        Route::group(['prefix' => 'comments'], function () {
+            Route::get('/pending', [CommentAdminController::class, 'index']);
+            Route::put('/action/{comment}', [CommentAdminController::class, 'update']);
+            Route::get('/approved', [CommentAdminController::class, 'approved']);
+        });
+
+        Route::group(['prefix' => 'collections'], function () {
+            Route::get('/pending', [CollectionAdminController::class, 'index']);
+            Route::put('/action/{collection}', [CollectionAdminController::class, 'update']);
+            Route::get('/approved', [CollectionAdminController::class, 'approved']);
+        });
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
-          Route::group(['prefix' => 'collections/{collection}'], function () {
-              Route::resource('collection-items', CollectionItemController::class);
-          });
-          Route::resource('collections', CollectionController::class);
+        Route::group(['prefix' => 'collections/{collection}'], function () {
+            Route::resource('collection-items', CollectionItemController::class);
+        });
+        Route::resource('collections', CollectionController::class);
     });
 
     Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {
         Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
         Route::resource('comments', CommentController::class);
-        Route::post('/comments/{id}/reply', [CommentController::class, 'storeReply']);
+        Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
 
     });
 });

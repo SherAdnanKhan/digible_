@@ -1,16 +1,15 @@
 <?php
 namespace App\Http\Transformers\Comments;
 
-use App\Models\Comment;
 use App\Http\Transformers\BaseTransformer;
+use App\Http\Transformers\Constants\ConstantTransformer;
 use App\Http\Transformers\Users\UserTransformer;
-use App\Http\Transformers\Collections\ReplyTransformer;
+use App\Models\Comment;
 
 class CommentTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = [
-        'user'
-    ];
+    protected $defaultIncludes = ['status'];
+    protected $availableIncludes = ['user'];
 
     public function transform(Comment $comment)
     {
@@ -27,6 +26,16 @@ class CommentTransformer extends BaseTransformer
     {
         $user = $comment->user;
         return $this->item($user, new UserTransformer);
+    }
+
+    public function includeStatus(Comment $comment)
+    {
+        $item = [
+            'id' => $comment->id,
+            'name' => data_get(Comment::statuses(), $comment->status),
+        ];
+
+        return $this->item($item, new ConstantTransformer);
     }
 
     // public function includeReply(Comment $comment)

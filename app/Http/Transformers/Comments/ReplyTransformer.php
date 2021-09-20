@@ -4,12 +4,12 @@ namespace App\Http\Transformers\Collections;
 use App\Models\Comment;
 use App\Http\Transformers\BaseTransformer;
 use App\Http\Transformers\Users\UserTransformer;
+use App\Http\Transformers\Constants\ConstantTransformer;
 
 class ReplyTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = [
-        'user'
-    ];
+    protected $defaultIncludes = ['status'];
+    protected $availableIncludes = ['user'];
 
     public function transform(Comment $comment)
     {
@@ -28,4 +28,13 @@ class ReplyTransformer extends BaseTransformer
         return $this->item($user, new UserTransformer);
     }
 
+    public function includeStatus(Comment $comment)
+    {
+        $item = [
+            'id' => $comment->id,
+            'name' => data_get(Comment::statuses(), $comment->status),
+        ];
+
+        return $this->item($item, new ConstantTransformer);
+    }
 }

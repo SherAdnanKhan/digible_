@@ -12,16 +12,26 @@ use Illuminate\Support\Facades\Log;
 class Commentservice extends BaseService
 {
     protected $repository;
+    protected $service;
 
-    public function __construct(CommentRepository $repository)
+    public function __construct(CommentRepository $repository, BaseService $service)
     {
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Comment data all fetched: ");
-        return $this->repository->getPending();
+        $result = $this->repository->getPending();
+        return $this->service->paginate($result);
+    }
+
+    public function getApproved()
+    {
+        Log::info(__METHOD__ . " --Approved Comment data all fetched: ");
+        $result = $this->repository->getApproved();
+        return $this->service->paginate($result);
     }
 
     public function get(Comment $comment)
@@ -40,11 +50,11 @@ class Commentservice extends BaseService
         try {
             $newData['comment'] = $data['comment'];
             $newData['user_id'] = Auth::user()->id;
-            $newData['status'] = 'pending';
+            $newData['status'] = Comment::STATUS_PENDING;
             $newData['comment_id'] = null;
 
             if (isset($data['comment_id'])) {
-                $commentExist = Comment::where(['id'=> $data['comment_id'] , 'status' => 'approved']);
+                $commentExist = Comment::where(['id' => $data['comment_id'], 'status' => Comment::STATUS_PENDING]);
                 if ($commentExist) {
                     $newData['comment_id'] = $data['comment_id'];
                 } else {

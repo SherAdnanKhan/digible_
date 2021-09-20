@@ -7,29 +7,24 @@ use App\Models\Comment;
 
 class CommentRepository
 {
-    protected $comment;
-    /**
-     * @param array $
-     */
-    public function __construct(Comment $comment)
-    {
-        $this->comment = $comment;
-
-    }
-
     public function getPending()
     {
-        return $this->comment->where(['status' => 'pending'])->get();
+        return Comment::where(['status' => 'pending'])->with('commentable')->get();
+    }
+
+    public function getApproved()
+    {
+        return Comment::where(['status' => 'approved'])->with('commentable')->get();
     }
 
     public function get(Comment $comment)
     {
-        $comments = Comment::where(['parent_id' => $comment->id , 'status' => 'approved'])->get();
+        $comments = Comment::where(['parent_id' => $comment->id, 'status' => 'approved'])->get();
         return $comments;
     }
     public function save(array $data): void
     {
-        $comment = new $this->comment;
+        $comment = new Comment;
         $comment->comment = $data['comment'];
         $comment->status = $data['status'];
         $comment->parent_id = $data['comment_id'];
@@ -40,7 +35,7 @@ class CommentRepository
 
     public function delete(Comment $comment)
     {
-        $this->comment->where('parent_id', $comment->id)->delete();
+        Comment::where('parent_id', $comment->id)->delete();
         $comment->delete();
         return $comment;
     }

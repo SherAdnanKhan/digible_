@@ -23,7 +23,6 @@ class CommentController extends Controller
         $this->service = $service;
         $this->transformer = $transformer;
         $this->replyTransformer = $replyTransformer;
-
     }
 
     /**
@@ -34,9 +33,8 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request): JsonResponse
     {
-        $result = $this->service->save($request->validated());
-        return $this->success($result, $this->transformer, trans('messages.comment_create_success'));
-
+        $this->service->save($request->validated());
+        return $this->success([], $this->transformer, trans('messages.comment_create_success'));
     }
 
     /**
@@ -53,7 +51,7 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment): JsonResponse
     {
-        $result = $this->service->delete($comment);
+        $this->service->delete($comment);
         return $this->success([], null, trans('messages.comment_delete_success'));
     }
 
@@ -67,10 +65,7 @@ class CommentController extends Controller
     {
         $data = $request->validated();
         $data['comment_id'] = $comment->id;
-        $result = $this->service->save($data);
-        if ($result) {
-            return $this->success([], $this->transformer, trans('messages.comment_reply_create_success'));
-        }
-        return $this->failure('', trans('messages.comment_not_exist'), Response::HTTP_BAD_REQUEST);
+        $this->service->save($data);
+        return $this->success([], $this->transformer, trans('messages.comment_reply_create_success'));
     }
 }

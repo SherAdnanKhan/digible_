@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CollectionItem extends Model
 {
@@ -42,5 +43,11 @@ class CollectionItem extends Model
             static::NFT_TYPE_NON_BACKED => "non_backed",
             static::NFT_TYPE_NON_NFT => "non_nft",
         ];
+    }
+    public function favorited()
+    {
+        return (bool) Favourite::where('user_id', Auth::id())
+            ->where('collection_item_id', $this->id)
+            ->first();
     }
 }

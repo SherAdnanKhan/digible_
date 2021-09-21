@@ -10,9 +10,9 @@ class Collection extends Model
 {
     use HasFactory;
 
-    const STATUS_PENDING = "Pending";
-    const STATUS_APPROVED = "Approved";
-    const STATUS_REJECTED = "Rejected";
+    const STATUS_PENDING = "pending";
+    const STATUS_APPROVED = "approved";
+    const STATUS_REJECTED = "rejected";
 
     protected $guarded = [
         'created_at',
@@ -38,9 +38,9 @@ class Collection extends Model
     public static function statuses(): array
     {
         return [
-            static::STATUS_PENDING => "Pending",
-            static::STATUS_APPROVED => "Approved",
-            static::STATUS_REJECTED => "Rejected",
+            static::STATUS_PENDING => "pending",
+            static::STATUS_APPROVED => "approved",
+            static::STATUS_REJECTED => "rejected",
         ];
     }
 }

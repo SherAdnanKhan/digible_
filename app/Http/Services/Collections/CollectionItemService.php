@@ -37,7 +37,7 @@ class CollectionItemService extends BaseService
                 $data['image'] = $image;
             }
             $data['status'] = CollectionItem::STATUS_PENDING;
-            $data['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : CollectionItem::NFT_TYPE_NON_NFT;
+            $data['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : CollectionItem::TYPE_NON_NFT;
             Log::info(__METHOD__ . " -- New collection request info: ", $data);
             $this->repository->save($collection, $data);
         } catch (Exception $e) {
@@ -70,7 +70,7 @@ class CollectionItemService extends BaseService
                 $data['image'] = $image;
             }
             $data['status'] = Arr::exists($data, 'status') ? $data['status'] : CollectionItem::STATUS_PENDING;
-            $data['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : CollectionItem::NFT_TYPE_NON_NFT;
+            $data['nft_type'] = Arr::exists($data, 'nft_type') ? $data['nft_type'] : CollectionItem::TYPE_NON_NFT;
             $collectionItem = $this->repository->update($collectionItem, $data);
 
         } catch (Exception $e) {

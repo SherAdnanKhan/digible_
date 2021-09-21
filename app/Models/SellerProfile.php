@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SellerProfile extends Model
 {
     use HasFactory;
-    const SELLER_TYPE_INDIVIDUAL = 'individual';
-    const SELLER_TYPE_CARDHOUSE = 'cardhouse';
-    const SELLER_TYPE_DIGI = 'digi';
+    const TYPE_INDIVIDUAL = 'individual';
+    const TYPE_CARDHOUSE = 'cardhouse';
+    const TYPE_DIGI = 'digi';
     const STATUS_PENDING = "pending";
     const STATUS_APPROVED = "approved";
     const STATUS_REJECTED = "rejected";
@@ -36,9 +36,9 @@ class SellerProfile extends Model
     public static function types(): array
     {
         return [
-            static::SELLER_TYPE_INDIVIDUAL => "individual",
-            static::SELLER_TYPE_CARDHOUSE => "cardhouse",
-            static::SELLER_TYPE_DIGI => "digi",
+            static::TYPE_INDIVIDUAL => "individual",
+            static::TYPE_CARDHOUSE => "cardhouse",
+            static::TYPE_DIGI => "digi",
         ];
     }
 }

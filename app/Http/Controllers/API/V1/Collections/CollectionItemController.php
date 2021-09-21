@@ -36,7 +36,7 @@ class CollectionItemController extends Controller
      */
     public function store(CollectionItemSaveRequest $request, Collection $collection): JsonResponse
     {
-        $result = $this->service->save($request->validated(), $collection);
+        $result = $this->service->save($collection, $request->validated());
         return $this->success($result, $this->transformer, trans('messages.collection_item_create_success'));
     }
 

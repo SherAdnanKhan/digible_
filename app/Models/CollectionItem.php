@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CollectionItem extends Model
 {
     use HasFactory;
-    const STATUS_PENDING = "Pending";
-    const STATUS_APPROVED = "Approved";
-    const STATUS_REJECTED = "Rejected";
-    const NFT_TYPE_BACKED = "backed";
-    const NFT_TYPE_NON_BACKED = "non_backed";
-    const NFT_TYPE_NON_NFT = "non_nft";
+    const STATUS_PENDING = "pending";
+    const STATUS_APPROVED = "approved";
+    const STATUS_REJECTED = "rejected";
+    const TYPE_BACKED = "backed";
+    const TYPE_NON_BACKED = "nonbacked";
+    const TYPE_NON_NFT = "nonnft";
 
     protected $guarded = ['created_at'];
 
@@ -30,17 +30,17 @@ class CollectionItem extends Model
     public static function statuses(): array
     {
         return [
-            static::STATUS_PENDING => "Pending",
-            static::STATUS_APPROVED => "Approved",
-            static::STATUS_REJECTED => "Rejected",
+            static::STATUS_PENDING => "pending",
+            static::STATUS_APPROVED => "approved",
+            static::STATUS_REJECTED => "rejected",
         ];
     }
     public static function nfttype(): array
     {
         return [
-            static::NFT_TYPE_BACKED => "backed",
-            static::NFT_TYPE_NON_BACKED => "non_backed",
-            static::NFT_TYPE_NON_NFT => "non_nft",
+            static::TYPE_BACKED => "backed",
+            static::TYPE_NON_BACKED => "nonbacked",
+            static::TYPE_NON_NFT => "nonnft",
         ];
     }
 }

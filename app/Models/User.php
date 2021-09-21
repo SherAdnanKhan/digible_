@@ -13,9 +13,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    const USER_STATUS_NEW = 'new';
-    const USER_STATUS_ACTIVE = 'active';
-    const USER_STATUS_DISABLED = 'disabled';
+    const STATUS_NEW = 'new';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DISABLED = 'disabled';
 
     protected $guard_name = 'web';
 
@@ -103,9 +103,9 @@ class User extends Authenticatable
     public static function statuses(): array
     {
         return [
-            static::USER_STATUS_NEW => "New",
-            static::USER_STATUS_ACTIVE => "Active",
-            static::USER_STATUS_DISABLED => "Disabled",
+            static::STATUS_NEW => "new",
+            static::STATUS_ACTIVE => "active",
+            static::STATUS_DISABLED => "disabled",
         ];
     }
 }

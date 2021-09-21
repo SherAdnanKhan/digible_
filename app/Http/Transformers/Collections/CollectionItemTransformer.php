@@ -3,11 +3,16 @@ namespace App\Http\Transformers\Collections;
 
 use App\Models\CollectionItem;
 use App\Http\Transformers\BaseTransformer;
+use App\Http\Transformers\Constants\ConstantTransformer;
 use App\Http\Transformers\Collections\ItemTypeTransformer;
 use App\Http\Transformers\Collections\CollectionTransformer;
 
 class CollectionItemTransformer extends BaseTransformer
 {
+    protected $defaultIncludes = [
+        'status',
+    ];
+
     protected $availableIncludes = [
         'user', 'collection',
     ];
@@ -43,6 +48,15 @@ class CollectionItemTransformer extends BaseTransformer
     {
         $collectionItemType = $collectionItem->collectionItemType;
         return $this->item($collectionItemType, new ItemTypeTransformer);
+    }
+
+    public function includeStatus(CollectionItem $collectionItem)
+    {
+        $item = [
+            'id' => $collectionItem->id,
+            'name' => data_get(CollectionItem::statuses(), $collectionItem->status),
+        ];
+        return $this->item($item, new ConstantTransformer);
     }
 
 }

@@ -5,9 +5,14 @@ use App\Models\User;
 use App\Models\SellerProfile;
 use App\Http\Transformers\BaseTransformer;
 use App\Http\Transformers\Users\UserTransformer;
+use App\Http\Transformers\Constants\ConstantTransformer;
 
 class SellerTransformer extends BaseTransformer
 {
+    protected $defaultIncludes = [
+        'status',
+    ];
+
     protected $availableIncludes = [
         'user',
     ];
@@ -36,5 +41,14 @@ class SellerTransformer extends BaseTransformer
     {
         $user = $sellerProfile->user;
         return $this->item($user, new UserTransformer);
+    }
+
+    public function includeStatus(SellerProfile $sellerProfile)
+    {
+        $item = [
+            'id' => $sellerProfile->id,
+            'name' => data_get(SellerProfile::statuses(), $sellerProfile->status),
+        ];
+        return $this->item($item, new ConstantTransformer);
     }
 }

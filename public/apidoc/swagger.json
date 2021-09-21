@@ -450,6 +450,15 @@
     },
     "components": {
         "schemas": {
+            "Collectible": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "properties": {
                     "id": {

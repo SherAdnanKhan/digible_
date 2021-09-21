@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SellerProfile extends Model
+class   SellerProfile extends Model
 {
     use HasFactory;
     const SELLER_TYPE_INDIVIDUAL = 'individual';

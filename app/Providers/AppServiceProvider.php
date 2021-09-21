@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Custom\Observers\Auth\SendNotificationObserver;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,5 +53,6 @@ class AppServiceProvider extends ServiceProvider
 
             return true;
         });
+        \App\Models\User::observe(new SendNotificationObserver());
     }
 }

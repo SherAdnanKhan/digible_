@@ -44,10 +44,10 @@ class CollectionItem extends Model
             static::NFT_TYPE_NON_NFT => "non_nft",
         ];
     }
-    public function favorited()
+    public function favoriteUsers()
     {
-        return (bool) Favourite::where('user_id', Auth::id())
-            ->where('collection_item_id', $this->id)
-            ->first();
+        return Favourite::with('user')->where('collection_item_id', $this->id)
+            ->get();
     }
+
 }

@@ -53,6 +53,5 @@ class AppServiceProvider extends ServiceProvider
 
             return true;
         });
-        \App\Models\User::observe(new SendNotificationObserver());
     }
 }

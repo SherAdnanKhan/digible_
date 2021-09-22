@@ -46,4 +46,5 @@ return [
     'seller_request_exist' => 'Seller request already exist',
     'general_error' => 'Something is wrong with the database',
     'general_empty_data' => 'No result found',
+    'payment_create_success' => "Purchased collection item successfully",
 ];

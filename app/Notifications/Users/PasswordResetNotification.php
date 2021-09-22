@@ -42,7 +42,10 @@ class PasswordResetNotification extends Notification
             ->subject('Reset Password')
             ->line('We’re almost there! Please click the button below to reset your password.')
             ->action('Reset Password', $passwordResetUrl)
-            ->line('Thank you for using our application!');
+            ->line('Thank you for using our application!')
+            ->view(
+                'email_template.user.notification_email', ['passwordResetUrl' => $passwordResetUrl]
+            );
     }
 
     /**

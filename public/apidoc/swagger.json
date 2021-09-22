@@ -12,6 +12,58 @@
     ],
     "paths": {
         "/": {},
+        "/api/collections/{collection}/collection-items": {
+            "get": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Collection Items",
+                "description": "Get Collection Items",
+                "operationId": "getCollectionItems",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -145,12 +197,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john.doe@mail.com"
+                                        "example": "johndoe@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "red6six123"
+                                        "example": "I@86eik#"
                                     },
                                     "remember_me": {
                                         "type": "boolean",
@@ -450,6 +502,47 @@
     },
     "components": {
         "schemas": {
+            "collections": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@gmail.com"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Collectible": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "properties": {
                     "id": {

@@ -18,6 +18,45 @@ class Collection extends Model
         'created_at',
     ];
 
+    /**
+     * @OA\Schema(
+     *     schema="collections",
+     *     @OA\Property(
+     *         property="id",
+     *         type="integer",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="first_name",
+     *         type="string",
+     *         example="John"
+     *     ),
+     *     @OA\Property(
+     *         property="last_name",
+     *         type="string",
+     *         example="Doe"
+     *     ),
+     *     @OA\Property(
+     *         property="email",
+     *         type="string",
+     *         format="email",
+     *         example="johndoe@gmail.com"
+     *     ),
+     *     @OA\Property(
+     *         property="created_at",
+     *         type="string",
+     *         format="date-time",
+     *         example="2020-10-21T09:33:59.000000Z"
+     *     ),
+     *     @OA\Property(
+     *         property="updated_at",
+     *         type="string",
+     *         format="date-time",
+     *         example="22020-10-21T09:33:59.000000Z"
+     *     ),
+     * )
+     */
+
     protected $hidden = ['created_at', 'updated_at'];
 
     public function user(): BelongsTo

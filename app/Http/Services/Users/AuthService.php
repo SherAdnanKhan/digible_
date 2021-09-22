@@ -2,7 +2,7 @@
 namespace App\Http\Services\Users;
 
 use App\Exceptions\ErrorException;
-use App\Http\Repository\Users\AuthRepository;
+use App\Http\Repositories\Users\AuthRepository;
 use App\Http\Services\BaseService;
 use App\Http\Transformers\Users\UserTransformer;
 use App\Models\User;
@@ -64,7 +64,7 @@ class AuthService extends BaseService
         }
 
         $user = User::where('email', $data['email'])->first();
-        
+
         return $this->repository->createUserToken($user, $data['remember_me'] ?? null);
     }
 

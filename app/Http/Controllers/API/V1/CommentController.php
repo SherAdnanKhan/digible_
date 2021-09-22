@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Comments\StoreCommentRequest;
 use App\Http\Requests\Comments\UpdateCommentRequest;
 use App\Http\Services\Comments\CommentService;
-use App\Http\Transformers\Collections\ReplyTransformer;
+use App\Http\Transformers\Comments\ReplyTransformer;
 use App\Http\Transformers\Comments\CommentTransformer;
 use App\Models\Comment;
 use Illuminate\Http\JsonResponse;

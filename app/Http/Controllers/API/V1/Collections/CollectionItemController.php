@@ -23,6 +23,44 @@ class CollectionItemController extends Controller
         $this->transformer = $transformer;
     }
 
+    /** @OA\Get(
+     *     path="/api/collections/{collection}/collection-items",
+     *     description="Get Collection Items",
+     *     summary="Collection Items",
+     *     operationId="getCollectionItems",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Collection Items"},
+     *      @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="collection",
+     *         parameter="collection",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Success"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/User")
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @return JsonResponse
+     */
     public function index(Collection $collection)
     {
         return $this->service->getAll();

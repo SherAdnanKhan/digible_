@@ -12,6 +12,7 @@ use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;
 use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
 use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
         Route::resource('collection-item-types', ItemTypeController::class);
-        
+
         Route::group(['prefix' => 'sellers'], function () {
             Route::get('/pending', [SellerProfileAdminController::class, 'index']);
             Route::put('/action/{seller_profile}', [SellerProfileAdminController::class, 'update']);
@@ -59,7 +60,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
         Route::group(['prefix' => 'users'], function () {
             Route::get('/', [UserAdminController::class, 'index']);
-         
+
         });
 
         Route::group(['prefix' => 'comments'], function () {
@@ -88,4 +89,11 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
 
     });
+    Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {
+        Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
+        Route::resource('comments', CommentController::class);
+        Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
+    });
+    Route::post('collection-item/buy', [PaymentController::class, 'store']);
+    Route::get('collection-item/sales/details', [PaymentController::class, 'salesDetails']);
 });

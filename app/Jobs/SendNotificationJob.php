@@ -3,28 +3,29 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use App\Mail\SendNotification;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use App\Notifications\Users\ProductAvailiblityNotification;
 
 class SendNotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $email;
+    protected $user;
+    protected $data;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($user, $data)
     {
-        $this->email = $email ;
+        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
@@ -34,7 +35,6 @@ class SendNotificationJob implements ShouldQueue
      */
     public function handle()
     {
-        $sendNotification = new SendNotification();
-        Mail::to($this->email)->send($sendNotification);
+        $this->user->notify(new ProductAvailiblityNotification($this->data));
     }
 }

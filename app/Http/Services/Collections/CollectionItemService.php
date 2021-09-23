@@ -49,7 +49,7 @@ class CollectionItemService extends BaseService
     {
         try {
             if (isset($collectionItem['image'])) {
-                $this->imageService->removeImage($collection['image']);
+                $this->imageService->removeImage($collectionItem['image']);
             }
             $collectionItem->delete();
 
@@ -64,7 +64,7 @@ class CollectionItemService extends BaseService
         try {
             if (isset($data['image'])) {
                 if ($collectionItem['image']) {
-                    $this->imageService->removeImage($collection['image']);
+                    $this->imageService->removeImage($collectionItem['image']);
                 }
                 $image = $this->imageService->uploadImage($data['image'], 'collectionItems');
                 $data['image'] = $image;

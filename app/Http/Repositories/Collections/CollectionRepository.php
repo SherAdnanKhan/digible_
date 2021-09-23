@@ -9,7 +9,7 @@ class CollectionRepository
 {
     public function getAll()
     {
-        return Collection::get();
+        return Collection::with('user')->get();
     }
 
     public function getPending()

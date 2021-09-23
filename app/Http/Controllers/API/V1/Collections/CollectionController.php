@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\API\V1\Collections;
 
+use App\Models\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
+use App\Http\Services\Collections\CollectionService;
 use App\Http\Requests\Collections\CollectionSaveRequest;
 use App\Http\Requests\Collections\CollectionUpdateRequest;
-use App\Http\Services\Collections\CollectionService;
 use App\Http\Transformers\Collections\CollectionTransformer;
-use App\Models\Collection;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CollectionController extends Controller
 {
@@ -365,7 +366,11 @@ class CollectionController extends Controller
 
     public function destroy(Collection $collection)
     {
-        $this->service->delete($collection);
-        return $this->success([], null, trans('messages.collection_delete_success'));
+        if ($collection && (auth()->user()->hasRole('admin') ||
+            auth()->user()->id == $collection->user_id)) {
+            $this->service->delete($collection);
+            return $this->success([], null, trans('messages.collection_delete_success'));
+        }
+        return $this->failure('', trans('messages.unauthorize_user_delete'));
     }
 }

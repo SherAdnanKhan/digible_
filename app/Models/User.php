@@ -28,12 +28,7 @@ class User extends Authenticatable
      *         example=1
      *     ),
      *     @OA\Property(
-     *         property="first_name",
-     *         type="string",
-     *         example="John"
-     *     ),
-     *     @OA\Property(
-     *         property="last_name",
+     *         property="name",
      *         type="string",
      *         example="Doe"
      *     ),
@@ -41,7 +36,7 @@ class User extends Authenticatable
      *         property="email",
      *         type="string",
      *         format="email",
-     *         example="johndoe@gmail.com"
+     *         example="admin@admin.com"
      *     ),
      *     @OA\Property(
      *         property="created_at",

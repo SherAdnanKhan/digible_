@@ -22,10 +22,10 @@ class CollectionItemService extends BaseService
         $this->imageService = $imageService;
     }
 
-    public function getAll()
+    public function getAll(Collection $collection)
     {
         Log::info(__METHOD__ . " -- Collection item data all fetched: ");
-        $result = $this->repository->getAll();
+        $result = $this->repository->getAll($collection);
         return $this->imageService->paginate($result);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Repository\Users;
+namespace App\Http\Repositories\Users;
 
 use App\Models\PasswordReset;
 use App\Models\User;

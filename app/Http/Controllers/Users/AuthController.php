@@ -59,81 +59,26 @@ class AuthController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(
-     *                     property="first_name",
+     *                     property="name",
      *                     type="string",
      *                     example="John"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="last_name",
-     *                     type="string",
-     *                     example="Doe"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="username",
-     *                     type="string",
-     *                     example="johndoe"
      *                 ),
      *                 @OA\Property(
      *                     property="email",
      *                     type="string",
      *                     format="email",
-     *                     example="johndoe@gmail.com"
+     *                     example="admin@admin.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
      *                     format="password",
-     *                     example="I@86eik#"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="phone",
-     *                     type="string",
-     *                     example="1234567890"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address",
-     *                     type="string",
-     *                     example="130 Botley Road"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address2",
-     *                     type="string",
-     *                     example="Shore Street"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address3",
-     *                     type="string",
-     *                     example="Pier Road"
+     *                     example="1234567"
      *                 ),
      *                 @OA\Property(
      *                     property="county",
      *                     type="string",
      *                     example="Bristol"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="postcode",
-     *                     type="string",
-     *                     example="BS"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="city",
-     *                     type="string",
-     *                     example="Bristol"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="dob",
-     *                     type="date",
-     *                     example="1997-03-04"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="country_id",
-     *                     type="integer",
-     *                     example=1
-     *                 ),
-     *                 @OA\Property(
-     *                     property="hear_about_us_platform_id",
-     *                     type="integer",
-     *                     example=1
      *                 ),
      *             )
      *         )
@@ -182,19 +127,14 @@ class AuthController extends Controller
      *                     property="email",
      *                     type="string",
      *                     format="email",
-     *                     example="john.doe@mail.com"
+     *                     example="admin@admin.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
      *                     format="password",
-     *                     example="red6six123"
+     *                     example="12345678"
      *                 ),
-     *                 @OA\Property(
-     *                     property="remember_me",
-     *                     type="boolean",
-     *                     example=1
-     *                 )
      *             )
      *         )
      *     ),

@@ -1,27 +1,27 @@
 <?php
 namespace App\Http\Transformers\Collections;
 
-use App\Models\Collection;
-use App\Models\CollectionItem;
 use App\Http\Transformers\BaseTransformer;
-use App\Http\Transformers\Users\UserTransformer;
 use App\Http\Transformers\Comments\CommentTransformer;
 use App\Http\Transformers\Constants\ConstantTransformer;
+use App\Http\Transformers\Users\UserTransformer;
+use App\Models\Collection;
 
 class CollectionTransformer extends BaseTransformer
 {
     protected $defaultIncludes = [
-        'status',
+        'status', 'user',
     ];
 
     protected $availableIncludes = [
-        'user', 'comments',
+        'comments',
     ];
 
     public function transform(Collection $collection)
     {
         return [
             'id' => $collection->id,
+            'user_id' => $collection->id,
             'name' => $collection->name,
             'status' => $collection->status,
             'image' => $collection->image,
@@ -41,8 +41,8 @@ class CollectionTransformer extends BaseTransformer
         $comments = $collection->comments;
         return $this->collection($comments, new CommentTransformer);
     }
-    
-      public function includeStatus(Collection $collection)
+
+    public function includeStatus(Collection $collection)
     {
         $item = [
             'id' => $collection->id,

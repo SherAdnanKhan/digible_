@@ -506,7 +506,12 @@ class CollectionItemController extends Controller
 
     public function destroy(Collection $collection, CollectionItem $collectionItem): JsonResponse
     {
-        $this->service->delete($collectionItem);
-        return $this->success([], null, trans('messages.collection_item_delete_success'));
+        if ($collection && $collectionItem->collection_id == $collection->id &&
+            (auth()->user()->hasRole('admin') || auth()->user()->id == $collection->user_id)) {
+            $this->service->delete($collectionItem);
+            return $this->success([], null, trans('messages.collection_item_delete_success'));
+        }
+        return $this->failure('', trans('messages.unauthorize_user_delete'));
+
     }
 }

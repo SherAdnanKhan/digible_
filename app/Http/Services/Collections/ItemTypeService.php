@@ -29,7 +29,7 @@ class ItemTypeService extends BaseService
     public function save(array $data): void
     {
         try {
-            Log::info(__METHOD__ . " -- New collection item type request info: ", $$data);
+            Log::info(__METHOD__ . " -- New collection item type request info: ", $data);
             $this->repository->save($data);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));

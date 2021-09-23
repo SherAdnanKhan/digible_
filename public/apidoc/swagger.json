@@ -12,6 +12,1105 @@
     ],
     "paths": {
         "/": {},
+        "/api/collections": {
+            "get": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Get all",
+                "description": "Get Collections",
+                "operationId": "getCollections",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Collection"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Store",
+                "description": "Store Collection",
+                "operationId": "storeCollection",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Pokeman Card"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/collections/{collection}": {
+            "get": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Get by id",
+                "description": "Get Collection",
+                "operationId": "getCollection",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Collection"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Update",
+                "description": "Update Collection",
+                "operationId": "UpdateCollection",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Pokeman Card "
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection updated successfully"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Collection"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Delete",
+                "description": "Delete Collection",
+                "operationId": "DeleteCollection",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection Deleted successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/collections/{collection}/collection-items/": {
+            "get": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Get all",
+                "description": "Get Collection Items",
+                "operationId": "getCollectionItems",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CollectionItem"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/collections/{collection}/collection-items/{}": {
+            "post": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Store",
+                "description": "Store Collection Item",
+                "operationId": "StoreCollectionItem",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Cresseliaa"
+                                    },
+                                    "collection_item_type_id": {
+                                        "type": "integer",
+                                        "example": "6"
+                                    },
+                                    "nft_type": {
+                                        "type": "string",
+                                        "example": "backed"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "this is pokeman item has 160 physical asset"
+                                    },
+                                    "edition": {
+                                        "type": "string",
+                                        "example": "ist"
+                                    },
+                                    "graded": {
+                                        "type": "string",
+                                        "example": "yes"
+                                    },
+                                    "year": {
+                                        "type": "date",
+                                        "example": "2019-03-10 02:00:39"
+                                    },
+                                    "population": {
+                                        "type": "string",
+                                        "example": "4"
+                                    },
+                                    "publisher": {
+                                        "type": "string",
+                                        "example": "Pokeman"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending"
+                                    },
+                                    "available_for_sale": {
+                                        "type": "boolean",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection Item created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/collections/{collection}/collection-items/{collectionItem}": {
+            "get": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Get by id",
+                "description": "Get Collection Item",
+                "operationId": "GetCollectionItem",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "parameter": "collectionItem",
+                        "name": "collectionItem",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/CollectionItem"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Update",
+                "description": "Update Collection Item",
+                "operationId": "UpdateCollectionItem",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "parameter": "collectionItem",
+                        "name": "collectionItem",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Cresselia"
+                                    },
+                                    "collection_item_type_id": {
+                                        "type": "integer",
+                                        "example": "6"
+                                    },
+                                    "nft_type": {
+                                        "type": "string",
+                                        "example": "backed"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "this is pokeman item has 160 physical asset"
+                                    },
+                                    "edition": {
+                                        "type": "string",
+                                        "example": "ist"
+                                    },
+                                    "graded": {
+                                        "type": "string",
+                                        "example": "yes"
+                                    },
+                                    "year": {
+                                        "type": "date",
+                                        "example": "2019-03-10 02:00:39"
+                                    },
+                                    "population": {
+                                        "type": "string",
+                                        "example": "4"
+                                    },
+                                    "publisher": {
+                                        "type": "string",
+                                        "example": "Pokeman"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending"
+                                    },
+                                    "available_for_sale": {
+                                        "type": "boolean",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection Item Updated successfully"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/CollectionItem"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Delete",
+                "description": "Delete Collection Item",
+                "operationId": "DeleteCollectionItem",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "parameter": "collectionItem",
+                        "name": "collectionItem",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection Item Deleted successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/collection-item-types": {
+            "get": {
+                "tags": [
+                    "Collection Item Types"
+                ],
+                "summary": "Get all",
+                "description": "Get collection item types",
+                "operationId": "getCollectionItemTypes",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CollectionItemType"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Collection Item Types"
+                ],
+                "summary": "Store",
+                "description": "Store collection item types",
+                "operationId": "storeCollectionItemType",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Stamps"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "example": "stamp"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection item type created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/collection-item-types/{collectionItemType}": {
+            "get": {
+                "tags": [
+                    "Collection Item Types"
+                ],
+                "summary": "Get by id",
+                "description": "Get collection item type",
+                "operationId": "getCollectionItemType",
+                "parameters": [
+                    {
+                        "parameter": "collectionItemType",
+                        "name": "collectionItemType",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/CollectionItemType"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Collection Item Types"
+                ],
+                "summary": "Update",
+                "description": "Update collection item type",
+                "operationId": "updateCollectionItemType",
+                "parameters": [
+                    {
+                        "parameter": "collectionItemType",
+                        "name": "collectionItemType",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Stamps"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "example": "stamp"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection item type updated successfully"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/CollectionItemType"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Collection Item Types"
+                ],
+                "summary": "Delete",
+                "description": "Delete collection item type",
+                "operationId": "deleteCollectionItemType",
+                "parameters": [
+                    {
+                        "parameter": "collectionItemType",
+                        "name": "collectionItemType",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection item type Deleted successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -38,67 +1137,23 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "first_name": {
+                                    "name": {
                                         "type": "string",
                                         "example": "John"
-                                    },
-                                    "last_name": {
-                                        "type": "string",
-                                        "example": "Doe"
-                                    },
-                                    "username": {
-                                        "type": "string",
-                                        "example": "johndoe"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "johndoe@gmail.com"
+                                        "example": "admin@admin.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "I@86eik#"
-                                    },
-                                    "phone": {
-                                        "type": "string",
-                                        "example": "1234567890"
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "example": "130 Botley Road"
-                                    },
-                                    "address2": {
-                                        "type": "string",
-                                        "example": "Shore Street"
-                                    },
-                                    "address3": {
-                                        "type": "string",
-                                        "example": "Pier Road"
+                                        "example": "1234567"
                                     },
                                     "county": {
                                         "type": "string",
                                         "example": "Bristol"
-                                    },
-                                    "postcode": {
-                                        "type": "string",
-                                        "example": "BS"
-                                    },
-                                    "city": {
-                                        "type": "string",
-                                        "example": "Bristol"
-                                    },
-                                    "dob": {
-                                        "type": "date",
-                                        "example": "1997-03-04"
-                                    },
-                                    "country_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "hear_about_us_platform_id": {
-                                        "type": "integer",
-                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -145,16 +1200,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john.doe@mail.com"
+                                        "example": "admin@admin.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "red6six123"
-                                    },
-                                    "remember_me": {
-                                        "type": "boolean",
-                                        "example": 1
+                                        "example": "12345678"
                                     }
                                 },
                                 "type": "object"
@@ -450,24 +1501,193 @@
     },
     "components": {
         "schemas": {
+            "Collection": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "interger",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "status": {
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "pending"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "user": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "CollectionItem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "collection_item_type_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "collection_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nft_type": {
+                        "type": "string",
+                        "example": "nonnft"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Cresselia"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "sdasdwre32r.jpg"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Digtal asset backed by 160 physical asset"
+                    },
+                    "edition": {
+                        "type": "string",
+                        "example": "ist"
+                    },
+                    "graded": {
+                        "type": "enum",
+                        "example": "yes"
+                    },
+                    "year": {
+                        "type": "date",
+                        "example": "2019-03-10 02:00:39"
+                    },
+                    "population": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "publisher": {
+                        "type": "string",
+                        "example": "2019-03-10 02:00:39"
+                    },
+                    "status": {
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "pending"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "available_for_sale": {
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "collection": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Collection"
+                            }
+                        ]
+                    },
+                    "collectionItemType": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/CollectionItemType"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "CollectionItemType": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Pokemon cards"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "pokemoncards"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "properties": {
                     "id": {
                         "type": "integer",
                         "example": 1
                     },
-                    "first_name": {
-                        "type": "string",
-                        "example": "John"
-                    },
-                    "last_name": {
+                    "name": {
                         "type": "string",
                         "example": "Doe"
                     },
                     "email": {
                         "type": "string",
                         "format": "email",
-                        "example": "johndoe@gmail.com"
+                        "example": "admin@admin.com"
                     },
                     "created_at": {
                         "type": "string",

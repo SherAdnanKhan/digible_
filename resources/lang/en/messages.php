@@ -46,4 +46,5 @@ return [
     'seller_request_exist' => 'Seller request already exist',
     'general_error' => 'Something is wrong with the database',
     'general_empty_data' => 'No result found',
+    'unauthorize_user_delete' => "You can't delete a record that doesn't belong to you",
 ];

@@ -8,7 +8,14 @@ use Illuminate\Validation\Rule;
 
 class CollectionItemUpdateRequest extends FormRequest
 {
-
+    public function authorize()
+    {
+        if ($this->collection && ($this->user()->hasRole('admin') ||
+            $this->user()->id == $this->collection->user_id)) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Get the validation rules that apply to the request.
      *

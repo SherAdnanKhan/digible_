@@ -9,6 +9,14 @@ use Illuminate\Validation\Rule;
 class CollectionUpdateRequest extends FormRequest
 {
 
+    public function authorize()
+    {
+        if ($this->collection && ($this->user()->hasRole('admin') ||
+            $this->user()->id == $this->collection->user_id)) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,5 +30,5 @@ class CollectionUpdateRequest extends FormRequest
             'status' => ['string', 'max:255', Rule::in(array_keys(Collection::statuses()))],
         ];
     }
-    
+
 }

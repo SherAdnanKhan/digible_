@@ -13,7 +13,7 @@ class PaymentRepository extends HttpHandler implements PaymentRepositoryInterfac
         /**
          * when will Api implement then data that it will return store in transaction table...
          */
-        return true ;
+        dd($data)  ;
     }
 
     public function salesDetails()

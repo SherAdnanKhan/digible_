@@ -22,7 +22,10 @@ abstract class HttpHandler
      * header for all request
      * @var string[]
      */
+
+
     protected $headers = [
+        "auth" => "51349d7defd9351ac",
         'Content-Type'    => 'application/json',
         'Accept'          => 'application/json'
     ];
@@ -71,7 +74,6 @@ abstract class HttpHandler
             throw new ErrorException('exception.invalid_payment_details');
         }
         $body = $response->getBody()->getContents();
-        return json_decode("all data") ;
         return $this->responseDecoder($body);
     }
 

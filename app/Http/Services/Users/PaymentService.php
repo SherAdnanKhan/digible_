@@ -9,6 +9,7 @@ use App\Http\Services\Payment\PaymentMethodService;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use phpDocumentor\Reflection\DocBlock\Tags\Method;
 
 class PaymentService extends BaseService
 {
@@ -20,9 +21,9 @@ class PaymentService extends BaseService
         $this->paymentRepository = $paymentRepository ;
         $this->paymentMethodService = $paymentMethodService ;
     }
-    public function PaymentMethodAuthentication($request)
+    public function paymentMethodAuthentication($request, $url, $method, $param)
     {
-       $data['transaction_data'] = $this->paymentMethodService->PaymentMethodAuthentication(WYRE_AUTH_URL, METHOD, PARAM_A) ;
+       $data['transaction_data'] = $this->paymentMethodService->paymentMethodAuthentication($url, $method, $param) ;
        $data['request'] = $request ;
        return $this->paymentRepository->create($data) ;
     }
@@ -32,11 +33,4 @@ class PaymentService extends BaseService
        return $this->paymentRepository->salesDetails();
     }
 
-    public function submitWyreAuth($secret_kay)
-    {
-        $response = Http::post(WYRE_AUTH_URL, [
-            'secretKey' => $secret_kay,
-        ]);
-        return $response ;
-    }
 }

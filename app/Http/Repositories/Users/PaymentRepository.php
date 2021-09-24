@@ -20,7 +20,7 @@ class PaymentRepository extends HttpHandler implements PaymentRepositoryInterfac
     {
        return Transaction::all() ;
     }
-    public function PaymentMethodAuthentication($endPoint, $method, $param)
+    public function paymentMethodAuthentication($endPoint, $method, $param)
     {
         return $this->call($endPoint, $method, $param) ;
     }

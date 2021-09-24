@@ -94,6 +94,6 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::resource('comments', CommentController::class);
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
     });
-    Route::post('collection-item/buy', [PaymentController::class, 'store']);
     Route::get('collection-item/sales/details', [PaymentController::class, 'salesDetails']);
 });
+Route::post('collection-item/buy', [PaymentController::class, 'store']);

@@ -12,8 +12,8 @@ class PaymentMethodService
     {
         $this->paymentRepository = $paymentRepository ;
     }
-    public function PaymentMethodAuthentication($endPoint, $method, $param)
+    public function paymentMethodAuthentication($endPoint, $method, $param)
     {
-        return $this->paymentRepository->PaymentMethodAuthentication($endPoint, $method, $param);
+        return $this->paymentRepository->paymentMethodAuthentication($endPoint, $method, $param);
     }
 }

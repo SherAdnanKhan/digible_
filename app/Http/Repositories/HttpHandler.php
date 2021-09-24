@@ -71,6 +71,7 @@ abstract class HttpHandler
             throw new ErrorException('exception.invalid_payment_details');
         }
         $body = $response->getBody()->getContents();
+        return json_decode("all data") ;
         return $this->responseDecoder($body);
     }
 

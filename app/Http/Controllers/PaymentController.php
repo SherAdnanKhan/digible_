@@ -13,13 +13,13 @@ class PaymentController extends Controller
     {
         $this->paymentService = $paymentService ;
     }
-    public function store(PaymentRequest $request)
+        public function store(Request $request)
     {
         /**
          * adding dummy data for just now in $endPoint, $method, $param variable when get api credentials replace these with..
          */
-       $result = $this->paymentService->PaymentMethodAuthentication($request->validated(), ) ;
-    //   return $this->success($result, null, trans('messages.payment_create_success'));
+       $result = $this->paymentService->paymentMethodAuthentication($request, WYRE_AUTH_URL, METHOD, PARAM) ;
+       return $this->success($result, null, trans('messages.payment_create_success'));
     }
     public function salesDetails()
     {

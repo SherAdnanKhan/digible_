@@ -78,6 +78,11 @@ class CollectionItemService extends BaseService
             throw new ErrorException(trans('messages.general_error'));
         }
         return $collectionItem;
+    }
 
+    public function updateAFS(CollectionItem $collectionItem, array $data)
+    {
+        Log::info(__METHOD__ . " -- Collection item data updated: ");
+        return $this->repository->updateAFS($collectionItem, $data);
     }
 }

@@ -64,7 +64,7 @@ class AuthService extends BaseService
         }
 
         $user = User::where('email', $data['email'])->first();
-        
+
         return $this->repository->createUserToken($user, $data['remember_me'] ?? null);
     }
 

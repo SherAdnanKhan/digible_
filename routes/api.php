@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;
 use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
 use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,24 +52,19 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
         Route::resource('collection-item-types', ItemTypeController::class);
-        
         Route::group(['prefix' => 'sellers'], function () {
             Route::get('/pending', [SellerProfileAdminController::class, 'index']);
             Route::put('/action/{seller_profile}', [SellerProfileAdminController::class, 'update']);
             Route::get('/approved', [SellerProfileAdminController::class, 'approved']);
         });
-
         Route::group(['prefix' => 'users'], function () {
             Route::get('/', [UserAdminController::class, 'index']);
-         
         });
-
         Route::group(['prefix' => 'comments'], function () {
             Route::get('/pending', [CommentAdminController::class, 'index']);
             Route::put('/action/{comment}', [CommentAdminController::class, 'update']);
             Route::get('/approved', [CommentAdminController::class, 'approved']);
         });
-
         Route::group(['prefix' => 'collections'], function () {
             Route::get('/pending', [CollectionAdminController::class, 'index']);
             Route::put('/action/{collection}', [CollectionAdminController::class, 'update']);
@@ -78,7 +75,10 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::group(['prefix' => 'collections/{collection}'], function () {
             Route::resource('collection-items', CollectionItemController::class);
+            Route::post('/favorite/{collectionItem}', [FavouriteController::class, 'favourite']);
+            Route::post('/unfavorite/{collectionItem}', [FavouriteController::class, 'unFavourite']);
         });
+        Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::resource('collections', CollectionController::class);
     });
 
@@ -86,6 +86,13 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
         Route::resource('comments', CommentController::class);
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
+    });
+
+    Route::group(['prefix' => 'sellers', 'middleware' => ['role:seller']], function () {
+        Route::group(['prefix' => 'collections/{collection}'], function () {
+            Route::put('/collection-items/{collectionItem}', [SellerCollectionItemController::class, 'update']);
+        });
 
     });
+
 });

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Transformers\Collections;
+namespace App\Http\Transformers\Comments;
 
 use App\Models\Comment;
 use App\Http\Transformers\BaseTransformer;

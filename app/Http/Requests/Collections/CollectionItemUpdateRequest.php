@@ -35,6 +35,7 @@ class CollectionItemUpdateRequest extends FormRequest
             'year' => ['string', 'max:255'],
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
+             'available_for_sale' => 'boolean',
         ];
     }
 }

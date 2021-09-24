@@ -103,4 +103,9 @@ class User extends Authenticatable
             static::STATUS_DISABLED => "disabled",
         ];
     }
+
+    public function favourites()
+    {
+        return $this->belongsToMany(CollectionItem::class, 'favourites', 'user_id', 'collection_item_id')->withTimeStamps();
+    }
 }

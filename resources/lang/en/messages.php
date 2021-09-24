@@ -43,6 +43,8 @@ return [
     'comment_approved_success' => 'Comment approved successfully',
     'comment_reply_create_success' => 'Comment replied successfully',
     'comment_not_exist' => 'Comment does not exist or not approved by admin',
+    'collection_item_favourite_success' => 'Collection item favourited successfully',
+    'collection_item_unfavourite_success' => 'Collection item unfavourited successfully',
     'seller_request_exist' => 'Seller request already exist',
     'general_error' => 'Something is wrong with the database',
     'general_empty_data' => 'No result found',

@@ -13,7 +13,7 @@ class PaymentController extends Controller
     {
         $this->paymentService = $paymentService ;
     }
-        public function store(Request $request)
+        public function store(PaymentRequest $request)
     {
         /**
          * adding dummy data for just now in $endPoint, $method, $param variable when get api credentials replace these with..

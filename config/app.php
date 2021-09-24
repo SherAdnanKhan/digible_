@@ -57,7 +57,7 @@ return [
     'asset_url' => env('ASSET_URL', null),
 
     'frontend' => 'http://google.com',
-    
+
     'client_url' => 'http://localhost:8000/api',
 
     /*
@@ -181,7 +181,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        /**
+         * custom service provider
+         */
+        App\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

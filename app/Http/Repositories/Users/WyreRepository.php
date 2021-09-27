@@ -4,7 +4,7 @@ namespace App\Http\Repositories\Users;
 use App\Models\Transaction;
 use App\Http\Repositories\HttpHandler ;
 use App\Http\Repositories\Users\Interfaces\PaymentRepositoryInterface ;
-class PaymentRepository extends HttpHandler implements PaymentRepositoryInterface
+class WyreRepository extends HttpHandler implements PaymentRepositoryInterface
 {
     protected $payment ;
 

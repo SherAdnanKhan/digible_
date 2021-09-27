@@ -3,7 +3,8 @@
 namespace App\Http\Services\Users;
 
 use App\Http\Repositories\Users\Interfaces\PaymentRepositoryInterface;
-use App\Http\Repositories\Users\WyreRepository;
+use App\Http\Repositories\Users\PaymentRepository;
+use App\Http\Repositories\Users\WyreService;
 use App\Http\Services\BaseService;
 use App\Http\Services\Payment\PaymentMethodService;
 use GuzzleHttp\Client;
@@ -16,7 +17,7 @@ class PaymentService extends BaseService
     private $paymentRepository ;
     protected $paymentMethodService ;
 
-    public function __construct(PaymentMethodService $paymentMethodService, WyreRepository $paymentRepository)
+    public function __construct(PaymentMethodService $paymentMethodService, PaymentRepository $paymentRepository)
     {
         $this->paymentRepository = $paymentRepository ;
         $this->paymentMethodService = $paymentMethodService ;

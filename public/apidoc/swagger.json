@@ -1206,6 +1206,10 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "12345678"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Japan"
                                     }
                                 },
                                 "type": "object"
@@ -1688,6 +1692,10 @@
                         "type": "string",
                         "format": "email",
                         "example": "admin@admin.com"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "Japan"
                     },
                     "created_at": {
                         "type": "string",

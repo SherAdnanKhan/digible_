@@ -53,4 +53,11 @@ class BaseService
 
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
+
+    public function dateComparision($firstDate, $secondDate, $operation)
+    {
+        $firstDate->setTimezone('UTC');
+        $result = $firstDate->$operation($secondDate);
+        return $result;
+    }
 }

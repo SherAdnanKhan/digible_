@@ -1,15 +1,18 @@
 <?php
 namespace App\Http\Services\Collections;
 
-use App\Exceptions\ErrorException;
-use App\Http\Repositories\Collections\CollectionItemRepository;
-use App\Http\Services\BaseService;
-use App\Http\Services\Images\ImageService;
-use App\Models\Collection;
-use App\Models\CollectionItem;
 use Exception;
+use Carbon\Carbon;
+use App\Models\Favourite;
+use App\Models\Collection;
 use Illuminate\Support\Arr;
+use App\Models\CollectionItem;
+use App\Exceptions\ErrorException;
+use App\Http\Services\BaseService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Event;
+use App\Http\Services\Images\ImageService;
+use App\Http\Repositories\Collections\CollectionItemRepository;
 
 class CollectionItemService extends BaseService
 {
@@ -83,6 +86,25 @@ class CollectionItemService extends BaseService
     public function updateAFS(CollectionItem $collectionItem, array $data)
     {
         Log::info(__METHOD__ . " -- Collection item data updated: ");
-        return $this->repository->updateAFS($collectionItem, $data);
+        $collectionItem = $this->repository->updateAFS($collectionItem, $data);
+        $data = $collectionItem->favoriteUsers();
+        $users = $data->pluck('user');
+        if ($this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->toDateTimeString(), 'gt') &&
+            $this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->addDays(1), 'lt')) {
+            $data['collectionItem'] = $collectionItem;
+            $data['users'] = $users;
+            Event::dispatch('subscribers.notify', $data);
+        }
+        // if ($this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->addDays(1), 'gt')) {
+        //     Favourite::query()
+        //         ->where(['collection_item_id' => $collectionItem->id])
+        //         ->each(function ($oldRecord) {
+        //             $newDailyEmails = $oldRecord->replicate();
+        //             $newDailyEmails->setTable('send_daily_emails');
+        //             $newDailyEmails->save();
+        //         });
+        // }
+        return $collectionItem;
+
     }
 }

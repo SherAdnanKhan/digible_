@@ -76,9 +76,9 @@ class AuthController extends Controller
      *                     example="1234567"
      *                 ),
      *                 @OA\Property(
-     *                     property="county",
+     *                     property="timezone",
      *                     type="string",
-     *                     example="Bristol"
+     *                     example="Asia/Jerusalem"
      *                 ),
      *             )
      *         )
@@ -134,6 +134,11 @@ class AuthController extends Controller
      *                     type="string",
      *                     format="password",
      *                     example="12345678"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="timezone",
+     *                     type="string",
+     *                     example="Asia/Jerusalem"
      *                 ),
      *             )
      *         )

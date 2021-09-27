@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CollectionItem extends Model
 {
@@ -156,6 +156,27 @@ class CollectionItem extends Model
     {
         return Favourite::with('user')->where('collection_item_id', $this->id)
             ->get();
+    }
+
+    public function setAvailableAtAttribute($value)
+    {
+        $user_date = date('Y-m-d H:i:s', strtotime($value));
+        # convert user date to utc date
+        $utc_date = Carbon::createFromFormat('Y-m-d H:i:s', $user_date, auth()->user()->timezone);
+
+        $utc_date->setTimezone('UTC');
+        $this->attributes['available_at'] = $utc_date;
+    }
+
+    public function getAvailableAtAttribute($value)
+    {
+        if ($value != null && auth()->user()) {
+            # using utc date convert date to user date
+            $user_date = Carbon::createFromFormat('Y-m-d H:i:s', $value, 'UTC');
+            $user_date->setTimezone(auth()->user()->timezone);
+            return $user_date;
+        }
+        return $value;
     }
 
 }

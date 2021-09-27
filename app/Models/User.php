@@ -39,6 +39,11 @@ class User extends Authenticatable
      *         example="admin@admin.com"
      *     ),
      *     @OA\Property(
+     *         property="timezone",
+     *         type="string",
+     *         example="Asia/Jerusalem"
+     *     ),
+     *     @OA\Property(
      *         property="created_at",
      *         type="string",
      *         format="date-time",
@@ -58,11 +63,8 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'activation_token',
+    protected $guarded = [
+        'created_at',
     ];
 
     /**

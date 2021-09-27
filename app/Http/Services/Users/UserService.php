@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class UserService extends BaseService
 {
@@ -56,12 +55,7 @@ class UserService extends BaseService
      */
     public function updateUser(User $user, array $data): bool
     {
-        if (isset($data['username'])) {
-            $data['username'] = Str::lower($data['username']);
-        }
-
         Log::info(__METHOD__ . " -- user: " . $user->email . " -- User update his account information:", $data);
-
         return $user->update($data);
     }
 }

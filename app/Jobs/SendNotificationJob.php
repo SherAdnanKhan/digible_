@@ -25,6 +25,7 @@ class SendNotificationJob implements ShouldQueue
     public function __construct($user, $data)
     {
         $this->user = $user;
+        $this->data['user_id'] = $user->id;
         $this->data = $data;
     }
 

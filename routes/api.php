@@ -1,19 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Users\AuthController;
-use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
+use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
+use App\Http\Controllers\API\V1\Admin\UserAdminController;
+use App\Http\Controllers\API\V1\Collections\CollectionController;
+use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\CommentController;
 use App\Http\Controllers\API\V1\FavouriteController;
-use App\Http\Controllers\API\V1\Admin\UserAdminController;
-use App\Http\Controllers\API\V1\Admin\CommentAdminController;
-use App\Http\Controllers\API\V1\Collections\ItemTypeController;
-use App\Http\Controllers\API\V1\Seller\SellerRequestController;
-use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
-use App\Http\Controllers\API\V1\Collections\CollectionController;
-use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
-use App\Http\Controllers\API\V1\Collections\CollectionItemController;
 use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
+use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Users\AuthController;
+use App\Http\Controllers\Users\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,4 +96,6 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     });
 
+    Route::get('collection-item/sales/details', [PaymentController::class, 'salesDetails']);
 });
+    Route::post('collection-item/buy', [PaymentController::class, 'store']);

@@ -4,7 +4,6 @@ namespace App\Http\Services\Collections;
 use App\Exceptions\ErrorException;
 use App\Http\Repositories\Collections\CollectionRepository;
 use App\Http\Services\BaseService;
-use App\Http\Services\Collections\CollectionService;
 use App\Http\Services\Images\ImageService;
 use App\Models\Collection;
 use Exception;

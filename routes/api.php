@@ -76,8 +76,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::group(['prefix' => 'collections/{collection}'], function () {
             Route::resource('collection-items', CollectionItemController::class);
-            Route::post('/favorite/{collectionItem}', [FavouriteController::class, 'favourite']);
-            Route::post('/unfavorite/{collectionItem}', [FavouriteController::class, 'unFavourite']);
+            Route::post('/favourite/{collectionItem}', [FavouriteController::class, 'favourite']);
+            Route::post('/unfavourite/{collectionItem}', [FavouriteController::class, 'unFavourite']);
         });
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::resource('collections', CollectionController::class);

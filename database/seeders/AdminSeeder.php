@@ -17,7 +17,9 @@ class AdminSeeder extends Seeder
     {
         $user = User::where('name', 'admin')->first();
         if (!$user) {
-            $user = User::create(['name' => 'admin', 'email' => 'admin@admin.com', 'password' => Hash::make('12345678')]);
+            $user = User::create(['name' => 'admin', 'email' => 'admin@admin.com',
+                'password' => Hash::make('12345678'), 'timezone' => config('app.timezone'),
+                'email_verified_at' => now()]);
         }
         $user->assignRole('admin');
     }

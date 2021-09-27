@@ -16,6 +16,7 @@ class CreateCollectionItemTypesTable extends Migration
         Schema::create('collection_item_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('label')->nullable();
             $table->timestamps();
         });
     }

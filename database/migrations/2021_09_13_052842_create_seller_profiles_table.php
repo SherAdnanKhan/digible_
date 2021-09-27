@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSellersTable extends Migration
+class CreateSellerProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateSellersTable extends Migration
      */
     public function up()
     {
-        Schema::create('sellers', function (Blueprint $table) {
+        Schema::create('seller_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->string('surname');
             $table->string('wallet_address');
             $table->string('physical_address');
-            $table->string('p_no');
+            $table->string('phone_no');
             $table->string('twitter_link');
             $table->string('insta_link');
             $table->string('twitch_link');

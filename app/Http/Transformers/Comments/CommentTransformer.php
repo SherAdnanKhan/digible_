@@ -8,7 +8,7 @@ use App\Models\Comment;
 
 class CommentTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = ['status'];
+    protected $defaultIncludes = ['status','replies'];
     protected $availableIncludes = ['user'];
 
     public function transform(Comment $comment)
@@ -38,10 +38,12 @@ class CommentTransformer extends BaseTransformer
         return $this->item($item, new ConstantTransformer);
     }
 
-    // public function includeReply(Comment $comment)
-    // {
-    //     $replies = $comment->replies;
-    //     return $this->item($replies, new ReplyTransformer);
-    // }
+    public function includeReplies(Comment $comment)
+    {
+        $replies = $comment->replies;
+        
+        return $this->collection($replies, new ReplyTransformer);
+        
+    }
 
 }

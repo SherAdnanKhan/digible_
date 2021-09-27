@@ -17,7 +17,7 @@ class CreateCollectionsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name')->nullable();
-            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('image')->nullable();
             $table->timestamps();
         });

@@ -9,9 +9,8 @@ use App\Http\Transformers\Constants\ConstantTransformer;
 class ReplyTransformer extends BaseTransformer
 {
     protected $defaultIncludes = ['status'];
-    protected $availableIncludes = ['user'];
 
-    public function transform(Comment $comment)
+    public function transform($comment)
     {
         return [
             'id' => $comment->id,
@@ -20,12 +19,6 @@ class ReplyTransformer extends BaseTransformer
             'created_at' => $comment->created_at,
             'updated_at' => $comment->updated_at,
         ];
-    }
-
-    public function includeUser(Comment $comment)
-    {
-        $user = $comment->user;
-        return $this->item($user, new UserTransformer);
     }
 
     public function includeStatus(Comment $comment)

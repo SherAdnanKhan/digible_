@@ -46,7 +46,7 @@ class CommentController extends Controller
     public function show(Comment $comment): JsonResponse
     {
         $result = $this->service->get($comment);
-        return $this->success($result, $this->replyTransformer);
+        return $this->success($result, $this->transformer);
     }
 
     public function destroy(Comment $comment): JsonResponse

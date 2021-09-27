@@ -19,7 +19,8 @@ class PaymentController extends Controller
         /**
          * adding dummy data for just now in $endPoint, $method, $param variable when get api credentials replace these with...
          */
-        $result = $this->paymentService->paymentMethodAuthentication($request->validated(), Transaction::WYRE_AUTH_URL, Transaction::METHOD, Transaction::PARAM) ;
+
+        $result = $this->paymentService->paymentMethodAuthentication($request->validated(), Transaction::WYRE_AUTH_URL, Transaction::METHOD, Transaction::PARAMS) ;
        /**
         * above method store all data that received and below code return success message to user...
         */

@@ -37,7 +37,6 @@ class Commentservice extends BaseService
     public function get(Comment $comment)
     {
         try {
-
             Log::info(__METHOD__ . " -- Comment data all fetched: ");
             return $this->repository->get($comment);
         } catch (Exception $e) {

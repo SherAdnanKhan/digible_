@@ -19,7 +19,7 @@ class CommentRepository
 
     public function get(Comment $comment)
     {
-        $comments = Comment::where(['parent_id' => $comment->id, 'status' => 'approved'])->get();
+        $comments = Comment::where(['id' => $comment->id, 'status' => 'approved'])->with('replies')->get();
         return $comments;
     }
     public function save(array $data): void

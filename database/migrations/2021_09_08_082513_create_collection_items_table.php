@@ -15,7 +15,7 @@ class CreateCollectionItemsTable extends Migration {
    $table->id();
    $table->foreignId('collection_item_type_id')->references('id')->on('collection_item_types')->onDelete('cascade')->onUpdate('cascade');
    $table->foreignId('collection_id')->references('id')->on('collections')->onDelete('cascade')->onUpdate('cascade');
-   $table->boolean('physical')->default(false)->nullable();
+   $table->enum('nft_type', ['backed', 'nonbacked', 'nonnft'])->default('nonnft');
    $table->string('name')->nullable();
    $table->string('image')->nullable();
    $table->string('description')->nullable();
@@ -24,7 +24,9 @@ class CreateCollectionItemsTable extends Migration {
    $table->timestamp('year')->nullable();
    $table->integer('population')->nullable();
    $table->string('publisher')->nullable();
-   $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending')->nullable();
+   $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+   $table->boolean('available_for_sale')->default(false);
+   $table->dateTime('available_at')->nullable();
    $table->timestamps();
   });
  }

@@ -14,10 +14,10 @@ class PaymentRequest extends FormRequest
     public function rules()
     {
         return [
-//            'collection_item_id' => 'required|exists:collection_items,id',
-//            'user_id' => 'required|exists:users,id',
-//            'amount' => 'required',
-//            'quantity' => 'required',
+            'collection_item_id' => 'required|exists:collection_items,id',
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required',
+            'quantity' => 'required',
         ];
     }
 }

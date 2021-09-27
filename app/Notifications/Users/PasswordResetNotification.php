@@ -36,13 +36,16 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $passwordResetUrl = config('app.client_url').'/password/reset/'.$this->token;
+        $passwordResetUrl = config('app.client_url').'/auth/forget-password/'.$this->token;
 
         return (new MailMessage)
             ->subject('Reset Password')
             ->line('We’re almost there! Please click the button below to reset your password.')
             ->action('Reset Password', $passwordResetUrl)
-            ->line('Thank you for using our application!');
+            ->line('Thank you for using our application!')
+            ->view(
+                'email_template.user.notification_email', ['passwordResetUrl' => $passwordResetUrl]
+            );
     }
 
     /**

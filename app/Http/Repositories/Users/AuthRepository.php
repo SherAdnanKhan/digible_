@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Http\Repository\Users;
+namespace App\Http\Repositories\Users;
 
 use App\Models\PasswordReset;
 use App\Models\User;
 use App\Notifications\Users\SignupActivate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Passport\PersonalAccessTokenResult;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 class AuthRepository
 {
     /**
      * @param array $userData
      */
-    public function register(array $userData) : void
+    public function register(array $userData): void
     {
         $user = new User($userData);
+
         $user->notify(new SignupActivate($user));
         Log::info(__METHOD__ . " -- Email verification notification sent to user", ["email" => $user->email]);
         $user->save();
+        $user->assignRole('user');
 
     }
 
@@ -31,11 +32,11 @@ class AuthRepository
      * @param string $password
      * @return bool
      */
-    public function validateUser(string $email, string $password) : bool
+    public function validateUser(string $email, string $password): bool
     {
         return Auth::attempt([
             'email' => $email,
-            'password' => $password
+            'password' => $password,
         ]);
     }
 
@@ -83,9 +84,10 @@ class AuthRepository
      * @param User $user
      * @return User
      */
-    public function userActivate(User $user) : User
+    public function userActivate(User $user): User
     {
         $user->email_verified_at = now();
+        $user->status = 'active';
         $user->activation_token = '';
         $user->save();
         return $user;
@@ -99,22 +101,21 @@ class AuthRepository
 
     public function confirm(array $data)
     {
-        $passwordReset = PasswordReset::where(['token' => $data['token'], 'email' => $data['email']])->first();
+        $passwordReset = PasswordReset::where(['token' => $data['token']])->first();
 
         if (!isset($passwordReset)) {
             return null;
         }
-
-        $passwordReset->delete();
+        $passwordReset->where('token', $data['token'])->delete();
 
         return $passwordReset->user()->update([
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
         ]);
     }
 
     public function validateTokenAndGetUser(string $token)
     {
-        $passwordReset = PasswordReset::where(['token' => $token])->first();
+        $passwordReset = PasswordReset::with('user')->where(['token' => $token])->first();
         if (!isset($passwordReset) || ($passwordReset->created_at->diffInMinutes(\Carbon\Carbon::now()) > 30)) {
             return null;
         }

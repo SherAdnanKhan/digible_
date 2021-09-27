@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PasswordReset extends Model
 {
-    use HasFactory;
+ use HasFactory;
 
-    protected $fillable = [
-        'email',
-        'token',
-    ];
+ protected $guarded = [
+    'created_at'
+];
+ public function user()
+ {
+    return $this->belongsTo(User::class,'email','email');
+ }
 }

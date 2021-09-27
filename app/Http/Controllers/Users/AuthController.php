@@ -14,21 +14,21 @@ use App\Http\Transformers\Users\UserTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
     /**
      * @var AuthService
      */
-    private AuthService $service;
+    private $service;
 
     /**
      * @var UserTransformer
      */
-    private UserTransformer $transformer;
+    private $transformer;
 
     public function __construct(
         AuthService $service,
@@ -59,81 +59,26 @@ class AuthController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(
-     *                     property="first_name",
+     *                     property="name",
      *                     type="string",
      *                     example="John"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="last_name",
-     *                     type="string",
-     *                     example="Doe"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="username",
-     *                     type="string",
-     *                     example="johndoe"
      *                 ),
      *                 @OA\Property(
      *                     property="email",
      *                     type="string",
      *                     format="email",
-     *                     example="johndoe@gmail.com"
+     *                     example="admin@admin.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
      *                     format="password",
-     *                     example="I@86eik#"
+     *                     example="1234567"
      *                 ),
      *                 @OA\Property(
-     *                     property="phone",
+     *                     property="timezone",
      *                     type="string",
-     *                     example="1234567890"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address",
-     *                     type="string",
-     *                     example="130 Botley Road"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address2",
-     *                     type="string",
-     *                     example="Shore Street"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address3",
-     *                     type="string",
-     *                     example="Pier Road"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="county",
-     *                     type="string",
-     *                     example="Bristol"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="postcode",
-     *                     type="string",
-     *                     example="BS"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="city",
-     *                     type="string",
-     *                     example="Bristol"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="dob",
-     *                     type="date",
-     *                     example="1997-03-04"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="country_id",
-     *                     type="integer",
-     *                     example=1
-     *                 ),
-     *                 @OA\Property(
-     *                     property="hear_about_us_platform_id",
-     *                     type="integer",
-     *                     example=1
+     *                     example="Asia/Jerusalem"
      *                 ),
      *             )
      *         )
@@ -160,7 +105,7 @@ class AuthController extends Controller
      * @param UserStoreRequest $request
      * @return JsonResponse
      */
-    public function register(UserStoreRequest $request) : JsonResponse
+    public function register(UserStoreRequest $request): JsonResponse
     {
         $this->service->register($request->validated());
 
@@ -182,19 +127,19 @@ class AuthController extends Controller
      *                     property="email",
      *                     type="string",
      *                     format="email",
-     *                     example="john.doe@mail.com"
+     *                     example="admin@admin.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
      *                     format="password",
-     *                     example="red6six123"
+     *                     example="12345678"
      *                 ),
      *                 @OA\Property(
-     *                     property="remember_me",
-     *                     type="boolean",
-     *                     example=1
-     *                 )
+     *                     property="timezone",
+     *                     type="string",
+     *                     example="Asia/Jerusalem"
+     *                 ),
      *             )
      *         )
      *     ),
@@ -235,7 +180,7 @@ class AuthController extends Controller
      * @return JsonResponse
      * @throws ErrorException
      */
-    public function login(UserLoginRequest $request) : JsonResponse
+    public function login(UserLoginRequest $request): JsonResponse
     {
         if (!$token = $this->service->login($request->validated())) {
             throw new ErrorException('exception.invalid_credentials', [], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -273,7 +218,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function logout(Request $request) : JsonResponse
+    public function logout(Request $request): JsonResponse
     {
         $this->service->logout($request);
         return $this->success([], null, trans('messages.user_logout_success'));
@@ -283,13 +228,13 @@ class AuthController extends Controller
      * @param $token
      * @return RedirectResponse
      */
-    public function userActivate($token) : RedirectResponse
+    public function userActivate($token): RedirectResponse
     {
         $verified = $this->service->userActivate($token);
         if (!$verified) {
-            return Redirect::to(config('app.frontend').'/email/verify-failure');
+            return Redirect::to(config('app.frontend') . '/email/verify-failure');
         }
-        return Redirect::to(config('app.frontend').'/email/verify-success');
+        return Redirect::to(config('app.frontend') . '/email/verify-success');
     }
 
     public function forget(ForgetPasswordRequest $request)

@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    const STATUS_NEW = 'new';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DISABLED = 'disabled';
+
+    protected $guard_name = 'web';
 
     /**
      * @OA\Schema(
@@ -21,12 +28,7 @@ class User extends Authenticatable
      *         example=1
      *     ),
      *     @OA\Property(
-     *         property="first_name",
-     *         type="string",
-     *         example="John"
-     *     ),
-     *     @OA\Property(
-     *         property="last_name",
+     *         property="name",
      *         type="string",
      *         example="Doe"
      *     ),
@@ -34,7 +36,12 @@ class User extends Authenticatable
      *         property="email",
      *         type="string",
      *         format="email",
-     *         example="johndoe@gmail.com"
+     *         example="admin@admin.com"
+     *     ),
+     *     @OA\Property(
+     *         property="timezone",
+     *         type="string",
+     *         example="Asia/Jerusalem"
      *     ),
      *     @OA\Property(
      *         property="created_at",
@@ -56,11 +63,8 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'activation_token',
+    protected $guarded = [
+        'created_at',
     ];
 
     /**
@@ -71,6 +75,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at', 'updated_at',
     ];
 
     /**
@@ -81,4 +86,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class);
+    }
+
+    public function sellerProfile()
+    {
+        return $this->hasOne(SellerProfile::class);
+    }
+
+    public static function statuses(): array
+    {
+        return [
+            static::STATUS_NEW => "new",
+            static::STATUS_ACTIVE => "active",
+            static::STATUS_DISABLED => "disabled",
+        ];
+    }
+
+    public function favourites()
+    {
+        return $this->belongsToMany(CollectionItem::class, 'favourites', 'user_id', 'collection_item_id')->withTimeStamps();
+    }
 }

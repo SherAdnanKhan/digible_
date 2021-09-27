@@ -10,7 +10,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
        $this->app->bind(
            'App\Http\Repositories\Users\Interfaces\PaymentRepositoryInterface',
-           'App\Http\Repositories\Users\PaymentRepository'
+           'App\Http\Repositories\Users\WyreRepository'
        );
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentRequest;
 use App\Http\Services\Users\PaymentService;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -13,12 +14,12 @@ class PaymentController extends Controller
     {
         $this->paymentService = $paymentService ;
     }
-        public function store(Request $request)
+        public function store(PaymentRequest $request)
     {
         /**
          * adding dummy data for just now in $endPoint, $method, $param variable when get api credentials replace these with...
          */
-        $result = $this->paymentService->paymentMethodAuthentication($request, WYRE_AUTH_URL, METHOD, PARAM) ;
+        $result = $this->paymentService->paymentMethodAuthentication($request->validated(), Transaction::WYRE_AUTH_URL, Transaction::METHOD, Transaction::PARAM) ;
        /**
         * above method store all data that received and below code return success message to user...
         */

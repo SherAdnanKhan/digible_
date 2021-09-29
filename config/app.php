@@ -60,6 +60,8 @@ return [
 
     'client_url' => 'http://localhost:8000/api',
 
+    'tax' => 10,
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

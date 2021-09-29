@@ -27,5 +27,6 @@ return [
     'old_password_mismatch' => 'Old password is incorrect!',
     'cannot_delete_record' => 'You cannot delete this record. User exists against this HearAboutUsPlatform',
     'observer_listen_not_found' => 'Missing listen variable against observer!',
+    'total_is_negative' => "Total cant be less than zero",
     
 ];

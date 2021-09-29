@@ -508,6 +508,10 @@
                                         "type": "string",
                                         "example": "Pokeman"
                                     },
+                                    "price": {
+                                        "type": "double",
+                                        "example": 10
+                                    },
                                     "status": {
                                         "type": "string",
                                         "example": "pending"
@@ -680,6 +684,10 @@
                                     "population": {
                                         "type": "string",
                                         "example": "4"
+                                    },
+                                    "price": {
+                                        "type": "double",
+                                        "example": 10
                                     },
                                     "publisher": {
                                         "type": "string",
@@ -1151,9 +1159,9 @@
                                         "format": "password",
                                         "example": "1234567"
                                     },
-                                    "county": {
+                                    "timezone": {
                                         "type": "string",
-                                        "example": "Bristol"
+                                        "example": "Asia/Jerusalem"
                                     }
                                 },
                                 "type": "object"
@@ -1207,9 +1215,9 @@
                                         "format": "password",
                                         "example": "12345678"
                                     },
-                                    "country": {
+                                    "timezone": {
                                         "type": "string",
-                                        "example": "Japan"
+                                        "example": "Asia/Jerusalem"
                                     }
                                 },
                                 "type": "object"
@@ -1624,6 +1632,10 @@
                         "type": "boolean",
                         "example": "true"
                     },
+                    "price": {
+                        "type": "double",
+                        "example": 10
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time",
@@ -1693,9 +1705,9 @@
                         "format": "email",
                         "example": "admin@admin.com"
                     },
-                    "country": {
+                    "timezone": {
                         "type": "string",
-                        "example": "Japan"
+                        "example": "Asia/Jerusalem"
                     },
                     "created_at": {
                         "type": "string",

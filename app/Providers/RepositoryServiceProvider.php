@@ -8,9 +8,5 @@ class RepositoryServiceProvider extends ServiceProvider
 {
     public function register()
     {
-       $this->app->bind(
-           'App\Http\Repositories\Users\Interfaces\PaymentRepositoryInterface',
-           'App\Http\Repositories\Users\WyreService'
-       );
     }
 }

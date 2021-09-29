@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionsTable extends Migration
+class CreateCollectionItemOrderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,12 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+        Schema::create('collection_item_order', function (Blueprint $table) {
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->unsignedBigInteger('collection_item_id');
             $table->foreign('collection_item_id')->references('id')->on('collection_items')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('payment_id');
-            $table->float('amount') ;
-            $table->integer('quantity') ;
-            $table->float('currency') ;
-            $table->timestamps();
+            $table->unsignedBigInteger('quantity')->default(1);
         });
     }
 
@@ -34,6 +29,6 @@ class CreateTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('collection_item_order');
     }
 }

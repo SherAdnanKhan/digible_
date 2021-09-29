@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Http;
 use App\Exceptions\ErrorException;
 use App\Http\Transformers\Responses\ApiResponder;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Http\Response;
 abstract class HttpHandler
 {
     use ApiResponder;

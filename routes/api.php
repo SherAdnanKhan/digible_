@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
-use App\Http\Controllers\API\V1\Admin\CommentAdminController;
-use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
-use App\Http\Controllers\API\V1\Admin\UserAdminController;
-use App\Http\Controllers\API\V1\Collections\CollectionController;
-use App\Http\Controllers\API\V1\Collections\CollectionItemController;
-use App\Http\Controllers\API\V1\Collections\ItemTypeController;
-use App\Http\Controllers\API\V1\CommentController;
-use App\Http\Controllers\API\V1\FavouriteController;
-use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
-use App\Http\Controllers\API\V1\Seller\SellerRequestController;
-use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\OrderController;
+use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\FavouriteController;
+use App\Http\Controllers\API\V1\Admin\UserAdminController;
+use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
+use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
+use App\Http\Controllers\API\V1\Collections\CollectionController;
+use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
+use App\Http\Controllers\API\V1\Buyer\CollectionItemBuyerController;
+use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,14 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         });
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::resource('collections', CollectionController::class);
+        Route::get('collection-items', [CollectionItemBuyerController::class, 'index']);
+
+        Route::group(['prefix' => 'orders'], function () {
+            Route::post('/checkout', [OrderController::class, 'store']);
+            Route::put('{order}/complete', [OrderController::class, 'update']);
+            Route::get('/details', [OrderController::class, 'index']);
+        });
+
     });
 
     Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {
@@ -95,7 +104,4 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         });
 
     });
-
-    Route::get('collection-item/sales/details', [PaymentController::class, 'salesDetails']);
 });
-    Route::post('collection-item/buy', [PaymentController::class, 'store']);

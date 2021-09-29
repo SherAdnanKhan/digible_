@@ -42,6 +42,8 @@ return [
     'Comment_delete_success' => 'Comment request deleted successfully',
     'comment_approved_success' => 'Comment approved successfully',
     'comment_reply_create_success' => 'Comment replied successfully',
+    'order_create_success' => 'Order request created successfully',
+    'order_create_failed' => 'One of order creation failed',
     'comment_not_exist' => 'Comment does not exist or not approved by admin',
     'collection_item_favourite_success' => 'Collection item favourited successfully',
     'collection_item_unfavourite_success' => 'Collection item unfavourited successfully',

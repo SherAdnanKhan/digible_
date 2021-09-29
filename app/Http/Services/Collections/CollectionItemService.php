@@ -32,6 +32,13 @@ class CollectionItemService extends BaseService
         return $this->imageService->paginate($result);
     }
 
+    public function afsAll()
+    {
+        Log::info(__METHOD__ . " -- Collection item data that are available for sale fetched all: ");
+        $result = $this->repository->afsAll();
+        return $this->imageService->paginate($result);
+    }
+
     public function save(Collection $collection, array $data): void
     {
         try {

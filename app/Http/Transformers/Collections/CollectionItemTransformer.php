@@ -29,6 +29,7 @@ class CollectionItemTransformer extends BaseTransformer
             'edition' => $collectionItem->edition,
             'graded' => $collectionItem->graded,
             'year' => $collectionItem->year,
+            'price' => $collectionItem->price,
             'population' => $collectionItem->population,
             'publisher' => $collectionItem->publisher,
             'status' => $collectionItem->status,

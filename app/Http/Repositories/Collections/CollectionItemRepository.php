@@ -20,6 +20,15 @@ class CollectionItemRepository
         return $collectionItems;
     }
 
+    public function afsAll()
+    {
+        $collectionItems = QueryBuilder::for(new CollectionItem)
+                ->where('available_for_sale', true)
+                ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
+                    AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();
+        return $collectionItems;
+    }
+
     public function save(Collection $collection, array $data): void
     {
         $collection->collectionitems()->create($data);

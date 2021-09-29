@@ -99,6 +99,11 @@ class CollectionItem extends Model
      *         example="true"
      *     ),
      *     @OA\Property(
+     *         property="price",
+     *         type="double",
+     *         example=10
+     *     ),
+     *     @OA\Property(
      *         property="created_at",
      *         type="string",
      *         format="date-time",

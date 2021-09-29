@@ -31,11 +31,12 @@ class CollectionItemUpdateRequest extends FormRequest
             'status' => ['string', 'max:255', Rule::in(array_keys(CollectionItem::statuses()))],
             'description' => ['string', 'max:255'],
             'edition' => ['string', 'max:255'],
+            'price' => 'numeric|gte:0',
             'graded' => ['string', 'max:255'],
             'year' => ['string', 'max:255'],
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
-             'available_for_sale' => 'boolean',
+            'available_for_sale' => 'boolean',
         ];
     }
 }

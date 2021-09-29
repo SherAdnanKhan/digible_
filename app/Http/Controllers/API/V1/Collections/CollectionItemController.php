@@ -239,6 +239,11 @@ class CollectionItemController extends Controller
      *                     example="Pokeman"
      *                 ),
      *                 @OA\Property(
+     *                     property="price",
+     *                     type="double",
+     *                     example=10
+     *                 ),
+     *                 @OA\Property(
      *                     property="status",
      *                     type="string",
      *                     example="pending"
@@ -404,6 +409,11 @@ class CollectionItemController extends Controller
      *                     property="population",
      *                     type="string",
      *                     example="4"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="price",
+     *                     type="double",
+     *                     example=10
      *                 ),
      *                 @OA\Property(
      *                     property="publisher",

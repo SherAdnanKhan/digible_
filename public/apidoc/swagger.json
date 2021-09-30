@@ -12,6 +12,105 @@
     ],
     "paths": {
         "/": {},
+        "/api/admin/orders/": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Store",
+                "description": "Get orders",
+                "operationId": "GetOrder",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/collections": {
             "get": {
                 "tags": [
@@ -444,9 +543,7 @@
                         "bearerAuth": []
                     }
                 ]
-            }
-        },
-        "/api/collections/{collection}/collection-items/{}": {
+            },
             "post": {
                 "tags": [
                     "Collection Items"
@@ -1119,6 +1216,92 @@
                 ]
             }
         },
+        "/api/orders/checkout": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Store",
+                "description": "Store orders",
+                "operationId": "StoreOrder",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "authenication": {
+                                        "properties": {
+                                            "api_key": {
+                                                "type": "string",
+                                                "default": 1,
+                                                "example": "Key123"
+                                            },
+                                            "api_pass": {
+                                                "type": "string",
+                                                "default": 1,
+                                                "example": "pass123"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "collection_item_id": {
+                                                    "type": "string",
+                                                    "example": 1
+                                                },
+                                                "quantity": {
+                                                    "type": "string",
+                                                    "example": 5
+                                                },
+                                                "discount": {
+                                                    "type": "string",
+                                                    "example": 2
+                                                },
+                                                "currency": {
+                                                    "type": "number",
+                                                    "example": "USD"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -1214,10 +1397,6 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "12345678"
-                                    },
-                                    "timezone": {
-                                        "type": "string",
-                                        "example": "Asia/Jerusalem"
                                     }
                                 },
                                 "type": "object"
@@ -1663,6 +1842,37 @@
                 },
                 "type": "object"
             },
+            "CollectionItemOrder": {
+                "properties": {
+                    "order_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "collection_item_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "order": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        ]
+                    },
+                    "collectionItem": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/CollectionItem"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
             "CollectionItemType": {
                 "properties": {
                     "id": {
@@ -1686,6 +1896,128 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "22020-10-21T09:33:59.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ref_id": {
+                        "type": "string",
+                        "example": "ORD-UtbRQMbX9I6rxuG"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "discount": {
+                        "type": "double",
+                        "example": 4
+                    },
+                    "subtotal": {
+                        "type": "double",
+                        "example": 10
+                    },
+                    "tax": {
+                        "type": "double",
+                        "example": 2
+                    },
+                    "total": {
+                        "type": "double",
+                        "example": 6
+                    },
+                    "status": {
+                        "type": "binary",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "user": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "transactions": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OrderTransaction"
+                            }
+                        ]
+                    },
+                    "orderDetails": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/CollectionItemOrder"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "OrderTransaction": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "payment_id": {
+                        "type": "string",
+                        "example": "44"
+                    },
+                    "transaction_type": {
+                        "type": "binary",
+                        "example": 1
+                    },
+                    "transaction_number": {
+                        "type": "string",
+                        "example": "sjd822"
+                    },
+                    "status": {
+                        "type": "binary",
+                        "example": 2
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "USD"
+                    },
+                    "total": {
+                        "type": "double",
+                        "example": 6
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "order": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        ]
                     }
                 },
                 "type": "object"

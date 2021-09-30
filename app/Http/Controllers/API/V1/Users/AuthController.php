@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\API\V1\Users;
 
 use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
@@ -134,11 +134,6 @@ class AuthController extends Controller
      *                     type="string",
      *                     format="password",
      *                     example="12345678"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="timezone",
-     *                     type="string",
-     *                     example="Asia/Jerusalem"
      *                 ),
      *             )
      *         )

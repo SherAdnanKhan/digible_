@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Custom\Observers\Auth;
+namespace App\Custom\Observers\Subscribers;
 
 use App\Custom\Observers\BaseObserver;
 

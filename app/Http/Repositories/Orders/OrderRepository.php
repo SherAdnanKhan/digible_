@@ -17,4 +17,8 @@ class OrderRepository
         $order->update(['order_status' => Order::COMPLETED]);
     }
 
+    public function getall()
+    {
+        return Order::with('user','transactions', 'orderDetails' , 'orderDetails.collectionitem')->get();
+    }
 }

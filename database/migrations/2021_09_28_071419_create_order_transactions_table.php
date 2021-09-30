@@ -20,7 +20,7 @@ class CreateOrderTransactionsTable extends Migration
             $table->string('payment_id')->nullable();
             $table->unsignedTinyInteger('transaction_type')->nullable();
             $table->string('transaction_number')->nullable();
-            $table->string('status')->nullable();
+            $table->unsignedTinyInteger('status')->nullable();
             $table->string('currency')->default('USD');
             $table->double('total')->default(0.00);
             $table->timestamps();

@@ -174,7 +174,7 @@ class CollectionItemController extends Controller
     }
 
     /** @OA\Post(
-     *     path="/api/collections/{collection}/collection-items/{}",
+     *     path="/api/collections/{collection}/collection-items/",
      *     description="Store Collection Item",
      *     summary="Store",
      *     operationId="StoreCollectionItem",

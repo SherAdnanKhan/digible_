@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 use InvalidArgumentException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 

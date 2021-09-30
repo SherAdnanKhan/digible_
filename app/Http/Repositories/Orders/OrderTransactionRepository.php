@@ -30,8 +30,4 @@ class OrderTransactionRepository
         ]);
     }
 
-    public function salesDetails()
-    {
-        return OrderTransaction::with('transaction', 'collectionItem')->get();
-    }
 }

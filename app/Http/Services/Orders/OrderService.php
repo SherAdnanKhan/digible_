@@ -12,6 +12,7 @@ use App\Models\CollectionItem;
 use App\Models\Order;
 use App\Models\OrderTransaction;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -60,15 +61,19 @@ class OrderService extends BaseService
                 $item['transaction_type'] = OrderTransaction::DEBIT;
 
                 $response = $this->paymentGateService->transaction($total, $data['authenication']);
-
+                $emailData['item'] = $collectionItem;
+                $emailData['order'] = $order;
                 if ($response) {
                     $this->orderTransactionRepository->success($order, $item, $response);
                     $collectionItem->update(['available_for_sale' => 0]);
+                    Event::dispatch('orders.success', [$emailData]);
                 } else {
                     $this->orderTransactionRepository->failed($order, $item, $response);
+                    Event::dispatch('orders.failed', [$emailData]);
                 }
+            } else {
+                return false;
             }
-            return false;
         }
         return true;
     }
@@ -84,10 +89,11 @@ class OrderService extends BaseService
         }
     }
 
-    public function salesDetails()
+    public function getall()
     {
         Log::info(__METHOD__ . " -- transaction data all fetched: ");
-        return $this->orderTransactionRepository->salesDetails();
+        $result = $this->orderRepository->getall();
+        return $this->paymentGateService->paginate($result);
     }
 
 }

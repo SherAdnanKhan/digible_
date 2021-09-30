@@ -13,6 +13,7 @@ class SellerProfileAdminController extends Controller
 {
     protected $service;
 
+    
     public function __construct(SellerRequestService $service)
     {
         $this->service = $service;

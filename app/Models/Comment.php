@@ -15,6 +15,71 @@ class Comment extends Model
 
     protected $guarded = ['created_at'];
 
+    /**
+     * @OA\Schema(
+     *     schema="Comment",
+     *     @OA\Property(
+     *         property="id",
+     *         type="integer",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="user_id",
+     *         type="integer",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="parent_id",
+     *         type="integer",
+     *         example=null
+     *     ),
+     *     @OA\Property(
+     *         property="comment",
+     *         type="string",
+     *         example="I like this collection"
+     *     ),
+     *     @OA\Property(
+     *         property="commentable_id",
+     *         type="integer",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="commentable_type",
+     *         type="string",
+     *         example="App\Models\Collection"
+     *     ),
+     *     @OA\Property(
+     *         property="status",
+     *         type="string",
+     *         example="pending/approved"
+     *     ),
+     *     @OA\Property(
+     *         property="created_at",
+     *         type="string",
+     *         format="date-time",
+     *         example="2020-10-21T09:33:59.000000Z"
+     *     ),
+     *     @OA\Property(
+     *         property="updated_at",
+     *         type="string",
+     *         format="date-time",
+     *         example="22020-10-21T09:33:59.000000Z"
+     *     ),
+     *     @OA\Property(
+     *         property="user",
+     *         allOf={
+     *             @OA\Schema(ref="#/components/schemas/User")
+     *         }
+     *     ),
+     *     @OA\Property(
+     *         property="commentable",
+     *         allOf={
+     *             @OA\Schema(ref="#/components/schemas/Collection")
+     *         }
+     *     ),
+     * )
+     */
+
     public function user()
     {
         return $this->belongsTo(User::class);

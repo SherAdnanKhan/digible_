@@ -90,13 +90,13 @@ class CollectionItem extends Model
      *         @OA\Property(
      *             property="name",
      *             type="string",
-     *             example="pending"
+     *             example="pending/approved"
      *         )
      *     ),
      *     @OA\Property(
      *         property="available_for_sale",
      *         type="boolean",
-     *         example="true"
+     *         example=1
      *     ),
      *     @OA\Property(
      *         property="price",

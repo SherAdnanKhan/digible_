@@ -8,26 +8,17 @@ use App\Http\Transformers\Constants\ConstantTransformer;
 
 class ReplyTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = ['status'];
 
     public function transform($comment)
     {
         return [
-            'id' => $comment->id,
-            'comment' => $comment->comment,
-            'status' => $comment->status,
-            'created_at' => $comment->created_at,
-            'updated_at' => $comment->updated_at,
+            'id' => $comment['id'],
+            'comment' => $comment['comment'],
+            'user_id' => $comment['user_id'],
+            'parent_id' => $comment['parent_id'],
+            'status' => $comment['status'],
+            'created_at' => $comment['created_at'],
+            'updated_at' => $comment['updated_at'],
         ];
-    }
-
-    public function includeStatus(Comment $comment)
-    {
-        $item = [
-            'id' => $comment->id,
-            'name' => data_get(Comment::statuses(), $comment->status),
-        ];
-
-        return $this->item($item, new ConstantTransformer);
     }
 }

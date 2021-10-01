@@ -8,14 +8,15 @@ use App\Models\Comment;
 
 class CommentTransformer extends BaseTransformer
 {
-    protected $defaultIncludes = ['status','replies'];
-    protected $availableIncludes = ['user'];
+    protected $defaultIncludes = ['status', 'parent', 'user'];
 
     public function transform(Comment $comment)
     {
         return [
             'id' => $comment->id,
             'comment' => $comment->comment,
+            'user_id' => $comment->parent_id,
+            'parent_id' => $comment->parent_id,
             'status' => $comment->status,
             'created_at' => $comment->created_at,
             'updated_at' => $comment->updated_at,
@@ -38,12 +39,15 @@ class CommentTransformer extends BaseTransformer
         return $this->item($item, new ConstantTransformer);
     }
 
-    public function includeReplies(Comment $comment)
+    public function includeParent(Comment $comment)
     {
-        $replies = $comment->replies;
-        
-        return $this->collection($replies, new ReplyTransformer);
-        
+        $parent = Comment::find($comment->parent_id);
+        if ($parent) {
+            $parent = $parent->toArray();
+            return $this->collection([$parent], new ReplyTransformer);
+        }
+        return;
+
     }
 
 }

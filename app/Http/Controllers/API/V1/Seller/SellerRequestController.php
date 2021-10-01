@@ -21,12 +21,83 @@ class SellerRequestController extends Controller
         $this->transformer = $transformer;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+    /** @OA\Post(
+     *     path="/api/users/seller-verify-request",
+     *     description="Store seller data",
+     *     summary="Seller data store",
+     *     operationId="StoreSellerData",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Sellers"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *               @OA\Property(
+     *                   property="surname",
+     *                   type="string",
+     *                   example="ben"
+     *               ),
+     *               @OA\Property(
+     *                   property="wallet_address",
+     *                   type="string",
+     *                   example="0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
+     *               ),
+     *               @OA\Property(
+     *                   property="physical_address",
+     *                   type="string",
+     *                   example="3th Street. 47 W 13th St, New York"
+     *               ),
+     *               @OA\Property(
+     *                   property="phone_no",
+     *                   type="string",
+     *                   example="+1-202-555-0180"
+     *               ),
+     *               @OA\Property(
+     *                   property="twitter_link",
+     *                   type="string",
+     *                   example="https: //twitter.com/digible"
+     *               ),
+     *               @OA\Property(
+     *                   property="insta_link",
+     *                   type="string",
+     *                   example="https: //www.instagram.com/digible"
+     *               ),
+     *               @OA\Property(
+     *                   property="twitch_link",
+     *                   type="string",
+     *                   example="https: //www.twitch.tv/digible"
+     *               ),
+     *               @OA\Property(
+     *                   property="type",
+     *                   type="string",
+     *                   example="individual"
+     *               ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Seller request created successfully"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     example="[]"
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @param SellerProfile $sellerProfile
+     * @return JsonResponse
      */
+
     public function store(CreateRequest $request): JsonResponse
     {
         $user = auth()->user();

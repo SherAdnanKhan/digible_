@@ -63,6 +63,7 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+    
     protected $guarded = [
         'created_at',
     ];

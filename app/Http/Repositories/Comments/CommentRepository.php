@@ -9,12 +9,12 @@ class CommentRepository
 {
     public function getPending()
     {
-        return Comment::where(['status' => 'pending'])->with('commentable')->get();
+        return Comment::where(['status' => 'pending'])->with('user')->get();
     }
 
     public function getApproved()
     {
-        return Comment::where(['status' => 'approved'])->with('commentable')->get();
+        return Comment::where(['status' => 'approved'])->with('user')->get();
     }
 
     public function get(Comment $comment)

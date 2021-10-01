@@ -46,7 +46,7 @@ class Collection extends Model
      *         @OA\Property(
      *             property="name",
      *             type="string",
-     *             example="pending"
+     *             example="pending/approved"
      *         )
      *     ),
      *     @OA\Property(

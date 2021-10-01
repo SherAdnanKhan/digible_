@@ -241,7 +241,7 @@ class CommentController extends Controller
      *         required=true,
      *         name="comment",
      *         parameter="comment",
-     *         example=1
+     *         example=1 
      *     ),
      *     @OA\RequestBody(
      *         @OA\MediaType(

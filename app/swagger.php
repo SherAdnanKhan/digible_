@@ -6,7 +6,7 @@
  *         description="<h1>Description</h1>",
  * ),
  *
- * @OA\Server(url="http://127.0.0.1:8000"),
+ * @OA\Server(url=API_PATH),
  *
  * @OA\PathItem(
  *     path="/"

@@ -14,7 +14,7 @@ class CollectionBuyerController extends Controller
         $this->service = $service;
     }
     /** @OA\Get(
-     *     path="/api/collections",
+     *     path="/api/collection",
      *     description="Get Collections",
      *     summary="Get all",
      *     operationId="getCollections",

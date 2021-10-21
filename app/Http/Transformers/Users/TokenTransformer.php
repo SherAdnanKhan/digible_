@@ -14,7 +14,6 @@ class TokenTransformer extends BaseTransformer
         return [
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
-            'is_admin' => Auth::user()->is_admin,
             'expires_at' => $token->token->expires_at
         ];
     }

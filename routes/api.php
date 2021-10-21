@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
-use App\Http\Controllers\API\V1\Admin\CommentAdminController;
-use App\Http\Controllers\API\V1\Admin\OrderAdminController;
-use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
-use App\Http\Controllers\API\V1\Admin\UserAdminController;
-use App\Http\Controllers\API\V1\Buyer\CollectionItemBuyerController;
-use App\Http\Controllers\API\V1\Collections\CollectionController;
-use App\Http\Controllers\API\V1\Collections\CollectionItemController;
-use App\Http\Controllers\API\V1\Collections\ItemTypeController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\OrderController;
 use App\Http\Controllers\API\V1\CommentController;
 use App\Http\Controllers\API\V1\FavouriteController;
-use App\Http\Controllers\API\V1\OrderController;
-use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
-use App\Http\Controllers\API\V1\Seller\SellerRequestController;
 use App\Http\Controllers\API\V1\Users\AuthController;
 use App\Http\Controllers\API\V1\Users\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\Admin\UserAdminController;
+use App\Http\Controllers\API\V1\Admin\OrderAdminController;
+use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
+use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
+use App\Http\Controllers\API\V1\Buyer\CollectionBuyerController;
+use App\Http\Controllers\API\V1\Collections\CollectionController;
+use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
+use App\Http\Controllers\API\V1\Buyer\CollectionItemBuyerController;
+use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,10 @@ use Illuminate\Support\Facades\Route;
 /*
  * AUTH ROUTES
  */
+
+Route::get('collection-items', [CollectionItemBuyerController::class, 'index']);
+Route::get('collection', [CollectionBuyerController::class, 'index']);
+
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login'])->name('login');
@@ -103,7 +108,6 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::resource('collections', CollectionController::class);
-        Route::get('collection-items', [CollectionItemBuyerController::class, 'index']);
 
         Route::group(['prefix' => 'collections/{collection}'], function () {
             Route::resource('collection-items', CollectionItemController::class);
@@ -113,8 +117,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/checkout', [OrderController::class, 'store']);
+            Route::get('/pending', [OrderController::class, 'index']);
             Route::put('{order}/complete', [OrderController::class, 'update']);
-            Route::get('/details', [OrderController::class, 'index']);
         });
 
     });

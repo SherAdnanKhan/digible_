@@ -45,15 +45,6 @@ class AuthController extends Controller
      *     summary="Register",
      *     operationId="register",
      *     tags={"Auth"},
-     *     @OA\Parameter(
-     *         @OA\Schema(type="string"),
-     *         in="query",
-     *         allowReserved=true,
-     *         required=false,
-     *         name="ic",
-     *         parameter="ic",
-     *         example="91ec1a37-ce28-4f73-bb9c-06460f8f801d"
-     *     ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",

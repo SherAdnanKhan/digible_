@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([RolesAndPermissions::class]);
         $this->call([AdminSeeder::class]);
         $this->call([UserSeeder::class]);
+        $this->call([SellerSeeder::class]);
         $this->call([ItemTypeSeeder::class]);
     }
 }

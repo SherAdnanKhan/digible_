@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class UserSeeder extends Seeder
+class SellerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::where('name', 'user')->first();
+        $user = User::where('name', 'seller')->first();
         if (!$user) {
-            $user = User::create(['name' => 'user', 'email' => 'user@gmail.com',
+            $user = User::create(['name' => 'seller', 'email' => 'seller@gmail.com',
                 'password' => Hash::make('12345678'), 'timezone' => config('app.timezone'),
                 'email_verified_at' => now()]);
         }
-        $user->assignRole('user');
+        $user->assignRole('seller');
 
     }
 }

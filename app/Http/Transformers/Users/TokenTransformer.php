@@ -14,6 +14,7 @@ class TokenTransformer extends BaseTransformer
         return [
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
+            'role' => Auth::user()->roles->pluck('name'),
             'expires_at' => $token->token->expires_at
         ];
     }

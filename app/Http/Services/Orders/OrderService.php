@@ -32,6 +32,13 @@ class OrderService extends BaseService
         $this->orderTransactionRepository = $orderTransactionRepository;
     }
 
+    public function getPendings()
+    {
+        Log::info(__METHOD__ . " --pending transaction data all fetched: ");
+        $result = $this->orderRepository->getPendings();
+        return $this->paymentGateService->paginate($result);
+    }
+
     public function create(array $data)
     {
         $items = $data['items'];

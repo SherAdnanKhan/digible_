@@ -14,7 +14,7 @@ class TokenTransformer extends BaseTransformer
         return [
             'id' => Auth::user()->id,
             'email' => Auth::user()->email,
-            'role' => Auth::user()->roles()->first()->name,
+            'role' => Auth::user()->roles->pluck('name'),
             'name' => Auth::user()->name,
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',

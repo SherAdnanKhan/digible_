@@ -12,11 +12,12 @@ class TokenTransformer extends BaseTransformer
     public function transform($token)
     {
         return [
+            'id' => Auth::user()->id,
+            'email' => Auth::user()->email,
+            'role' => Auth::user()->roles()->first()->name,
+            'name' => Auth::user()->name,
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
-            'role' => Auth::user()->roles->pluck('name'),
-            'name' => Auth::user()->name,
-            'email' => Auth::user()->email,
             'expires_at' => $token->token->expires_at
         ];
     }

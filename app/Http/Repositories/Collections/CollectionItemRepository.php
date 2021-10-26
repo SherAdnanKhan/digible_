@@ -24,9 +24,20 @@ class CollectionItemRepository
     {
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->where('available_for_sale', true)
+                ->where('status', CollectionItem::STATUS_APPROVED)
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
                     AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();
         return $collectionItems;
+    }
+
+    public function getPending()
+    {
+        return CollectionItem::where(['status' => CollectionItem::STATUS_PENDING])->with('collection.user', 'collectionItemType')->get();
+    }
+
+    public function getApproved()
+    {
+        return CollectionItem::where(['status' => CollectionItem::STATUS_APPROVED])->with('collection.user', 'collectionItemType')->get();
     }
 
     public function save(Collection $collection, array $data): void

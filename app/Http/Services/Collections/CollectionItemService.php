@@ -1,18 +1,17 @@
 <?php
 namespace App\Http\Services\Collections;
 
-use Exception;
-use Carbon\Carbon;
-use App\Models\Favourite;
-use App\Models\Collection;
-use Illuminate\Support\Arr;
-use App\Models\CollectionItem;
 use App\Exceptions\ErrorException;
-use App\Http\Services\BaseService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Event;
-use App\Http\Services\Images\ImageService;
 use App\Http\Repositories\Collections\CollectionItemRepository;
+use App\Http\Services\BaseService;
+use App\Http\Services\Images\ImageService;
+use App\Models\Collection;
+use App\Models\CollectionItem;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 class CollectionItemService extends BaseService
 {
@@ -36,6 +35,20 @@ class CollectionItemService extends BaseService
     {
         Log::info(__METHOD__ . " -- Collection item data that are available for sale fetched all: ");
         $result = $this->repository->afsAll();
+        return $this->imageService->paginate($result);
+    }
+
+    public function getPending()
+    {
+        Log::info(__METHOD__ . " -- Pending Collection Item data all fetched: ");
+        $result = $this->repository->getPending();
+        return $this->imageService->paginate($result);
+    }
+
+    public function getApproved()
+    {
+        Log::info(__METHOD__ . " -- Approved Collection Item data all fetched: ");
+        $result = $this->repository->getApproved();
         return $this->imageService->paginate($result);
     }
 

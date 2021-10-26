@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers\API\V1\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Collections\Admin\CollectionUpdateRequest;
-use App\Http\Services\Collections\CollectionService;
-use App\Models\Collection;
+use Illuminate\Http\Request;
+use App\Models\CollectionItem;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Collections\CollectionItemService;
+use App\Http\Requests\Collections\Admin\CollectionItemUpdateRequest;
 
-class CollectionAdminController extends Controller
+class CollectionItemAdminController extends Controller
 {
     protected $service;
 
-    public function __construct(CollectionService $service)
+    public function __construct(CollectionItemService $service)
     {
         $this->service = $service;
     }
 
     /** @OA\Get(
-     *     path="/api/admin/collections/pending",
-     *     description="Get Pending Collections ",
-     *     summary="Get all pending collections",
-     *     operationId="getPendingCollections",
+     *     path="/api/admin/collection-items/pending",
+     *     description="Get Pending collection items ",
+     *     summary="Get all pending collection items",
+     *     operationId="getPendingCollectionItems",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Collections"},
+     *     tags={"Collection Items"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -38,7 +39,7 @@ class CollectionAdminController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     type="array",
-     *                     @OA\Items(ref="#/components/schemas/Collection")
+     *                     @OA\Items(ref="#/components/schemas/CollectionItem")
      *                  ),
      *                  @OA\Property(
      *                         property="first_page_url",
@@ -149,7 +150,7 @@ class CollectionAdminController extends Controller
      *             )
      *     )
      * )
-     * @param Collection $collection
+     * @param CollectionItem $collectionItem
      * @return JsonResponse
      */
 
@@ -159,19 +160,19 @@ class CollectionAdminController extends Controller
     }
 
     /** @OA\Put(
-     *     path="/api/admin/collections/action/{collection}",
-     *     description="Approved or Reject Collection",
-     *     summary="Collection approve/reject",
-     *     operationId="actionCollection",
+     *     path="/api/admin/collection-items/action/{collectionItem}",
+     *     description="Approved or Reject Collection Item",
+     *     summary="Collection Item approve/reject",
+     *     operationId="actionCollectionItem",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Collections"},
+     *     tags={"Collection Items"},
      *     @OA\Parameter(
      *         @OA\Schema(type="integer"),
      *         in="path",
      *         allowReserved=true,
      *         required=true,
-     *         name="collection",
-     *         parameter="collection",
+     *         name="collectionItem",
+     *         parameter="collectionItem",
      *         example=1
      *     ),
      *     @OA\RequestBody(
@@ -195,7 +196,7 @@ class CollectionAdminController extends Controller
      *                  @OA\Property(
      *                     property="message",
      *                     type="string",
-     *                     example="Collection updated successfully"
+     *                     example="Collection Item updated successfully"
      *                 ),
      *                  @OA\Property(
      *                     property="data",
@@ -205,23 +206,23 @@ class CollectionAdminController extends Controller
      *         )
      *     )
      * )
-     * @param Collection $collection
+     * @param CollectionItem $collectionItem
      * @return Json
      */
 
-    public function update(CollectionUpdateRequest $request, Collection $collection): JsonResponse
+    public function update(CollectionItemUpdateRequest $request, CollectionItem $collectionItem): JsonResponse
     {
-        $collection->update($request->validated());
+        $collectionItem->update($request->validated());
         return $this->success([], null, trans('messages.collection_update_success'));
     }
 
     /** @OA\Get(
-     *     path="/api/admin/collections/approved",
-     *     description="Get Approved Collections ",
-     *     summary="Get all approved collections",
-     *     operationId="getApprovedCollections",
+     *     path="/api/admin/collection-items/approved",
+     *     description="Get Approved Collection items ",
+     *     summary="Get all aproved collection items",
+     *     operationId="getApprovedCollectionItems",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Collections"},
+     *     tags={"Collection Items"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -236,7 +237,7 @@ class CollectionAdminController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     type="array",
-     *                     @OA\Items(ref="#/components/schemas/Collection")
+     *                     @OA\Items(ref="#/components/schemas/CollectionItem")
      *                  ),
      *                  @OA\Property(
      *                         property="first_page_url",
@@ -347,7 +348,7 @@ class CollectionAdminController extends Controller
      *             )
      *     )
      * )
-     * @param Collection $collection
+     * @param CollectionItem $collectionItem
      * @return JsonResponse
      */
 

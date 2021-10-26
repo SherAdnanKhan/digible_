@@ -9,12 +9,14 @@ use App\Http\Controllers\API\V1\Users\UserController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Admin\OrderAdminController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Buyer\ItemTypeBuyerController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
 use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
 use App\Http\Controllers\API\V1\Buyer\CollectionBuyerController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;
 use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
+use App\Http\Controllers\API\V1\Admin\CollectionItemAdminController;
 use App\Http\Controllers\API\V1\Buyer\CollectionItemBuyerController;
 use App\Http\Controllers\API\V1\Collections\CollectionItemController;
 use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
@@ -36,6 +38,7 @@ use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
 
 Route::get('collection-items', [CollectionItemBuyerController::class, 'index']);
 Route::get('collection', [CollectionBuyerController::class, 'index']);
+Route::get('collection-item-types', [ItemTypeBuyerController::class, 'index']);
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
@@ -83,6 +86,12 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
             Route::get('/pending', [CollectionAdminController::class, 'index']);
             Route::put('/action/{collection}', [CollectionAdminController::class, 'update']);
             Route::get('/approved', [CollectionAdminController::class, 'approved']);
+        });
+
+        Route::group(['prefix' => 'collection-items'], function () {
+            Route::get('/pending', [CollectionItemAdminController::class, 'index']);
+            Route::put('/action/{collectionItem}', [CollectionItemAdminController::class, 'update']);
+            Route::get('/approved', [CollectionItemAdminController::class, 'approved']);
         });
 
         Route::group(['prefix' => 'orders'], function () {

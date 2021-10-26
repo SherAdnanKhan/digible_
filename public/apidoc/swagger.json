@@ -12,14 +12,14 @@
     ],
     "paths": {
         "/": {},
-        "/api/admin/collections/approved": {
+        "/api/admin/collections/pending": {
             "get": {
                 "tags": [
                     "Collections"
                 ],
-                "summary": "Get all approved collections",
-                "description": "Get Approved Collections ",
-                "operationId": "getApprovedCollections",
+                "summary": "Get all pending collections",
+                "description": "Get Pending Collections ",
+                "operationId": "getPendingCollections",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -175,14 +175,14 @@
                 ]
             }
         },
-        "/api/admin/collections/pending": {
+        "/api/admin/collections/approved": {
             "get": {
                 "tags": [
                     "Collections"
                 ],
-                "summary": "Get all pending collections",
-                "description": "Get Pending Collections ",
-                "operationId": "getPendingCollections",
+                "summary": "Get all approved collections",
+                "description": "Get Approved Collections ",
+                "operationId": "getApprovedCollections",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -198,6 +198,268 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/Collection"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/collection-items/pending": {
+            "get": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Get all pending collection items",
+                "description": "Get Pending collection items ",
+                "operationId": "getPendingCollectionItems",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CollectionItem"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/collection-items/action/{collectionItem}": {
+            "put": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Collection Item approve/reject",
+                "description": "Approved or Reject Collection Item",
+                "operationId": "actionCollectionItem",
+                "parameters": [
+                    {
+                        "parameter": "collectionItem",
+                        "name": "collectionItem",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "example": "approved"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Collection Item updated successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/collection-items/approved": {
+            "get": {
+                "tags": [
+                    "Collection Items"
+                ],
+                "summary": "Get all aproved collection items",
+                "description": "Get Approved Collection items ",
+                "operationId": "getApprovedCollectionItems",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CollectionItem"
                                             }
                                         },
                                         "first_page_url": {
@@ -999,7 +1261,7 @@
         "/api/collection": {
             "get": {
                 "tags": [
-                    "Collections"
+                    "Exposed Routes"
                 ],
                 "summary": "Get all",
                 "description": "Get Collections",
@@ -1098,24 +1360,11 @@
         "/api/collection-items/": {
             "get": {
                 "tags": [
-                    "Collection Items"
+                    "Exposed Routes"
                 ],
                 "summary": "Get available for sale collection items",
                 "description": "Get All Available for Sale Collection Request ",
                 "operationId": "getAFSALL",
-                "parameters": [
-                    {
-                        "parameter": "collection",
-                        "name": "collection",
-                        "in": "path",
-                        "required": true,
-                        "allowReserved": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1131,6 +1380,105 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/CollectionItem"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/collection-item-types": {
+            "get": {
+                "tags": [
+                    "Exposed Routes"
+                ],
+                "summary": "Get all",
+                "description": "Get collection item types",
+                "operationId": "getCollectionItemTypes",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CollectionItemType"
                                             }
                                         },
                                         "first_page_url": {

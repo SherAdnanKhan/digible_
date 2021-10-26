@@ -20,7 +20,7 @@ class CollectionItemBuyerController extends Controller
      *     summary="Get available for sale collection items",
      *     operationId="getAFSALL",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Exposed Routes"},
+     *     tags={"Public Routes"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",

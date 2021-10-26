@@ -27,7 +27,7 @@ class ItemTypeBuyerController extends Controller
      *     summary="Get all",
      *     operationId="getCollectionItemTypes",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Exposed Routes"},
+     *     tags={"Public Routes"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",

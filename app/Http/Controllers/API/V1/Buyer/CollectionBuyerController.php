@@ -19,7 +19,7 @@ class CollectionBuyerController extends Controller
      *     summary="Get all",
      *     operationId="getCollections",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Collections"},
+     *     tags={"Exposed Routes"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",

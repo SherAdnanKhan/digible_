@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Collections\Admin;
 
+use App\Models\CollectionItem;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CollectionItemUpdateRequest extends FormRequest
@@ -15,7 +17,7 @@ class CollectionItemUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'status' => ['string', 'max:255', Rule::in(array_keys(CollectionItem::statuses()))],
         ];
     }
 }

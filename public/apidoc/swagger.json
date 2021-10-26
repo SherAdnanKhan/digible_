@@ -1261,7 +1261,7 @@
         "/api/collection": {
             "get": {
                 "tags": [
-                    "Exposed Routes"
+                    "Public Routes"
                 ],
                 "summary": "Get all",
                 "description": "Get Collections",
@@ -1360,7 +1360,7 @@
         "/api/collection-items/": {
             "get": {
                 "tags": [
-                    "Exposed Routes"
+                    "Public Routes"
                 ],
                 "summary": "Get available for sale collection items",
                 "description": "Get All Available for Sale Collection Request ",
@@ -1459,7 +1459,7 @@
         "/api/collection-item-types": {
             "get": {
                 "tags": [
-                    "Exposed Routes"
+                    "Public Routes"
                 ],
                 "summary": "Get all",
                 "description": "Get collection item types",

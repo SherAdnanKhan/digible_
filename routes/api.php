@@ -57,7 +57,7 @@ Route::prefix('auth')->group(function () {
  * USER/ADMIN/SELLER ROUTES
  */
 Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
-    Route::resource('users', UserController::class)->only(['update']);
+    Route::resource('users', UserController::class);
 
     Route::prefix('users/{user}')->group(function () {
         Route::put('update-password', [UserController::class, 'updatePassword']);

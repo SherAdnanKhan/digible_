@@ -4,7 +4,6 @@ namespace App\Http\Services\Users;
 use App\Http\Repositories\Users\UserRepository;
 use App\Http\Services\BaseService;
 use App\Models\User;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -19,9 +18,9 @@ class UserService extends BaseService
         $this->service = $service;
     }
 
-    public function getAll(): ?Authenticatable
+    public function getAll()
     {
-        return Auth()->user();
+        return User::with('collections')->find(Auth()->id());
     }
 
     public function getUsers()

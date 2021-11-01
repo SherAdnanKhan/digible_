@@ -62,11 +62,10 @@ class UserController extends Controller
      * )
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index():JsonResponse
     {
-        $user = $this->service->getAll();
-
-        return $this->success($user, $this->transformer);
+        $result = $this->service->getAll();
+        return $this->success($result , '');
     }
 
     /**

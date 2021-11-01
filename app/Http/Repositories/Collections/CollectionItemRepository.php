@@ -23,7 +23,6 @@ class CollectionItemRepository
     public function afsAll()
     {
         $collectionItems = QueryBuilder::for(new CollectionItem)
-                ->where('available_for_sale', true)
                 ->where('status', CollectionItem::STATUS_APPROVED)
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
                     AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();

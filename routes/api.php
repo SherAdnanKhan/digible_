@@ -57,6 +57,7 @@ Route::prefix('auth')->group(function () {
  * USER/ADMIN/SELLER ROUTES
  */
 Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
+    Route::get('user', [UserController::class, 'index']);
     Route::resource('users', UserController::class);
 
     Route::prefix('users/{user}')->group(function () {

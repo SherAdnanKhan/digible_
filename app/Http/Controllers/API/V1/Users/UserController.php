@@ -163,50 +163,14 @@ class UserController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(
-     *                     property="username",
+     *                     property="name",
      *                     type="string",
      *                     example="johndoe"
      *                 ),
      *                 @OA\Property(
-     *                     property="phone",
+     *                     property="timezone",
      *                     type="string",
-     *                     example="+3334562555"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address",
-     *                     type="string",
-     *                     example="130 Botley Road"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address2",
-     *                     type="string",
-     *                     example="Shore Street"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="address3",
-     *                     type="string",
-     *                     example="Pier Road"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="county",
-     *                     type="string",
-     *                     example="Bristol"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="postcode",
-     *                     type="string",
-     *                     example="BS"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="city",
-     *                     type="string",
-     *                     example="Bristol"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="profile_image",
-     *                     type="string",
-     *                     format="base64img",
-     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACWAAAA..."
+     *                     example="Asia/Jerusalem"
      *                 ),
      *             )
      *         )

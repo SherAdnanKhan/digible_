@@ -3809,42 +3809,13 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "username": {
+                                    "name": {
                                         "type": "string",
                                         "example": "johndoe"
                                     },
-                                    "phone": {
+                                    "timezone": {
                                         "type": "string",
-                                        "example": "+3334562555"
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "example": "130 Botley Road"
-                                    },
-                                    "address2": {
-                                        "type": "string",
-                                        "example": "Shore Street"
-                                    },
-                                    "address3": {
-                                        "type": "string",
-                                        "example": "Pier Road"
-                                    },
-                                    "county": {
-                                        "type": "string",
-                                        "example": "Bristol"
-                                    },
-                                    "postcode": {
-                                        "type": "string",
-                                        "example": "BS"
-                                    },
-                                    "city": {
-                                        "type": "string",
-                                        "example": "Bristol"
-                                    },
-                                    "profile_image": {
-                                        "type": "string",
-                                        "format": "base64img",
-                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACWAAAA..."
+                                        "example": "Asia/Jerusalem"
                                     }
                                 },
                                 "type": "object"

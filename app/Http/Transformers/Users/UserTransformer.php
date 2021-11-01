@@ -17,6 +17,7 @@ class UserTransformer extends BaseTransformer
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'timezone' => $user->timezone,
             'status' => $user->status,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at

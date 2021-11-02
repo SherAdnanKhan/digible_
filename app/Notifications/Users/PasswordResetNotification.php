@@ -3,7 +3,6 @@
 namespace App\Notifications\Users;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -13,7 +12,8 @@ class PasswordResetNotification extends Notification
 
     protected $token;
 
-    public function __construct(string $token) {
+    public function __construct(string $token)
+    {
         $this->token = $token;
     }
 
@@ -36,16 +36,13 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $passwordResetUrl = config('app.client_url').'/auth/forget-password/'.$this->token;
+        $passwordResetUrl = config('app.client_url') . '/auth/forget-password/' . $this->token;
 
         return (new MailMessage)
             ->subject('Reset Password')
             ->line('We’re almost there! Please click the button below to reset your password.')
             ->action('Reset Password', $passwordResetUrl)
-            ->line('Thank you for using our application!')
-            ->view(
-                'email_template.user.notification_email', ['passwordResetUrl' => $passwordResetUrl]
-            );
+            ->line('Thank you for using our application!');
     }
 
     /**

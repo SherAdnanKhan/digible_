@@ -2021,10 +2021,6 @@
                                         "type": "integer",
                                         "example": "6"
                                     },
-                                    "nft_type": {
-                                        "type": "string",
-                                        "example": "backed"
-                                    },
                                     "description": {
                                         "type": "string",
                                         "example": "this is pokeman item has 160 physical asset"
@@ -2201,10 +2197,6 @@
                                     "collection_item_type_id": {
                                         "type": "integer",
                                         "example": "6"
-                                    },
-                                    "nft_type": {
-                                        "type": "string",
-                                        "example": "backed"
                                     },
                                     "description": {
                                         "type": "string",
@@ -3923,10 +3915,6 @@
                     "collection_id": {
                         "type": "integer",
                         "example": 1
-                    },
-                    "nft_type": {
-                        "type": "string",
-                        "example": "nonnft"
                     },
                     "name": {
                         "type": "string",

@@ -23,7 +23,6 @@ class CollectionItemTransformer extends BaseTransformer
             'id' => $collectionItem->id,
             'name' => $collectionItem->name,
             'label' => $collectionItem->label,
-            'nft_type' => $collectionItem->nft_type,
             'image' => $collectionItem->image,
             'description' => $collectionItem->description,
             'edition' => $collectionItem->edition,

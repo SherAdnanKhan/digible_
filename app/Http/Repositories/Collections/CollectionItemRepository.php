@@ -15,8 +15,8 @@ class CollectionItemRepository
     {
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->where('collection_id', $collection->id)
-                ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
-                    AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();
+                ->allowedFilters([AllowedFilter::exact("collection_item_type_id")])
+                ->with('collection.user', 'collectionItemType')->get();
         return $collectionItems;
     }
 
@@ -24,8 +24,8 @@ class CollectionItemRepository
     {
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->where('status', CollectionItem::STATUS_APPROVED)
-                ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
-                    AllowedFilter::exact('nft_type')])->with('collection.user', 'collectionItemType')->get();
+                ->allowedFilters([AllowedFilter::exact("collection_item_type_id")])
+                ->with('collection.user', 'collectionItemType')->get();
         return $collectionItems;
     }
 

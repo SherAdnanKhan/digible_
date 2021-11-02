@@ -36,11 +36,6 @@ class CollectionItem extends Model
      *         example=1
      *     ),
      *     @OA\Property(
-     *         property="nft_type",
-     *         type="string",
-     *         example="nonnft"
-     *     ),
-     *     @OA\Property(
      *         property="name",
      *         type="string",
      *         example="Cresselia"

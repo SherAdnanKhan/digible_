@@ -204,11 +204,6 @@ class CollectionItemController extends Controller
      *                     example="6"
      *                 ),
      *                 @OA\Property(
-     *                     property="nft_type",
-     *                     type="string",
-     *                     example="backed"
-     *                 ),
-     *                 @OA\Property(
      *                     property="description",
      *                     type="string",
      *                     example="this is pokeman item has 160 physical asset"
@@ -379,11 +374,6 @@ class CollectionItemController extends Controller
      *                     property="collection_item_type_id",
      *                     type="integer",
      *                     example="6"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="nft_type",
-     *                     type="string",
-     *                     example="backed"
      *                 ),
      *                 @OA\Property(
      *                     property="description",

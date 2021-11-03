@@ -43,9 +43,34 @@ class SellerRequestController extends Controller
      *                   example="0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
      *               ),
      *               @OA\Property(
-     *                   property="physical_address",
+     *                   property="address",
      *                   type="string",
      *                   example="3th Street. 47 W 13th St, New York"
+     *               ),
+     *               @OA\Property(
+     *                   property="address2",
+     *                   type="string",
+     *                   example="3th Street. 47 W 13th St, New York"
+     *               ),
+     *               @OA\Property(
+     *                   property="country",
+     *                   type="string",
+     *                   example="India"
+     *               ),
+     *               @OA\Property(
+     *                   property="city",
+     *                   type="string",
+     *                   example="mumbai"
+     *               ),
+     *               @OA\Property(
+     *                   property="state",
+     *                   type="string",
+     *                   example="Kerla"
+     *               ),
+     *               @OA\Property(
+     *                   property="postalcode",
+     *                   type="string",
+     *                   example="1234"
      *               ),
      *               @OA\Property(
      *                   property="phone_no",

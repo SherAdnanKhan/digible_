@@ -3444,9 +3444,29 @@
                                         "type": "string",
                                         "example": "0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
                                     },
-                                    "physical_address": {
+                                    "address": {
                                         "type": "string",
                                         "example": "3th Street. 47 W 13th St, New York"
+                                    },
+                                    "address2": {
+                                        "type": "string",
+                                        "example": "3th Street. 47 W 13th St, New York"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "India"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "mumbai"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Kerla"
+                                    },
+                                    "postalcode": {
+                                        "type": "string",
+                                        "example": "1234"
                                     },
                                     "phone_no": {
                                         "type": "string",

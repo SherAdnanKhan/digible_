@@ -21,6 +21,7 @@ class ItemTypeSeeder extends Seeder
         CollectionItemType::updateOrCreate(['name' => 'Art'], ['label' => 'Art']);
         CollectionItemType::updateOrCreate(['name' => 'Movie collectibles'], ['label' => 'Movie collectibles']);
         CollectionItemType::updateOrCreate(['name' => 'Cars'], ['label' => 'Cars']);
+        CollectionItemType::updateOrCreate(['name' => 'Baseball Cards'], ['label' => 'Baseball cards']);
 
     }
 }

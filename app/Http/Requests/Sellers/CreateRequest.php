@@ -18,7 +18,12 @@ class CreateRequest extends FormRequest
         return [
             'surname' => 'required|string|max:255',
             'wallet_address' => 'required|string|max:255',
-            'physical_address' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'address2' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postalcode' => 'required|string|max:255',
             'phone_no' => 'required|string|max:255',
             'twitter_link' => 'required|string|max:255',
             'insta_link' => 'required|string|max:255',

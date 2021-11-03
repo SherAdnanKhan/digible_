@@ -8,16 +8,17 @@ class SellerRequestRepository
 {
     public function getAll()
     {
-        return SellerProfile::where(['status' => "pending"])->with('user')->get();
+        return SellerProfile::where(['status' => "pending"])->with('user','addresses')->get();
     }
     
     public function getApproved()
     {
-        return SellerProfile::where(['status' => "approved"])->with('user')->get();
+        return SellerProfile::where(['status' => "approved"])->with('user','addresses')->get();
     }
 
     public function save(array $data): void
     {
-        SellerProfile::create($data);
+       $sellerProfile = SellerProfile::create($data);
+       $sellerProfile->addresses()->create($data);
     }
 }

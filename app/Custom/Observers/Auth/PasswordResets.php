@@ -12,7 +12,6 @@ class PasswordResets extends BaseObserver
 
     public function handle(User $user, string $token)
     {
-        $user->notify(new PasswordResetNotification($token));
+        $user->notify(new PasswordResetNotification($token, $user));
     }
 }
-

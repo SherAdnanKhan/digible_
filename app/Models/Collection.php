@@ -50,10 +50,76 @@ class Collection extends Model
      *         )
      *     ),
      *     @OA\Property(
-     *         property="image",
+     *         property="logo_image",
      *         type="string",
      *         format="string",
      *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="featured_image",
+     *         type="string",
+     *         format="string",
+     *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="banner_image",
+     *         type="string",
+     *         format="string",
+     *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="external_url",
+     *         type="string",
+     *         format="string",
+     *         example="http://cding.com"
+     *     ),
+     *     @OA\Property(
+     *         property="description",
+     *         type="string",
+     *         format="string",
+     *         example="this is collection description"
+     *     ),
+     *     @OA\Property(
+     *         property="categories",
+     *         type="string",
+     *         format="string",
+     *         example="ggr"
+     *     ),
+     *     @OA\Property(
+     *         property="website",
+     *         type="string",
+     *         format="string",
+     *         example="http://cding.com"
+     *     ),
+     *     @OA\Property(
+     *         property="discord",
+     *         type="string",
+     *         format="string",
+     *         example="http://discord.com/digible"
+     *     ),
+     *     @OA\Property(
+     *         property="twitter",
+     *         type="string",
+     *         format="string",
+     *         example="http://twitter.com/digible"
+     *     ),
+     *     @OA\Property(
+     *         property="instagram",
+     *         type="string",
+     *         format="string",
+     *         example="http://instagram.com/digible"
+     *     ),
+     *     @OA\Property(
+     *         property="medium",
+     *         type="string",
+     *         format="string",
+     *         example="http://medium.com/digible"
+     *     ),
+     *     @OA\Property(
+     *         property="telegram",
+     *         type="string",
+     *         format="string",
+     *         example="http://telegram.com/digible"
      *     ),
      *     @OA\Property(
      *         property="created_at",

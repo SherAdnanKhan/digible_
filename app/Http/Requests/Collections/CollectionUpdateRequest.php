@@ -25,8 +25,19 @@ class CollectionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:collections',
-            'image' => 'base64img',
+            'name' => 'string|max:255|unique:collections',
+            'logo_image' => 'base64img',
+            'featured_image' => 'base64img',
+            'banner_image' => 'base64img',
+            'external_url' => ['string', 'max:255'],
+            'description' => 'string|max:1000',
+            'categories' => ['string', 'max:255'],
+            'website' => ['string', 'max:255'],
+            'discord' => ['string', 'max:255'],
+            'twitter' => ['string', 'max:255'],
+            'instagram' => ['string', 'max:255'],
+            'medium' => ['string', 'max:255'],
+            'telegram' => ['string', 'max:255'],
             'status' => ['string', 'max:255', Rule::in(array_keys(Collection::statuses()))],
         ];
     }

@@ -1669,6 +1669,66 @@
                                         "type": "string",
                                         "example": "Pokeman Card"
                                     },
+                                    "logo_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "featured_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "banner_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "external_url": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://cding.com"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "this is collection description"
+                                    },
+                                    "categories": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "ggr"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://cding.com"
+                                    },
+                                    "discord": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://discord.com/digible"
+                                    },
+                                    "twitter": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://twitter.com/digible"
+                                    },
+                                    "instagram": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://instagram.com/digible"
+                                    },
+                                    "medium": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://medium.com/digible"
+                                    },
+                                    "telegram": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://telegram.com/digible"
+                                    },
                                     "status": {
                                         "type": "string",
                                         "example": "pending"
@@ -1787,6 +1847,66 @@
                                     "name": {
                                         "type": "string",
                                         "example": "Pokeman Card "
+                                    },
+                                    "logo_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "featured_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "banner_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "external_url": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://cding.com"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "this is collection description"
+                                    },
+                                    "categories": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "ggr"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://cding.com"
+                                    },
+                                    "discord": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://discord.com/digible"
+                                    },
+                                    "twitter": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://twitter.com/digible"
+                                    },
+                                    "instagram": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://instagram.com/digible"
+                                    },
+                                    "medium": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://medium.com/digible"
+                                    },
+                                    "telegram": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "http://telegram.com/digible"
                                     },
                                     "status": {
                                         "type": "string",
@@ -3897,10 +4017,65 @@
                         },
                         "type": "object"
                     },
-                    "image": {
+                    "logo_image": {
                         "type": "string",
                         "format": "string",
                         "example": "12232332.jpg"
+                    },
+                    "featured_image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
+                    },
+                    "banner_image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
+                    },
+                    "external_url": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://cding.com"
+                    },
+                    "description": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "this is collection description"
+                    },
+                    "categories": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "ggr"
+                    },
+                    "website": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://cding.com"
+                    },
+                    "discord": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://discord.com/digible"
+                    },
+                    "twitter": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://twitter.com/digible"
+                    },
+                    "instagram": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://instagram.com/digible"
+                    },
+                    "medium": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://medium.com/digible"
+                    },
+                    "telegram": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://telegram.com/digible"
                     },
                     "created_at": {
                         "type": "string",

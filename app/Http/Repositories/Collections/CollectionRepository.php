@@ -12,6 +12,11 @@ class CollectionRepository
         return Collection::with('user')->get();
     }
 
+    public function getCurrentAll()
+    {
+        return Collection::where("user_id",auth()->user()->id)->get();
+    }
+
     public function getPending()
     {
         return Collection::where(['status' => Collection::STATUS_PENDING])->get();

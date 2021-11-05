@@ -29,6 +29,13 @@ class CollectionService extends BaseService
         return $this->imageService->paginate($result);
     }
 
+    public function getCurrentAll()
+    {
+        Log::info(__METHOD__ . " -- Collection data all fetched: ");
+        $result = $this->repository->getCurrentAll();
+        return $this->imageService->paginate($result);
+    }
+
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Pending Collection data all fetched: ");

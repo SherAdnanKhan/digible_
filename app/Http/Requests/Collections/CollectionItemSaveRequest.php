@@ -32,8 +32,8 @@ class CollectionItemSaveRequest extends FormRequest
             'edition' => ['string', 'max:255'],
             'price' => 'required|numeric|gte:0',
             'graded' => ['string', 'max:255'],
-            'year' => ['string', 'max:255'],
-            'population' => ['string', 'max:255'],
+            'year' => 'required|date_format:Y-m-d H:i:s',
+            'population' => ['integer'],
             'publisher' => ['string', 'max:255'],
             'available_for_sale' => 'boolean',
         ];

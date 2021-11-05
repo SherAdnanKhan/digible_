@@ -15,7 +15,7 @@ class CollectionItemUpdateRequest extends FormRequest
     {
         return [
             'available_for_sale' => 'required|boolean',
-            'available_at' => 'required|required|date_format:Y-m-d H:i:s|after:1 minute',
+            'available_at' => 'required|date_format:Y-m-d H:i:s|after:1 minute',
         ];
     }
 }

@@ -84,6 +84,30 @@ class SellerProfile extends Model
      *         example="pending/approved"
      *     ),
      *     @OA\Property(
+     *         property="id_image",
+     *         type="string",
+     *         format="string",
+     *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="address_image",
+     *         type="string",
+     *         format="string",
+     *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="insurance_image",
+     *         type="string",
+     *         format="string",
+     *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="code_image",
+     *         type="string",
+     *         format="string",
+     *         example="12232332.jpg"
+     *     ),
+     *     @OA\Property(
      *         property="created_at",
      *         type="string",
      *         format="date-time",

@@ -21,4 +21,18 @@ class SellerRequestRepository
        $sellerProfile = SellerProfile::create($data);
        $sellerProfile->addresses()->create($data);
     }
+
+    public function reSave(SellerProfile $sellerProfile, array $data): void
+    {
+       $sellerProfile->update($data);
+       $allowedKeys = ['address', 'address2', 'country', 'state', 'city', 'postalcode', 'kind'];
+       $filteredAddressData = array_filter(
+        $data,
+        function ($key) use ($allowedKeys) {
+            return in_array($key, $allowedKeys);
+        },
+        ARRAY_FILTER_USE_KEY
+    );
+       $sellerProfile->addresses()->update($filteredAddressData);
+    }
 }

@@ -31,6 +31,10 @@ class SellerTransformer extends BaseTransformer
             'twitch_link' => $sellerProfile->twitch_link,
             'type' => $sellerProfile->type,
             'status' => $sellerProfile->status,
+            'id_image' => $sellerProfile->id_image,
+            'address_image' => $sellerProfile->address_image,
+            'insurance_image' => $sellerProfile->insurance_image,
+            'code_image' => $sellerProfile->code_image,
             'created_at' => $sellerProfile->created_at,
             'updated_at' => $sellerProfile->updated_at,
 

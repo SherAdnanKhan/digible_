@@ -3642,6 +3642,138 @@
                 ]
             }
         },
+        "/api/seller-reverify-request/{sellerProfile}": {
+            "put": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Reverify Seller Request",
+                "description": "Reverify Seller Request",
+                "operationId": "ReverifySellerRequest",
+                "parameters": [
+                    {
+                        "parameter": "sellerProfile",
+                        "name": "sellerProfile",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "address_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "insurance_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "code_image": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12232332.jpg"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "ben"
+                                    },
+                                    "wallet_address": {
+                                        "type": "string",
+                                        "example": "0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "3th Street. 47 W 13th St, New York"
+                                    },
+                                    "address2": {
+                                        "type": "string",
+                                        "example": "3th Street. 47 W 13th St, New York"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "India"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "mumbai"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Kerla"
+                                    },
+                                    "postalcode": {
+                                        "type": "string",
+                                        "example": "1234"
+                                    },
+                                    "phone_no": {
+                                        "type": "string",
+                                        "example": "+1-202-555-0180"
+                                    },
+                                    "twitter_link": {
+                                        "type": "string",
+                                        "example": "https: //twitter.com/digible"
+                                    },
+                                    "insta_link": {
+                                        "type": "string",
+                                        "example": "https: //www.instagram.com/digible"
+                                    },
+                                    "twitch_link": {
+                                        "type": "string",
+                                        "example": "https: //www.twitch.tv/digible"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "individual"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Seller request created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -4548,6 +4680,26 @@
                     "status": {
                         "type": "string",
                         "example": "pending/approved"
+                    },
+                    "id_image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
+                    },
+                    "address_image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
+                    },
+                    "insurance_image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
+                    },
+                    "code_image": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "12232332.jpg"
                     },
                     "created_at": {
                         "type": "string",

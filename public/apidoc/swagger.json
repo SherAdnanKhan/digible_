@@ -1456,6 +1456,118 @@
                 ]
             }
         },
+        "/api/collections/{collection}/collection-item/": {
+            "get": {
+                "tags": [
+                    "Public Routes"
+                ],
+                "summary": "Get collection items",
+                "description": "Get All Collection Request ",
+                "operationId": "getALLCollectionItems",
+                "parameters": [
+                    {
+                        "parameter": "collection",
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CollectionItem"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/collection-item-types": {
             "get": {
                 "tags": [

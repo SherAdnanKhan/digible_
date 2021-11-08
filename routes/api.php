@@ -39,6 +39,10 @@ use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
 Route::get('collection-items', [CollectionItemBuyerController::class, 'index']);
 Route::get('collection', [CollectionBuyerController::class, 'index']);
 Route::get('collection-item-types', [ItemTypeBuyerController::class, 'index']);
+Route::group(['prefix' => 'collections/{collection}'], function () {
+    Route::get('collection-item', [CollectionItemBuyerController::class, 'all']);
+});
+
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);

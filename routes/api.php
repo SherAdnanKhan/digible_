@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
+        Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);

@@ -50,7 +50,7 @@ class SellerTransformer extends BaseTransformer
     public function includeAddresses(SellerProfile $sellerProfile)
     {
         $user = $sellerProfile->addresses;
-        return $this->item($user, new AddressTransformer);
+        return $this->collection($user, new AddressTransformer);
     }
 
     public function includeStatus(SellerProfile $sellerProfile)

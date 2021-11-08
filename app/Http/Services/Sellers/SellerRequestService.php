@@ -29,6 +29,12 @@ class SellerRequestService extends BaseService
         return $this->service->paginate($result);
     }
 
+    public function getCurrent()
+    {
+        Log::info(__METHOD__ . " -- Seller data fetched: ");
+        return $this->repository->getCurrent();
+    }
+
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Sellers data all fetched: ");

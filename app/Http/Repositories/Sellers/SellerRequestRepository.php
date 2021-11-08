@@ -9,7 +9,12 @@ class SellerRequestRepository
     public function getAll()
     {
         return SellerProfile::where(['status' => "pending"])->with('user','addresses')->get();
-    }
+    } 
+
+    public function getCurrent()
+    {
+        return SellerProfile::where('user_id', auth()->user()->id)->with('user','addresses')->get();
+    } 
     
     public function getApproved()
     {

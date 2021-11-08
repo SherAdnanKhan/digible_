@@ -13,10 +13,12 @@ class ProductAvailiblityNotification extends Notification
     use Queueable;
 
     protected $data;
+    protected $user;
 
-    public function __construct($data)
+    public function __construct($data, $user)
     {
         $this->data = $data;
+        $this->user = $user;
     }
 
     /**
@@ -44,9 +46,7 @@ class ProductAvailiblityNotification extends Notification
         $user_date->setTimezone($timezone);
         return (new MailMessage)
             ->subject('Product is Availible')
-            ->line('The Item' . $this->data["name"] . ' you have been waiting for is available on ' . $user_date . '.')
-            ->action('Product Link', $productLink)
-            ->line('This product is also be available to other customers , so its possible that it is sold quickly!');
+            ->markdown('email_template.product.available_email', ['product' => $this->data, 'date' => $user_date, 'productLink' => $productLink, 'user' => $this->user]);
     }
 
     /**

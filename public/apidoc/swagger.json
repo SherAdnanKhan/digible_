@@ -3754,6 +3754,46 @@
                 ]
             }
         },
+        "/get-seller-verify-request": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Get Seller Request",
+                "description": "Get Seller Request",
+                "operationId": "getSellerRequest",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/SellerProfile"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/seller-reverify-request/{sellerProfile}": {
             "put": {
                 "tags": [

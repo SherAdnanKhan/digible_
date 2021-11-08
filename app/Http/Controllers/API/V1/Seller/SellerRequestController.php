@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API\V1\Seller;
 
-use Illuminate\Http\Request;
-use App\Models\SellerProfile;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sellers\CreateRequest;
-use App\Http\Services\Sellers\SellerRequestService;
 use App\Http\Requests\Sellers\ReverifyCreateRequest;
+use App\Http\Services\Sellers\SellerRequestService;
 use App\Http\Transformers\Sellers\SellerTransformer;
+use App\Models\SellerProfile;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SellerRequestController extends Controller
 {
@@ -134,7 +134,45 @@ class SellerRequestController extends Controller
         return $this->success($result, $this->transformer, trans('messages.seller_request_create_success'));
     }
 
-        /** @OA\Put(
+    /** @OA\Get(
+     *     path="/get-seller-verify-request",
+     *     description="Get Seller Request",
+     *     summary="Get Seller Request",
+     *     operationId="getSellerRequest",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Sellers"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Success"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     allOf={
+     *                         @OA\Schema(ref="#/components/schemas/SellerProfile")
+     *                     }
+     *                  ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @param SellerProfile $sellerProfile
+     * @return JsonResponse
+     */
+
+    public function index()
+    {
+        $result = $this->service->getCurrent();
+        return $this->success($result, $this->transformer);
+    }
+
+    /** @OA\Put(
      *     path="/api/seller-reverify-request/{sellerProfile}",
      *     description="Reverify Seller Request",
      *     summary="Reverify Seller Request",
@@ -268,7 +306,6 @@ class SellerRequestController extends Controller
      * @param SellerProfile $sellerProfile
      * @return JsonResponse
      */
-
 
     public function update(SellerProfile $sellerProfile, ReverifyCreateRequest $request): JsonResponse
     {

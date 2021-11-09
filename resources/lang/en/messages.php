@@ -35,6 +35,7 @@ return [
     'collection_item_update_success' => 'Collection item updated successfully',
     'collection_item_delete_success' => 'Collection item deleted successfully',
     'seller_request_create_success' => 'Seller request created successfully',
+    "seller_request_not_found" => 'Seller request not found',
     'seller_request_recreate_success' => 'Seller request updated successfully',
     'seller_request_update_success' => 'Seller action performed successfully',
     'seller_request_delete_success' => 'Seller request deleted successfully',

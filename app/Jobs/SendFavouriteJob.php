@@ -3,15 +3,13 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use App\Mail\SendNotification;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Notifications\Users\ProductAvailiblityNotification;
+use App\Notifications\Users\ProductFavouriteNotification;
 
-class SendNotificationJob implements ShouldQueue
+class SendFavouriteJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $user;
@@ -22,11 +20,11 @@ class SendNotificationJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user, $data)
+    public function __construct($data)
     {
-        $this->user = $user;
-        $this->data['user_id'] = $user->id;
         $this->data = $data;
+        $this->user = auth()->user();
+        
     }
 
     /**
@@ -36,6 +34,6 @@ class SendNotificationJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->notify(new ProductAvailiblityNotification($this->data, $this->user));
+        $this->user->notify(new ProductFavouriteNotification($this->data, $this->user));
     }
 }

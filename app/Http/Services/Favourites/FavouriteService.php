@@ -4,6 +4,8 @@ namespace App\Http\Services\Favourites;
 use App\Http\Repositories\Favourites\FavouriteRepository;
 use App\Http\Services\BaseService;
 use App\Models\CollectionItem;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
 class FavouriteService extends BaseService
@@ -21,6 +23,12 @@ class FavouriteService extends BaseService
     {
         Log::info(__METHOD__ . " -- User favourited an collection item: ");
         $this->repository->favourite($collectionItem);
+        if (isset($collectionItem->available_at)) {
+            if ($this->service->dateComparision($collectionItem->available_at, Carbon::now()->toDateTimeString(), 'gt')) {
+                Event::dispatch('subscribers.favourite', $collectionItem);
+            }
+        }
+
     }
 
     public function unfavourite(CollectionItem $collectionItem)

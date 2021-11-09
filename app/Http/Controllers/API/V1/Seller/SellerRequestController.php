@@ -169,7 +169,10 @@ class SellerRequestController extends Controller
     public function index()
     {
         $result = $this->service->getCurrent();
+        if(count($result)>0){
         return $this->success($result, $this->transformer);
+        }
+        return $this->failure([], trans('messages.seller_request_not_found'));
     }
 
     /** @OA\Put(

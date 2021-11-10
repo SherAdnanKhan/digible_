@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\API\V1\Admin;
 
+use App\Models\SellerProfile;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sellers\UpdateRequest;
 use App\Http\Services\Sellers\SellerRequestService;
-use App\Models\SellerProfile;
-use Illuminate\Http\JsonResponse;
+use App\Http\Transformers\Sellers\SellerTransformer;
 
 class SellerProfileAdminController extends Controller
 {
     protected $service;
+    protected $transformer;
 
-    public function __construct(SellerRequestService $service)
+    public function __construct(SellerRequestService $service, SellerTransformer $transformer)
     {
         $this->service = $service;
+        $this->transformer = $transformer;
     }
 
     /** @OA\Get(
@@ -354,5 +357,43 @@ class SellerProfileAdminController extends Controller
     public function approved()
     {
         return $this->service->getApproved();
+    }
+
+        /** @OA\Get(
+     *     path="/get-seller-verify-request",
+     *     description="Get Seller Request",
+     *     summary="Get Seller Request",
+     *     operationId="getSellerRequest",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Sellers"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Success"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     allOf={
+     *                         @OA\Schema(ref="#/components/schemas/SellerProfile")
+     *                     }
+     *                  ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @param SellerProfile $sellerProfile
+     * @return JsonResponse
+     */
+
+    public function show(SellerProfile $sellerProfile)
+    {
+        return $this->success($sellerProfile, $this->transformer);
+
     }
 }

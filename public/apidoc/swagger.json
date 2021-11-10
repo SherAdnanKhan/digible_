@@ -1159,6 +1159,59 @@
                 ]
             }
         },
+        "/api/admin/sellers/{sellerProfile}/details": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Get Seller Request Admin",
+                "description": "Get Seller Request Admin",
+                "operationId": "getSellerRequestAdmin",
+                "parameters": [
+                    {
+                        "parameter": "sellerProfile",
+                        "name": "sellerProfile",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/SellerProfile"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/users": {
             "get": {
                 "tags": [

@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::resource('collection-item-types', ItemTypeController::class);
 
         Route::group(['prefix' => 'sellers'], function () {
-            Route::get('/seller-detail/{sellerProfile}', [SellerProfileAdminController::class, 'show']);
+            Route::get('/{sellerProfile}/details', [SellerProfileAdminController::class, 'show']);
             Route::get('/pending', [SellerProfileAdminController::class, 'index']);
             Route::put('/action/{seller_profile}', [SellerProfileAdminController::class, 'update']);
             Route::get('/approved', [SellerProfileAdminController::class, 'approved']);

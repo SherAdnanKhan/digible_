@@ -360,12 +360,21 @@ class SellerProfileAdminController extends Controller
     }
 
         /** @OA\Get(
-     *     path="/get-seller-verify-request",
-     *     description="Get Seller Request",
-     *     summary="Get Seller Request",
-     *     operationId="getSellerRequest",
+     *     path="/api/admin/sellers/{sellerProfile}/details",
+     *     description="Get Seller Request Admin",
+     *     summary="Get Seller Request Admin",
+     *     operationId="getSellerRequestAdmin",
      *     security={{"bearerAuth":{}}},
      *     tags={"Sellers"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="sellerProfile",
+     *         parameter="sellerProfile",
+     *         example=1
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",

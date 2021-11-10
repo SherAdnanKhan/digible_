@@ -127,6 +127,13 @@ class CollectionItem extends Model
 
     protected $guarded = ['created_at'];
 
+    protected $appends = ['image_path'];
+
+    public function getPathAttribute()
+    {
+        return $this->image ? asset('/' . $this->image) : null;
+    }
+
     public function collection(): BelongsTo
     {
         return $this->belongsTo(Collection::class);

@@ -35,6 +35,10 @@ class SellerTransformer extends BaseTransformer
             'address_image' => $sellerProfile->address_image,
             'insurance_image' => $sellerProfile->insurance_image,
             'code_image' => $sellerProfile->code_image,
+            'id_path' => $sellerProfile->id_path,
+            'address_path' => $sellerProfile->address_path,
+            'insurance_path' => $sellerProfile->insurance_path,
+            'code_path' => $sellerProfile->code_path,
             'created_at' => $sellerProfile->created_at,
             'updated_at' => $sellerProfile->updated_at,
 

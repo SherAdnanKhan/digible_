@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SellerProfile extends Model
 {
@@ -19,6 +18,28 @@ class SellerProfile extends Model
     const STATUS_REJECTED = "rejected";
 
     protected $guarded = ['created_at'];
+
+    protected $appends = ['code_path', 'insurance_path', 'address_path', 'id_path'];
+
+    public function getCodePathAttribute()
+    {
+        return $this->code_image ? asset('/' . $this->code_image) : null;
+    }
+
+    public function getInsurancePathAttribute()
+    {
+        return $this->insurance_image ? asset('/' . $this->insurance_image) : null;
+    }
+
+    public function getAddressPathAttribute()
+    {
+        return $this->address_image ? asset('/' . $this->address_image) : null;
+    }
+
+    public function getIDPathAttribute()
+    {
+        return $this->id_image ? asset('/' . $this->id_image) : null;
+    }
 
     /**
      * @OA\Schema(

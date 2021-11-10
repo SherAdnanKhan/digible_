@@ -142,6 +142,23 @@ class Collection extends Model
      * )
      */
 
+    protected $appends = ['logo_path', 'featured_path', 'banner_path'];
+
+    public function getLogoPathAttribute()
+    {
+        return $this->logo_image ? asset('/' . $this->logo_image) : null;
+    }
+
+    public function getFeaturedPathAttribute()
+    {
+        return $this->featured_image ? asset('/' . $this->featured_image) : null;
+    }
+
+    public function getBannerPathAttribute()
+    {
+        return $this->banner_image ? asset('/' . $this->banner_image) : null;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

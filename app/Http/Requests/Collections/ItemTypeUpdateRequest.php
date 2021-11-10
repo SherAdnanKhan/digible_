@@ -14,7 +14,7 @@ class ItemTypeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:collection_item_types',
+            'name' => 'required|string|max:255|unique:collection_item_types,name,'.$this->collection_item_type->id,
             'label' => 'string|max:255',
         ];
     }

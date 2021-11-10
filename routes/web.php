@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WyreTestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/docs', function () {
     return view('docs.doc');
 });
+
+Route::get('/create-account', [WyreTestController::class, 'createAccount']);
+Route::get('/create-wallet', [WyreTestController::class, 'createWallet']);
+Route::get('/get-wallet', [WyreTestController::class, 'getWallet']);

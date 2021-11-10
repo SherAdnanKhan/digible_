@@ -4202,7 +4202,7 @@
         "/api/users/{user}": {
             "put": {
                 "tags": [
-                    "Update Account"
+                    "User"
                 ],
                 "summary": "Update Account",
                 "description": "Update Account",
@@ -4232,6 +4232,22 @@
                                     "timezone": {
                                         "type": "string",
                                         "example": "Asia/Jerusalem"
+                                    },
+                                    "addresses": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": 1
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "0x49614661737efbfc6a102efaeefdc8e197f7cc0e"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"

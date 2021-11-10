@@ -55,6 +55,16 @@ class UserService extends BaseService
     public function updateUser(User $user, array $data): bool
     {
         Log::info(__METHOD__ . " -- user: " . $user->email . " -- User update his account information:", $data);
+        if (isset($data['addresses'])) {
+            $addresses = $data['addresses'];
+            foreach ($addresses as $address) {
+                $id = isset($address['id']) ? $address['id'] : null;
+                $user->walletAddresses()->UpdateOrCreate(
+                    ['id' => $id],
+                    ['address' => $address['address']]);
+            }
+        }
         return $user->update($data);
+
     }
 }

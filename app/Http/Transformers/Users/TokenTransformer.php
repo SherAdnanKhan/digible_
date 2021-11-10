@@ -9,6 +9,9 @@ use JWTAuth;
 
 class TokenTransformer extends BaseTransformer
 {
+    protected $defaultIncludes = [
+        'address'
+   ];
     public function transform($token)
     {
         return [
@@ -21,5 +24,10 @@ class TokenTransformer extends BaseTransformer
             'token_type' => 'Bearer',
             'expires_at' => $token->token->expires_at
         ];
+    } 
+
+    public function includeAddress()
+    {
+        return $this->collection(auth()->user()->walletAddresses()->get(), new AddressTransformer);
     }
  }

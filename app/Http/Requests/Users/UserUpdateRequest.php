@@ -12,6 +12,8 @@ class UserUpdateRequest extends FormRequest
             'name' => 'string|max:255',
             'email' => 'string|max:255|unique:users,email,' . auth()->id(),
             'timezone' => 'timezone',
+            'addresses.*.address' => 'string|max:255',
+            'addresses.*.id' => 'exists:wallet_addresses,id',
         ];
     }
 

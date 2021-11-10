@@ -63,7 +63,7 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    
+
     protected $guarded = [
         'created_at',
     ];
@@ -96,6 +96,11 @@ class User extends Authenticatable
     public function sellerProfile()
     {
         return $this->hasOne(SellerProfile::class);
+    }
+
+    public function walletAddresses()
+    {
+        return $this->morphMany(WalletAddress::class, 'modelable');
     }
 
     public static function statuses(): array

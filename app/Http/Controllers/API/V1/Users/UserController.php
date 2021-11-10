@@ -62,10 +62,10 @@ class UserController extends Controller
      * )
      * @return JsonResponse
      */
-    public function index():JsonResponse
+    public function index(): JsonResponse
     {
         $result = $this->service->getAll();
-        return $this->success($result , '');
+        return $this->success($result, '');
     }
 
     /**
@@ -148,7 +148,7 @@ class UserController extends Controller
      *     summary="Update Account",
      *     operationId="updateAccount",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Update Account"},
+     *     tags={"User"},
      *     @OA\Parameter(
      *         @OA\Schema(type="integer"),
      *         in="path",
@@ -172,6 +172,34 @@ class UserController extends Controller
      *                     type="string",
      *                     example="Asia/Jerusalem"
      *                 ),
+
+     *             @OA\Property(
+     *                property="addresses",
+     *                type="array",
+     *                 @OA\Items(
+     *                      @OA\Property(
+     *                         property="id",
+     *                         type="string",
+     *                         example=1
+     *                      ),
+     *                      @OA\Property(
+     *                         property="address",
+     *                         type="string",
+     *                         example="0x49614661737efbfc6a102efaeefdc8e197f7cc0e"
+     *                      ),
+     *                  ),
+     *                 @OA\Items(
+     *                      @OA\Property(
+     *                         property="addresses",
+     *                         type="string",
+     *                         example=2
+     *                      ),
+     *                      @OA\Property(
+     *                         property="address",
+     *                         type="string",
+     *                         example="0x521db06bf657ed1d6c98553a70319a8ddbac75a3"
+     *                      ),
+     *                ),),
      *             )
      *         )
      *     ),

@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\API\V1\Users;
 
-use App\Exceptions\ErrorException;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Users\ConfirmPasswordRequest;
-use App\Http\Requests\Users\ForgetPasswordRequest;
-use App\Http\Requests\Users\UserLoginRequest;
-use App\Http\Requests\Users\UserStoreRequest;
-use App\Http\Services\Users\AuthService;
-use App\Http\Transformers\Users\TokenTransformer;
-use App\Http\Transformers\Users\UserTransformer;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\Exceptions\ErrorException;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Config;
+use App\Http\Services\Users\AuthService;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Users\UserLoginRequest;
+use App\Http\Requests\Users\UserStoreRequest;
+use App\Http\Transformers\Users\UserTransformer;
+use App\Http\Transformers\Users\TokenTransformer;
+use App\Http\Requests\Users\ForgetPasswordRequest;
+use App\Http\Requests\Users\ConfirmPasswordRequest;
 
 class AuthController extends Controller
 {
@@ -235,7 +236,7 @@ class AuthController extends Controller
         if (!isset($user)) {
             return $this->failure('', trans('messages.forget_password_invalid_token'), Response::HTTP_BAD_REQUEST);
         }
-        return $this->success([], null, trans('messages.forget_password_token_validate_success'));
+        return redirect(Config::get('app.frontend').'/change-password/'.$token);
     }
 
     public function confirm(ConfirmPasswordRequest $request)

@@ -29,7 +29,10 @@ class AddMultipleColumnToSellerProfiles extends Migration
     public function down()
     {
         Schema::table('seller_profiles', function (Blueprint $table) {
-            //
+            $table->dropColumn('id_image');
+            $table->dropColumn('address_image');
+            $table->dropColumn('insurance_image');
+            $table->dropColumn('code_image');
         });
     }
 }

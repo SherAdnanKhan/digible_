@@ -12,7 +12,9 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = [
+        'created_at',
+    ];
 
     const PENDING = 0;
     const COMPLETED = 1;
@@ -105,6 +107,11 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function seller(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'seller_id', 'id');
     }
 
     public function collectionItem(): BelongsToMany

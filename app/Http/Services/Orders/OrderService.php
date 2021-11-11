@@ -2,19 +2,21 @@
 
 namespace App\Http\Services\Users;
 
-use App\Exceptions\ErrorException;
-use App\Http\Repositories\Orders\OrderCollectionRepository;
-use App\Http\Repositories\Orders\OrderRepository;
-use App\Http\Repositories\Orders\OrderTransactionRepository;
-use App\Http\Services\BaseService;
-use App\Http\Services\Payment\PaymentGateService;
-use App\Models\CollectionItem;
+use App\Models\User;
 use App\Models\Order;
-use App\Models\OrderTransaction;
+use App\Models\Collection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\Models\CollectionItem;
+use App\Models\OrderTransaction;
+use App\Exceptions\ErrorException;
+use App\Http\Services\BaseService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Event;
+use App\Http\Repositories\Orders\OrderRepository;
+use App\Http\Services\Payment\PaymentGateService;
+use App\Http\Repositories\Orders\OrderCollectionRepository;
+use App\Http\Repositories\Orders\OrderTransactionRepository;
 
 class OrderService extends BaseService
 {
@@ -44,6 +46,7 @@ class OrderService extends BaseService
         $items = $data['items'];
         foreach ($items as $item) {;
             $collectionItem[$item['collection_item_id']] = CollectionItem::find($item['collection_item_id']);
+            $seller[$item['collection_item_id']] = Collection::where('user_id',$collectionItem[$item['collection_item_id']]->collection_id)->pluck('user_id')->first();
         }
         foreach ($items as $item) {
             if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1) {
@@ -58,6 +61,7 @@ class OrderService extends BaseService
                 $total = $subtotalAfterDiscount + $productTax;
 
                 $orderItem['ref_id'] = 'ORD-' . Str::random(15);
+                $orderItem['seller_id'] = $seller[$item['collection_item_id']];
                 $orderItem['user_id'] = auth()->id();
                 $orderItem['discount'] = $discount;
                 $orderItem['subtotal'] = $subtotal;
@@ -105,6 +109,20 @@ class OrderService extends BaseService
     {
         Log::info(__METHOD__ . " -- transaction data all fetched: ");
         return $this->orderRepository->getall();
+        // return $this->paymentGateService->paginate($result);
+    }
+
+    public function getSellerData(User $user)
+    {
+        Log::info(__METHOD__ . " --Seller transaction data all fetched: ");
+        return $this->orderRepository->getSellerData($user);
+        // return $this->paymentGateService->paginate($result);
+    }
+
+    public function getBuyerData(User $user)
+    {
+        Log::info(__METHOD__ . " --Buyer transaction data all fetched: ");
+        return $this->orderRepository->getBuyerData($user);
         // return $this->paymentGateService->paginate($result);
     }
 

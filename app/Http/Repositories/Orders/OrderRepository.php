@@ -2,9 +2,10 @@
 
 namespace App\Http\Repositories\Orders;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderTransaction;
-use Carbon\Carbon;
 
 class OrderRepository
 {
@@ -30,5 +31,15 @@ class OrderRepository
     public function getall()
     {
         return Order::with('user', 'transactions', 'orderDetails', 'orderDetails.collectionitem')->get();
+    }
+
+    public function getSellerData(User $user)
+    {
+        return Order::where(['seller_id' => $user->id, 'status' => '1'])->with('seller', 'transactions', 'orderDetails', 'orderDetails.collectionitem')->get();
+    }
+
+    public function getBuyerData(User $user)
+    {
+        return Order::where(['user_id' => $user->id, 'status' => '1'])->with('user','seller', 'transactions', 'orderDetails', 'orderDetails.collectionitem')->get();
     }
 }

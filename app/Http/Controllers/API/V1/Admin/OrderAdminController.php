@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Admin;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Users\OrderService;
 
@@ -153,6 +154,18 @@ class OrderAdminController extends Controller
     public function index()
     {
         $data= $this->service->getall();
+        return $this->success($data, null);
+    }
+
+    public function indexSeller(User $user)
+    {
+        $data= $this->service->getSellerData($user);
+        return $this->success($data, null);
+    }
+
+    public function indexBuyer(User $user)
+    {
+        $data= $this->service->getBuyerData($user);
         return $this->success($data, null);
     }
 }

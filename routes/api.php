@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\OrderController;
 use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\Cart\CartController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\Users\AuthController;
 use App\Http\Controllers\API\V1\Users\UserController;
@@ -134,6 +135,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         });
 
         Route::group(['prefix' => 'orders'], function () {
+            Route::get('/seller/{user}', [OrderAdminController::class, 'indexSeller']);
+            Route::get('/buyer/{user}', [OrderAdminController::class, 'indexBuyer']);
             Route::post('/checkout', [OrderController::class, 'store']);
             Route::get('/pending', [OrderController::class, 'index']);
             Route::put('{order}/complete', [OrderController::class, 'update']);

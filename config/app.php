@@ -56,7 +56,7 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
-    'frontend' => 'http://google.com',
+    'frontend' => 'http://localhost:4200',
 
     'client_url' => 'http://localhost:8000/api',
 

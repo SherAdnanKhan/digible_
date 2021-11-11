@@ -42,10 +42,12 @@ class OrderService extends BaseService
     public function create(array $data)
     {
         $items = $data['items'];
+        foreach ($items as $item) {;
+            $collectionItem[$item['collection_item_id']] = CollectionItem::find($item['collection_item_id']);
+        }
         foreach ($items as $item) {
-            $collectionItem = CollectionItem::find($item['collection_item_id']);
-            if ($collectionItem->available_for_sale == 1) {
-                $subtotal = $collectionItem->price * $item['quantity'];
+            if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1) {
+                $subtotal = $collectionItem[$item['collection_item_id']]->price * $item['quantity'];
                 $discount = Arr::exists($item, 'discount') ? $item['discount'] : 0.00;
                 $subtotalAfterDiscount = $subtotal - $discount;
                 if ($subtotalAfterDiscount < 0) {
@@ -71,8 +73,8 @@ class OrderService extends BaseService
                 $emailData['item'] = $collectionItem;
                 $emailData['order'] = $order;
                 if ($response) {
+                    $this->orderRepository->update($order);
                     $this->orderTransactionRepository->success($order, $item, $response);
-                    $collectionItem->update(['available_for_sale' => 0]);
                     Event::dispatch('orders.success', [$emailData]);
                 } else {
                     $this->orderTransactionRepository->failed($order, $item, $response);
@@ -90,9 +92,12 @@ class OrderService extends BaseService
         $data['transaction_type'] = OrderTransaction::DEBIT;
         $response = $this->paymentGateService->transaction($order->total, $data['authenication']);
         if ($response) {
-            return $this->orderTransactionRepository->success($order, $data, $response);
+            $this->orderRepository->update($order);
+            $this->orderTransactionRepository->success($order, $data, $response);
+            return true;
         } else {
-            return $this->orderTransactionRepository->failed($order, $data, $response);
+            $this->orderTransactionRepository->failed($order, $data, $response);
+            return false;
         }
     }
 

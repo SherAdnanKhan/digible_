@@ -272,11 +272,18 @@ class OrderController extends Controller
             return $this->failure('', trans('messages.order_create_failed'));
         }
     }
-    
 
     public function update(Order $order, OrderCompleteRequest $request)
     {
-        $result = $this->service->completed($order, $request->validated());
+        if ($order->status !== Order::COMPLETED) {
+            $result = $this->service->completed($order, $request->validated());
+            if ($result) {
+                return $this->success([], $this->transformer, trans('messages.order_complete_success'));
+            } else {
+                return $this->failure('', trans('messages.order_complete_failed'));
+            }
+        }
+        return $this->failure('', trans('messages.order_already_complete_failure'));
     }
 
 }

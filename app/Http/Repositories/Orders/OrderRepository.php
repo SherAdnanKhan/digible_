@@ -10,11 +10,9 @@ class OrderRepository
 {
     public function getPendings()
     {
-        $orTr = OrderTransaction::where('order_id', 11)->get();
-
         return Order::whereHas('transactions', function ($query) {
-            return $query->where('created_at', '>=', Carbon::now()->addMinutes(-10)->format('Y-m-d H:i:s'))
-                ->where('status', 1);
+            return $query->where('created_at', '>=', Carbon::now()->addHours(-8)->format('Y-m-d H:i:s'))
+                ->where('status', 1)->where('user_id', auth()->user()->id);
         })->get();
     }
 
@@ -26,7 +24,7 @@ class OrderRepository
 
     public function update($order)
     {
-        $order->update(['order_status' => Order::COMPLETED]);
+        $order->update(['status' => Order::COMPLETED]);
     }
 
     public function getall()

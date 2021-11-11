@@ -158,6 +158,7 @@ class ItemTypeBuyerController extends Controller
 
     public function index()
     {
-        return $this->service->getAll();
+        $data=  $this->service->getAll();
+        return $this->success($data, null);
     }
 }

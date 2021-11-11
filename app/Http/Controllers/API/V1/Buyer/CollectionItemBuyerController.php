@@ -153,7 +153,8 @@ class CollectionItemBuyerController extends Controller
 
     public function index()
     {
-        return $this->service->afsAll();
+        $data =  $this->service->afsAll();
+        return $this->success($data, null);
     }
 
     /** @OA\Get(
@@ -303,7 +304,8 @@ class CollectionItemBuyerController extends Controller
 
     public function all(Collection $collection)
     {
-        return $this->service->getAll($collection);
+        $data= $this->service->getAll($collection);
+        return $this->success($data, null);
     }
 
 }

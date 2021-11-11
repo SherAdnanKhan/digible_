@@ -25,8 +25,8 @@ class UserService extends BaseService
 
     public function getUsers()
     {
-        $result = $this->repository->getUsers();
-        return $this->service->paginate($result);
+        return $this->repository->getUsers();
+        // return $this->service->paginate($result);
     }
 
     /**

@@ -27,29 +27,29 @@ class CollectionItemService extends BaseService
     public function getAll(Collection $collection)
     {
         Log::info(__METHOD__ . " -- Collection item data all fetched: ");
-        $result = $this->repository->getAll($collection);
-        return $this->imageService->paginate($result);
+        return $this->repository->getAll($collection);
+        // return $this->imageService->paginate($result);
     }
 
     public function afsAll()
     {
         Log::info(__METHOD__ . " -- Collection item data that are available for sale fetched all: ");
-        $result = $this->repository->afsAll();
-        return $this->imageService->paginate($result);
+        return $this->repository->afsAll();
+        // return $this->imageService->paginate($result);
     }
 
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Pending Collection Item data all fetched: ");
-        $result = $this->repository->getPending();
-        return $this->imageService->paginate($result);
+        return $this->repository->getPending();
+        // return $this->imageService->paginate($result);
     }
 
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Collection Item data all fetched: ");
-        $result = $this->repository->getApproved();
-        return $this->imageService->paginate($result);
+        return $this->repository->getApproved();
+        // return $this->imageService->paginate($result);
     }
 
     public function save(Collection $collection, array $data): void

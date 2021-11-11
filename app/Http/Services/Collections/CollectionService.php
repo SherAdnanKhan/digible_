@@ -25,29 +25,29 @@ class CollectionService extends BaseService
     public function getAll()
     {
         Log::info(__METHOD__ . " -- Collection data all fetched: ");
-        $result = $this->repository->getAll();
-        return $this->imageService->paginate($result);
+        return $this->repository->getAll();
+        // return $this->imageService->paginate($result);
     }
 
     public function getCurrentAll()
     {
         Log::info(__METHOD__ . " -- Collection data all fetched: ");
-        $result = $this->repository->getCurrentAll();
-        return $this->imageService->paginate($result);
+        return $this->repository->getCurrentAll();
+        // return $this->imageService->paginate($result);
     }
 
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Pending Collection data all fetched: ");
-        $result = $this->repository->getPending();
-        return $this->imageService->paginate($result);
+        return $this->repository->getPending();
+        // return $this->imageService->paginate($result);
     }
 
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Collection data all fetched: ");
-        $result = $this->repository->getApproved();
-        return $this->imageService->paginate($result);
+        return $this->repository->getApproved();
+        // return $this->imageService->paginate($result);
     }
 
     public function save(array $data): void

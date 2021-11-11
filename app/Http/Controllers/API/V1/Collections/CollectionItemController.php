@@ -170,7 +170,8 @@ class CollectionItemController extends Controller
 
     public function index(Collection $collection)
     {
-        return $this->service->getAll($collection);
+        $data= $this->service->getAll($collection);
+        return $this->success($data, null);
     }
 
     /** @OA\Post(

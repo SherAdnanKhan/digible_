@@ -153,6 +153,7 @@ class UserAdminController extends Controller
 
     public function index()
     {
-        return $this->service->getUsers();
+        $data = $this->service->getUsers();
+        return $this->success($data, null);
     }
 }

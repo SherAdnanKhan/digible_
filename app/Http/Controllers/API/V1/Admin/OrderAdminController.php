@@ -152,6 +152,7 @@ class OrderAdminController extends Controller
 
     public function index()
     {
-        return $this->service->getall();
+        $data= $this->service->getall();
+        return $this->success($data, null);
     }
 }

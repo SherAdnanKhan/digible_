@@ -35,8 +35,8 @@ class OrderService extends BaseService
     public function getPendings()
     {
         Log::info(__METHOD__ . " --pending transaction data all fetched: ");
-        $result = $this->orderRepository->getPendings();
-        return $this->paymentGateService->paginate($result);
+        return $this->orderRepository->getPendings();
+        // return $this->paymentGateService->paginate($result);
     }
 
     public function create(array $data)
@@ -104,8 +104,8 @@ class OrderService extends BaseService
     public function getall()
     {
         Log::info(__METHOD__ . " -- transaction data all fetched: ");
-        $result = $this->orderRepository->getall();
-        return $this->paymentGateService->paginate($result);
+        return $this->orderRepository->getall();
+        // return $this->paymentGateService->paginate($result);
     }
 
 }

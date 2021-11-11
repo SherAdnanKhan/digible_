@@ -22,8 +22,8 @@ class ItemTypeService extends BaseService
     public function getAll()
     {
         Log::info(__METHOD__ . " -- Collection item type data all fetched: ");
-        $result = $this->repository->getAll();
-        return $this->service->paginate($result);
+        return $this->repository->getAll();
+        // return $this->service->paginate($result);
     }
 
     public function save(array $data): void

@@ -25,8 +25,8 @@ class SellerRequestService extends BaseService
     public function getAll()
     {
         Log::info(__METHOD__ . " -- Seller data all fetched: ");
-        $result = $this->repository->getAll();
-        return $this->service->paginate($result);
+        return $this->repository->getAll();
+        // return $this->service->paginate($result);
     }
 
     public function getCurrent()
@@ -38,8 +38,8 @@ class SellerRequestService extends BaseService
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Sellers data all fetched: ");
-        $result = $this->repository->getApproved();
-        return $this->service->paginate($result);
+        return $this->repository->getApproved();
+        // return $this->service->paginate($result);
     }
 
     public function save(array $data): void

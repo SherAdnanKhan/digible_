@@ -160,7 +160,8 @@ class CollectionController extends Controller
 
     public function index()
     {
-        return $this->service->getCurrentAll();
+        $data= $this->service->getCurrentAll();
+        return $this->success($data, null);
     }
 
     /** @OA\Post(

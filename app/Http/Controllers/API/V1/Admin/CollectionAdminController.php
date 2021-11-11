@@ -155,7 +155,8 @@ class CollectionAdminController extends Controller
 
     public function index()
     {
-        return $this->service->getPending();
+        $data = $this->service->getPending();
+        return $this->success($data, null);
     }
 
     /** @OA\Put(
@@ -353,6 +354,7 @@ class CollectionAdminController extends Controller
 
     public function approved()
     {
-        return $this->service->getApproved();
+        $data = $this->service->getApproved();
+        return $this->success($data, null);
     }
 }

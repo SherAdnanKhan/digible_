@@ -11,7 +11,8 @@ class UserRepository
      */
     public function getUsers()
     {
-       $user = User::all();
-       return $user;
+        $user = User::with('roles')->whereHas('roles', function ($query) {
+            return $query->where('name', '!=', 'admin');})->get();
+        return $user;
     }
 }

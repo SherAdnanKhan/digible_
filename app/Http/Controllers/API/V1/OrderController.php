@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Order\OrderCompleteRequest;
-use App\Http\Requests\Order\OrderRequest;
-use App\Http\Services\Users\OrderService;
-use App\Http\Transformers\Orders\OrderTransformer;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\OrderRequest;
+use App\Http\Services\Orders\OrderService;
+use App\Http\Requests\Order\OrderCompleteRequest;
+use App\Http\Transformers\Orders\OrderTransformer;
 
 class OrderController extends Controller
 {

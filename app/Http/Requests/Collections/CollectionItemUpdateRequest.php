@@ -32,7 +32,7 @@ class CollectionItemUpdateRequest extends FormRequest
             'edition' => ['string', 'max:255'],
             'price' => 'numeric|gte:0',
             'graded' => ['string', 'max:255'],
-            'year' => ['string', 'max:255'],
+            'year' => 'digits:4|integer|min:1900|max:'.(date('Y')+1),
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
             'available_for_sale' => 'boolean',

@@ -23,7 +23,6 @@ class CollectionItemRepository
     public function afsAll()
     {
         $collectionItems = QueryBuilder::for(new CollectionItem)
-                ->where('status', CollectionItem::STATUS_APPROVED)
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id")])
                 ->with('collection.user', 'collectionItemType')->get();
         return $collectionItems;

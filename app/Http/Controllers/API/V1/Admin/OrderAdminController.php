@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\V1\Admin;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Services\Users\OrderService;
+use App\Http\Services\Orders\OrderService;
 
 class OrderAdminController extends Controller
 {

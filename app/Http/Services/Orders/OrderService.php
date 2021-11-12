@@ -46,7 +46,7 @@ class OrderService extends BaseService
         $items = $data['items'];
         foreach ($items as $item) {;
             $collectionItem[$item['collection_item_id']] = CollectionItem::find($item['collection_item_id']);
-            $seller[$item['collection_item_id']] = Collection::where('user_id',$collectionItem[$item['collection_item_id']]->collection_id)->pluck('user_id')->first();
+            $seller[$item['collection_item_id']] = Collection::where('id',$collectionItem[$item['collection_item_id']]->collection_id)->pluck('user_id')->first();
         }
         foreach ($items as $item) {
             if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1) {

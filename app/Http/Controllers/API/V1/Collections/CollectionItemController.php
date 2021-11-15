@@ -334,6 +334,7 @@ class CollectionItemController extends Controller
 
     public function show(Collection $collection, CollectionItem $collectionItem): JsonResponse
     {
+        $collectionItem= $collectionItem->where('id', $collectionItem->id)->withCount('favorites')->first();
         return $this->success($collectionItem, $this->transformer);
     }
 

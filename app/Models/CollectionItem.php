@@ -165,6 +165,11 @@ class CollectionItem extends Model
             ->get();
     }
 
+    public function favorites()
+    {
+       return $this->hasMany(Favourite::class);
+    }
+
     public function setAvailableAtAttribute($value)
     {
         $user_date = date('Y-m-d H:i:s', strtotime($value));

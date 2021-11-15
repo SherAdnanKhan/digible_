@@ -16,7 +16,7 @@ class CollectionItemRepository
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->where('collection_id', $collection->id)
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id")])
-                ->with('collection.user', 'collectionItemType')->get();
+                ->with('collection.user', 'collectionItemType')->withCount('favorites')->get();
         return $collectionItems;
     }
 
@@ -24,7 +24,7 @@ class CollectionItemRepository
     {
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id")])
-                ->with('collection.user', 'collectionItemType')->get();
+                ->with('collection.user', 'collectionItemType')->withCount('favorites')->get();
         return $collectionItems;
     }
 

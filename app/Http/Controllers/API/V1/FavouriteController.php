@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\Favourites\FavouriteService;
 use App\Models\Collection;
 use App\Models\CollectionItem;
+use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller
 {
@@ -68,6 +69,12 @@ class FavouriteController extends Controller
     {
         $this->service->favourite($collectionItem);
         return $this->success([], null, trans('messages.collection_item_favourite_success'));
+    }
+
+    public function isFavorite(CollectionItem $collectionItem)
+    {
+        $isFavourite=(object) ['isfavourite' => Auth::user()->favourites->contains($collectionItem->id)];
+        return $this->success([$isFavourite], null);
     }
 
     /** @OA\Post(

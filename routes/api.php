@@ -126,6 +126,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
+        Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);
         Route::resource('collections', CollectionController::class);
 
         Route::group(['prefix' => 'collections/{collection}'], function () {

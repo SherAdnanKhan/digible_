@@ -25,13 +25,13 @@ class CommentRepository
 
     public function getReplies(Comment $comment)
     {
-        $comments = Comment::where(['status' => 'approved', 'parent_id' => $comment->id])->get();
+        $comments = Comment::where(['status' => 'approved', 'parent_id' => $comment->id])->withCount('approvedReplies')->get();
         return $comments;
     }
 
     public function getbyCollection(Collection $collection)
     {
-        $comments = $collection->comments()->get();
+        $comments = $collection->comments()->withCount('approvedReplies')->get();
         return $comments;
     }
 

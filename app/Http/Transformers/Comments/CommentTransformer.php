@@ -20,6 +20,7 @@ class CommentTransformer extends BaseTransformer
             'status' => $comment->status,
             'created_at' => $comment->created_at,
             'updated_at' => $comment->updated_at,
+            'count' => $comment->approved_replies_count,
         ];
     }
 

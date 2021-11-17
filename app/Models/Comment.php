@@ -95,6 +95,12 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'parent_id');
     }
 
+    public function approvedReplies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->where('status' , 'approved');
+    }
+
+
     public static function statuses(): array
     {
         return [

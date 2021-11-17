@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\CommentController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\Users\AuthController;
 use App\Http\Controllers\API\V1\Users\UserController;
+use App\Http\Controllers\API\V1\Admin\AdminController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Admin\OrderAdminController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
@@ -75,6 +76,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
         Route::resource('collection-item-types', ItemTypeController::class);
+        Route::resource('/admins', AdminController::class);
 
         Route::group(['prefix' => 'sellers'], function () {
             Route::get('/{sellerProfile}/details', [SellerProfileAdminController::class, 'show']);

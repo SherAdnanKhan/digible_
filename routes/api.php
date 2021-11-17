@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\OrderController;
 use App\Http\Controllers\API\V1\CommentController;
-use App\Http\Controllers\API\V1\Cart\CartController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\Users\AuthController;
 use App\Http\Controllers\API\V1\Users\UserController;
@@ -46,6 +45,7 @@ Route::group(['prefix' => 'collections/{collection}'], function () {
 });
 
 Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'index']);
+Route::get('collection-item/{collectionItem}/comment', [CommentBuyerController::class, 'indexCI']);
 Route::get('/comments/{comment}', [CommentBuyerController::class, 'show']);
 
 
@@ -113,7 +113,6 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     Route::group(['prefix' => 'users', 'middleware' => ['role:user']], function () {
         Route::post('/seller-verify-request', [SellerRequestController::class, 'store']);
-        Route::resource('comments', CommentController::class);
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
     });
 
@@ -129,6 +128,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
+        Route::resource('comments', CommentController::class);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);

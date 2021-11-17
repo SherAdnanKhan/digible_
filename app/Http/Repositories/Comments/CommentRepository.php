@@ -3,6 +3,7 @@
 namespace App\Http\Repositories\Comments;
 
 use App\Models\Collection;
+use App\Models\CollectionItem;
 use App\Models\Comment;
 
 class CommentRepository
@@ -29,9 +30,9 @@ class CommentRepository
         return $comments;
     }
 
-    public function getbyCollection(Collection $collection)
+    public function getbyModel($model)
     {
-        $comments = $collection->comments()->withCount('approvedReplies')->get();
+        $comments = $model->comments()->withCount('approvedReplies')->get();
         return $comments;
     }
 
@@ -42,8 +43,15 @@ class CommentRepository
         $comment->status = $data['status'];
         $comment->parent_id = $data['comment_id'];
         $comment->user()->associate($data['user_id']);
+        if(isset($data['collection_id'])){
         $collection = Collection::find($data['collection_id']);
         $collection->comments()->save($comment);
+        }
+        if(isset($data['collection_item_id'])){
+            $collectionItem = CollectionItem::find($data['collection_item_id']);
+            $collectionItem->comments()->save($comment);
+        }
+
     }
 
     public function delete(Comment $comment)

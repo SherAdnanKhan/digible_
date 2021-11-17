@@ -1,14 +1,13 @@
 <?php
 namespace App\Http\Services\Comments;
 
-use Exception;
-use App\Models\Comment;
-use App\Models\Collection;
 use App\Exceptions\ErrorException;
-use App\Http\Services\BaseService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Repositories\Comments\CommentRepository;
+use App\Http\Services\BaseService;
+use App\Models\Comment;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Commentservice extends BaseService
 {
@@ -55,11 +54,11 @@ class Commentservice extends BaseService
         }
     }
 
-    public function getbyCollection(Collection $collection)
+    public function getbyModel($model)
     {
         try {
             Log::info(__METHOD__ . " -- Comment data all fetched: ");
-            return $this->repository->getbyCollection($collection);
+            return $this->repository->getbyModel($model);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }
@@ -68,22 +67,24 @@ class Commentservice extends BaseService
     public function save(array $data)
     {
         try {
-            $newData['comment'] = $data['comment'];
-            $newData['user_id'] = Auth::user()->id;
-            $newData['status'] = Comment::STATUS_PENDING;
-            $newData['comment_id'] = null;
+            $data['user_id'] = Auth::user()->id;
+            $data['status'] = Comment::STATUS_PENDING;
+            $data['comment_id'] = null;
 
-            if (isset($data['comment_id'])) {
-                $commentExist = Comment::where(['id' => $data['comment_id'], 'status' => Comment::STATUS_PENDING]);
+            if (isset($data['id'])) {
+                if (isset($data['collection_item_id'])) {
+                    $commentExist = Comment::where(['id' => $data['id'], 'status' => Comment::STATUS_APPROVED,'commentable_type' => 'App\Models\CollectionItem'])->first();
+                } else {
+                    $commentExist = Comment::where(['id' => $data['id'], 'status' => Comment::STATUS_APPROVED])->first();
+                }
                 if ($commentExist) {
-                    $newData['comment_id'] = $data['comment_id'];
+                    $data['comment_id'] = $data['id'];
                 } else {
                     return false;
                 }
             }
-            $newData['collection_id'] = $data['collection_id'];
-            Log::info(__METHOD__ . " -- New comment request info: ", $newData);
-            $this->repository->save($newData);
+            Log::info(__METHOD__ . " -- New comment request info: ", $data);
+            $this->repository->save($data);
             return true;
 
         } catch (Exception $e) {

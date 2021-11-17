@@ -143,6 +143,12 @@ class CollectionItem extends Model
     {
         return $this->belongsTo(CollectionItemType::class);
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id')->where(['status' => 'approved']);
+    }
+    
     public static function statuses(): array
     {
         return [

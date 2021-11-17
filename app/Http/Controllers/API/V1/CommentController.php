@@ -286,7 +286,7 @@ class CommentController extends Controller
     public function storeReply(StoreCommentRequest $request, Comment $comment): JsonResponse
     {
         $data = $request->validated();
-        $data['comment_id'] = $comment->id;
+        $data['id'] = $comment->id;
         $this->service->save($data);
         return $this->success([], $this->transformer, trans('messages.comment_reply_create_success'));
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\Comments\CommentService;
 use App\Http\Transformers\Comments\ReplyTransformer;
 use App\Http\Transformers\Comments\CommentTransformer;
+use App\Models\CollectionItem;
 
 class CommentBuyerController extends Controller
 {
@@ -24,7 +25,7 @@ class CommentBuyerController extends Controller
     }
 
     /** @OA\Get(
-     *     path="/api/collection/{collection}/comment'",
+     *     path="/api/collection/{collection}/comment",
      *     description="Get Comment",
      *     summary="Get by id",
      *     operationId="GetComment",
@@ -66,7 +67,54 @@ class CommentBuyerController extends Controller
 
     public function index(Collection $collection): JsonResponse
     {
-        $result = $this->service->getbyCollection($collection);
+        $result = $this->service->getbyModel($collection);
+        return $this->success($result, $this->transformer);
+    }
+
+        /** @OA\Get(
+     *     path="/api/collection-item/{collectionItem}/comment",
+     *     description="Get Comment",
+     *     summary="Get by id",
+     *     operationId="GetComment",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Comments"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="collectionItem",
+     *         parameter="collectionItem",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Success"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     allOf={
+     *                         @OA\Schema(ref="#/components/schemas/Comment")
+     *                     }
+     *                  ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @param Comment $comment
+     * @return JsonResponse
+     */
+
+    public function indexCI(CollectionItem $collectionItem): JsonResponse
+    {
+        $result = $this->service->getbyModel($collectionItem);
         return $this->success($result, $this->transformer);
     }
 

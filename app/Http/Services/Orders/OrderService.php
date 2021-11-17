@@ -2,21 +2,21 @@
 
 namespace App\Http\Services\Orders;
 
-use App\Models\User;
-use App\Models\Order;
-use App\Models\Collection;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use App\Models\CollectionItem;
-use App\Models\OrderTransaction;
 use App\Exceptions\ErrorException;
-use App\Http\Services\BaseService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Event;
-use App\Http\Repositories\Orders\OrderRepository;
-use App\Http\Services\Payment\PaymentGateService;
 use App\Http\Repositories\Orders\OrderCollectionRepository;
+use App\Http\Repositories\Orders\OrderRepository;
 use App\Http\Repositories\Orders\OrderTransactionRepository;
+use App\Http\Services\BaseService;
+use App\Http\Services\Payment\PaymentGateService;
+use App\Models\Collection;
+use App\Models\CollectionItem;
+use App\Models\Order;
+use App\Models\OrderTransaction;
+use App\Models\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class OrderService extends BaseService
 {
@@ -44,9 +44,9 @@ class OrderService extends BaseService
     public function create(array $data)
     {
         $items = $data['items'];
-        foreach ($items as $item) {;
+        foreach ($items as $item) {
             $collectionItem[$item['collection_item_id']] = CollectionItem::find($item['collection_item_id']);
-            $seller[$item['collection_item_id']] = Collection::where('id',$collectionItem[$item['collection_item_id']]->collection_id)->pluck('user_id')->first();
+            $seller[$item['collection_item_id']] = Collection::where('id', $collectionItem[$item['collection_item_id']]->collection_id)->pluck('user_id')->first();
         }
         foreach ($items as $item) {
             if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1) {
@@ -108,8 +108,8 @@ class OrderService extends BaseService
     public function getall()
     {
         Log::info(__METHOD__ . " -- transaction data all fetched: ");
-        return $this->orderRepository->getall();
-        // return $this->paymentGateService->paginate($result);
+        $result = $this->orderRepository->getall();
+        $this->paymentGateService->paginate($result);
     }
 
     public function getSellerData(User $user)

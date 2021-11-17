@@ -158,8 +158,7 @@ class SellerProfileAdminController extends Controller
 
     public function index()
     {
-        $data = $this->service->getAll();
-        return $this->success($data, null);
+        return $this->service->getAll();
     }
 
     /** @OA\Put(
@@ -357,8 +356,7 @@ class SellerProfileAdminController extends Controller
 
     public function approved()
     {
-        $data = $this->service->getApproved();
-        return $this->success($data, null);
+        return $this->service->getApproved();
     }
 
         /** @OA\Get(

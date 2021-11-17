@@ -39,15 +39,15 @@ class CollectionService extends BaseService
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Pending Collection data all fetched: ");
-        return $this->repository->getPending();
-        // return $this->imageService->paginate($result);
+        $result= $this->repository->getPending();
+        return $this->imageService->paginate($result);
     }
 
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Collection data all fetched: ");
-        return $this->repository->getApproved();
-        // return $this->imageService->paginate($result);
+        $result = $this->repository->getApproved();
+        return $this->imageService->paginate($result);
     }
 
     public function save(array $data): void

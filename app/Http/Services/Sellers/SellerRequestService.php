@@ -1,13 +1,13 @@
 <?php
 namespace App\Http\Services\Sellers;
 
-use App\Models\User;
-use App\Models\SellerProfile;
-use App\Http\Services\BaseService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Services\Images\ImageService;
 use App\Http\Repositories\Sellers\SellerRequestRepository;
+use App\Http\Services\BaseService;
+use App\Http\Services\Images\ImageService;
+use App\Models\SellerProfile;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SellerRequestService extends BaseService
 {
@@ -25,8 +25,8 @@ class SellerRequestService extends BaseService
     public function getAll()
     {
         Log::info(__METHOD__ . " -- Seller data all fetched: ");
-        return $this->repository->getAll();
-        // return $this->service->paginate($result);
+        $result = $this->repository->getAll();
+        return $this->service->paginate($result);
     }
 
     public function getCurrent()
@@ -38,8 +38,8 @@ class SellerRequestService extends BaseService
     public function getApproved()
     {
         Log::info(__METHOD__ . " -- Approved Sellers data all fetched: ");
-        return $this->repository->getApproved();
-        // return $this->service->paginate($result);
+        $result = $this->repository->getApproved();
+        return $this->service->paginate($result);
     }
 
     public function save(array $data): void
@@ -56,7 +56,7 @@ class SellerRequestService extends BaseService
         $data['name'] = Auth::user()->name;
         $data['status'] = SellerProfile::STATUS_PENDING;
         $data['user_id'] = auth()->id();
-        
+
         if (isset($data['id_image'])) {
             if ($sellerProfile['id_image']) {
                 $this->imageService->removeImage($sellerProfile['id_image']);
@@ -90,7 +90,7 @@ class SellerRequestService extends BaseService
         }
 
         Log::info(__METHOD__ . " -- Update Seller request info: ", $data);
-        $this->repository->reSave($sellerProfile,$data);
+        $this->repository->reSave($sellerProfile, $data);
     }
 
     public function update($data, SellerProfile $sellerProfile)

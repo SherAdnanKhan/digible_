@@ -51,7 +51,7 @@ class BaseService
 
         $items = $items instanceof Collection ? $items : Collection::make($items);
 
-        return new LengthAwarePaginator($items->forPage($page, $perPage)->values(), $items->count(), $perPage, $page, $options);
+        return new LengthAwarePaginator($items->forPage($page, isset(request()->per_page) ? request()->per_page : $perPage)->values(), $items->count(), isset(request()->per_page) ? request()->per_page : $perPage, $page, $options);
     }
 
     public function dateComparision($firstDate, $secondDate, $operation)

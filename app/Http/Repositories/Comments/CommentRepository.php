@@ -22,7 +22,13 @@ class CommentRepository
         $comments = Comment::where(['id' => $comment->id, 'status' => 'approved'])->with('replies')->get();
         return $comments;
     }
-    
+
+    public function getReplies(Comment $comment)
+    {
+        $comments = Comment::where(['status' => 'approved', 'parent_id' => $comment->id])->get();
+        return $comments;
+    }
+
     public function getbyCollection(Collection $collection)
     {
         $comments = $collection->comments()->get();

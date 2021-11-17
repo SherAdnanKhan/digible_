@@ -45,7 +45,8 @@ Route::group(['prefix' => 'collections/{collection}'], function () {
     Route::get('collection-item', [CollectionItemBuyerController::class, 'all']);
 });
 
-Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'show']);
+Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'index']);
+Route::get('/comments/{comment}', [CommentBuyerController::class, 'show']);
 
 
 Route::prefix('auth')->group(function () {

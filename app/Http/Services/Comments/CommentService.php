@@ -45,6 +45,16 @@ class Commentservice extends BaseService
         }
     }
 
+    public function getReplies(Comment $comment)
+    {
+        try {
+            Log::info(__METHOD__ . " -- Comment data all fetched: ");
+            return $this->repository->getReplies($comment);
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
+    }
+
     public function getbyCollection(Collection $collection)
     {
         try {

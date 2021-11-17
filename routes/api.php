@@ -10,6 +10,7 @@ use App\Http\Controllers\API\V1\Users\UserController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Admin\OrderAdminController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Buyer\CommentBuyerController;
 use App\Http\Controllers\API\V1\Buyer\ItemTypeBuyerController;
 use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
@@ -43,6 +44,8 @@ Route::get('collection-item-types', [ItemTypeBuyerController::class, 'index']);
 Route::group(['prefix' => 'collections/{collection}'], function () {
     Route::get('collection-item', [CollectionItemBuyerController::class, 'all']);
 });
+
+Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'show']);
 
 
 Route::prefix('auth')->group(function () {
@@ -124,6 +127,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);
+        Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);

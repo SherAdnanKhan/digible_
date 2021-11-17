@@ -1,13 +1,14 @@
 <?php
 namespace App\Http\Services\Comments;
 
-use App\Exceptions\ErrorException;
-use App\Http\Repositories\Comments\CommentRepository;
-use App\Http\Services\BaseService;
-use App\Models\Comment;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Comment;
+use App\Models\Collection;
+use App\Exceptions\ErrorException;
+use App\Http\Services\BaseService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Repositories\Comments\CommentRepository;
 
 class Commentservice extends BaseService
 {
@@ -39,6 +40,16 @@ class Commentservice extends BaseService
         try {
             Log::info(__METHOD__ . " -- Comment data all fetched: ");
             return $this->repository->get($comment);
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
+    }
+
+    public function getbyCollection(Collection $collection)
+    {
+        try {
+            Log::info(__METHOD__ . " -- Comment data all fetched: ");
+            return $this->repository->getbyCollection($collection);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }

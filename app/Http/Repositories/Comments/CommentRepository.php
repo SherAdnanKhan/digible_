@@ -22,6 +22,13 @@ class CommentRepository
         $comments = Comment::where(['id' => $comment->id, 'status' => 'approved'])->with('replies')->get();
         return $comments;
     }
+    
+    public function getbyCollection(Collection $collection)
+    {
+        $comments = $collection->comments()->get();
+        return $comments;
+    }
+
     public function save(array $data): void
     {
         $comment = new Comment;

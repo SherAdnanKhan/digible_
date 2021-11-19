@@ -133,8 +133,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
         Route::resource('comments', CommentController::class);
         
-        Route::post('/chats/{chatMessage}/reply', [ChatMessageController::class, 'storeReply']);
-        Route::resource('chats', ChatMessageController::class);
+        Route::post('/chat-messages/{chatMessage}/reply', [ChatMessageController::class, 'storeReply']);
+        Route::resource('chat-messages', ChatMessageController::class);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);

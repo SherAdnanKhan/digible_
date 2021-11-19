@@ -109,7 +109,7 @@ class ChatMessageController extends Controller
      */
 
     public function destroy(ChatMessage $chatMessage): JsonResponse
-    {dd($chatMessage->sender_id);
+    {
         if ($chatMessage && (auth()->user()->hasRole('admin') ||
             auth()->user()->id == $chatMessage->sender_id)) {
             

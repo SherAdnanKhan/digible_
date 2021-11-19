@@ -6,7 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateChatRequest extends FormRequest
 {
-
+    public function authorize()
+    {
+        if ($this->chat_message && ($this->user()->hasRole('admin') ||
+            $this->user()->id == $this->chat_message->sender_id)) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Get the validation rules that apply to the request.
      *

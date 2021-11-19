@@ -1879,6 +1879,285 @@
                 ]
             }
         },
+        "/api/chat/": {
+            "post": {
+                "tags": [
+                    "ChatMessages"
+                ],
+                "summary": "Store",
+                "description": "Store ChatMessage",
+                "operationId": "StoreChatMessage",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "example": "I like this collection"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/chat/{chatMessage}": {
+            "get": {
+                "tags": [
+                    "ChatMessages"
+                ],
+                "summary": "Get by id",
+                "description": "Get ChatMessage",
+                "operationId": "GetChatMessage",
+                "parameters": [
+                    {
+                        "parameter": "chatMessage",
+                        "name": "chatMessage",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/ChatMessage"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "ChatMessages"
+                ],
+                "summary": "Delete",
+                "description": "Delete Message",
+                "operationId": "deleteMessage",
+                "parameters": [
+                    {
+                        "parameter": "chatMessage",
+                        "name": "chatMessage",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message deleted successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/chat/{chatMessage}/": {
+            "put": {
+                "tags": [
+                    "ChatMessages"
+                ],
+                "summary": "Update",
+                "description": "Update Message",
+                "operationId": "updateMessage",
+                "parameters": [
+                    {
+                        "parameter": "chatMessage",
+                        "name": "chatMessage",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Great product i liked it"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message updated successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/chat/{chatMessage}/reply": {
+            "post": {
+                "tags": [
+                    "ChatMessages"
+                ],
+                "summary": "Store Reply",
+                "description": "Store reply",
+                "operationId": "StoreReply",
+                "parameters": [
+                    {
+                        "parameter": "chatMessage",
+                        "name": "chatMessage",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Thank you"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message replied successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/collections": {
             "get": {
                 "tags": [
@@ -4502,6 +4781,48 @@
     },
     "components": {
         "schemas": {
+            "ChatMessage": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "sender_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "reciever_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "example": null
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "This collection avaialable?"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "user": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
             "Collection": {
                 "properties": {
                     "id": {

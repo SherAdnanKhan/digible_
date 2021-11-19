@@ -9,6 +9,7 @@ use App\Http\Controllers\API\V1\Users\UserController;
 use App\Http\Controllers\API\V1\Admin\AdminController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Admin\OrderAdminController;
+use App\Http\Controllers\API\V1\Chat\ChatMessageController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
 use App\Http\Controllers\API\V1\Buyer\CommentBuyerController;
 use App\Http\Controllers\API\V1\Buyer\ItemTypeBuyerController;
@@ -48,7 +49,6 @@ Route::group(['prefix' => 'collections/{collection}'], function () {
 Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'index']);
 Route::get('collection-item/{collectionItem}/comment', [CommentBuyerController::class, 'indexCI']);
 Route::get('/comment/{comment}', [CommentBuyerController::class, 'show']);
-
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
@@ -129,8 +129,12 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);
+
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
         Route::resource('comments', CommentController::class);
+        
+        Route::post('/chats/{chatMessage}/reply', [ChatMessageController::class, 'storeReply']);
+        Route::resource('chats', ChatMessageController::class);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);

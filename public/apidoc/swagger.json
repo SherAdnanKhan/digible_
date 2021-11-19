@@ -1879,13 +1879,66 @@
                 ]
             }
         },
-        "/api/chat/": {
+        "/api/get-chat/{user}": {
+            "get": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Get by id",
+                "description": "Get Comment",
+                "operationId": "GetComment",
+                "parameters": [
+                    {
+                        "parameter": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/ChatMessage"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/chats/": {
             "post": {
                 "tags": [
                     "ChatMessages"
                 ],
                 "summary": "Store",
-                "description": "Store ChatMessage",
+                "description": "Store Chat Message",
                 "operationId": "StoreChatMessage",
                 "requestBody": {
                     "content": {
@@ -1930,58 +1983,7 @@
                 ]
             }
         },
-        "/api/chat/{chatMessage}": {
-            "get": {
-                "tags": [
-                    "ChatMessages"
-                ],
-                "summary": "Get by id",
-                "description": "Get ChatMessage",
-                "operationId": "GetChatMessage",
-                "parameters": [
-                    {
-                        "parameter": "chatMessage",
-                        "name": "chatMessage",
-                        "in": "path",
-                        "required": true,
-                        "allowReserved": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "data": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/components/schemas/ChatMessage"
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
+        "/api/chats/{chatMessage}": {
             "delete": {
                 "tags": [
                     "ChatMessages"
@@ -2030,7 +2032,7 @@
                 ]
             }
         },
-        "/api/chat/{chatMessage}/": {
+        "/api/chats/{chatMessage}/": {
             "put": {
                 "tags": [
                     "ChatMessages"
@@ -2094,7 +2096,7 @@
                 ]
             }
         },
-        "/api/chat/{chatMessage}/reply": {
+        "/api/chats/{chatMessage}/reply": {
             "post": {
                 "tags": [
                     "ChatMessages"

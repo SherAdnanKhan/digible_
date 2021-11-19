@@ -3,19 +3,16 @@
 namespace App\Http\Repositories\Chats;
 
 use App\Models\ChatMessage;
+use App\Models\User;
 
 class ChatRepository
 {
 
-    public function getReplies(ChatMessage $chatMessage)
+    public function getChat(User $user)
     {
-        $chatMessages = ChatMessage::where(['parent_id' => $chatMessage->id])->get();
-        return $chatMessages;
-    }
-
-    public function getAll(array $data)
-    {
-        $chatMessages = ChatMessage::where(['reciever_id' => $data['reciever_id'], 'sender_id' => auth()->user()->id])->get();
+        $chatMessages = ChatMessage::Where([['sender_id' , auth()->user()->id], ['reciever_id' , $user->id]])
+        ->orWhere([['sender_id' , $user->id], ['reciever_id' , auth()->user()->id]])
+            ->orderBy('created_at', 'DESC')->get();
         return $chatMessages;
     }
 

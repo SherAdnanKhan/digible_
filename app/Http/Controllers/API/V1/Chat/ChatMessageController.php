@@ -8,6 +8,7 @@ use App\Http\Requests\Chat\UpdateChatRequest;
 use App\Http\Services\Chats\ChatService;
 use App\Http\Transformers\Chats\ChatTransformer;
 use App\Models\ChatMessage;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class ChatMessageController extends Controller
@@ -19,6 +20,53 @@ class ChatMessageController extends Controller
     {
         $this->service = $service;
         $this->transformer = $transformer;
+    }
+
+       /** @OA\Get(
+     *     path="/api/get-chat/{user}",
+     *     description="Get Comment",
+     *     summary="Get by id",
+     *     operationId="GetComment",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Comments"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="user",
+     *         parameter="user",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Success"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     allOf={
+     *                         @OA\Schema(ref="#/components/schemas/ChatMessage")
+     *                     }
+     *                  ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @param ChatMessage $chatMessage
+     * @return JsonResponse
+     */
+
+    public function getChat(User $user)
+    {
+        return $this->service->getChat($user);
+
     }
 
     /** @OA\Post(

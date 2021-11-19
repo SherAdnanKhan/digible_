@@ -134,6 +134,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         Route::resource('comments', CommentController::class);
         
         Route::post('/chat-messages/{chatMessage}/reply', [ChatMessageController::class, 'storeReply']);
+        Route::get('/get-chat/{user}', [ChatMessageController::class, 'getChat']);
         Route::resource('chat-messages', ChatMessageController::class);
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);

@@ -5,6 +5,7 @@ use App\Exceptions\ErrorException;
 use App\Http\Repositories\Chats\ChatRepository;
 use App\Http\Services\BaseService;
 use App\Models\ChatMessage;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -20,21 +21,13 @@ class Chatservice extends BaseService
         $this->service = $service;
     }
 
-    public function getReplies(ChatMessage $chatMessage)
+    public function getChat(User $user)
     {
         try {
             Log::info(__METHOD__ . " -- Chat Message data all fetched: ");
-            return $this->repository->getReplies($chatMessage);
-        } catch (Exception $e) {
-            throw new ErrorException(trans('messages.general_error'));
-        }
-    }
+            $result = $this->repository->getChat($user);
+            return $this->service->paginate($result);
 
-    public function getall()
-    {
-        try {
-            Log::info(__METHOD__ . " -- Chat Message data all fetched: ");
-            return $this->repository->getAll();
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }
@@ -42,7 +35,7 @@ class Chatservice extends BaseService
 
     public function save(array $data)
     {
-        // try {
+        try {
             $data['sender_id'] = Auth::user()->id;
             $data['parent_id'] = null;
 
@@ -59,9 +52,9 @@ class Chatservice extends BaseService
             $this->repository->save($data);
             return true;
 
-        // } catch (Exception $e) {
-        //     throw new ErrorException(trans('messages.general_error'));
-        // }
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
     }
 
     public function delete(ChatMessage $chatMessage)

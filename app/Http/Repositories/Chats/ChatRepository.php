@@ -12,8 +12,6 @@ class ChatRepository
     public function getAll()
     {
         $chatMessages = Conversation::with('last_message')->get();
-        
-        dd($chatMessages->toArray());
 
         return $chatMessages;
     }

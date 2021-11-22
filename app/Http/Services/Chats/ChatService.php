@@ -5,6 +5,7 @@ use App\Exceptions\ErrorException;
 use App\Http\Repositories\Chats\ChatRepository;
 use App\Http\Services\BaseService;
 use App\Models\ChatMessage;
+use App\Models\Conversation;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,18 @@ class Chatservice extends BaseService
         $this->service = $service;
     }
 
+    public function getAll()
+    {
+        try {
+        Log::info(__METHOD__ . " -- Get all conversation data all fetched: ");
+        $result = $this->repository->getAll();
+        return $this->service->paginate($result);
+
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
+    }
+
     public function getChat(User $user)
     {
         try {
@@ -35,10 +48,20 @@ class Chatservice extends BaseService
 
     public function save(array $data)
     {
-        try {
+        // try {
             $data['sender_id'] = Auth::user()->id;
             $data['parent_id'] = null;
+            $data['conversation_id'] = null;
 
+            $conversation = Conversation::where([['sender_id', auth()->user()->id], ['reciever_id', $data['reciever_id']]])
+                ->orWhere([['sender_id', $data['reciever_id']], ['reciever_id', auth()->user()->id]])->first();
+            if ($conversation) {
+                $data['conversation_id'] = $conversation->id;
+            }
+            else{ 
+               $conversation = Conversation::create(['sender_id'=> auth()->user()->id, 'reciever_id' => $data['reciever_id']]);
+               $data['conversation_id'] = $conversation->id;
+            }
             if (isset($data['id'])) {
                 $chatMessageExist = ChatMessage::where(['id' => $data['id'], 'reciever_id' => $data['reciever_id']])->first();
                 if ($chatMessageExist) {
@@ -52,9 +75,9 @@ class Chatservice extends BaseService
             $this->repository->save($data);
             return true;
 
-        } catch (Exception $e) {
-            throw new ErrorException(trans('messages.general_error'));
-        }
+        // } catch (Exception $e) {
+        //     throw new ErrorException(trans('messages.general_error'));
+        // }
     }
 
     public function delete(ChatMessage $chatMessage)

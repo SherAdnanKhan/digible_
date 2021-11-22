@@ -5,41 +5,40 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ChatMessage extends Model
+class Conversation extends Model
 {
     use HasFactory;
+
 
     protected $guarded = [
         'created_at',
     ];
 
-    /**
+    protected $appends = ['conversation_name'];
+
+    public function getConversationNameAttribute()
+    {
+
+        return $this->sender_id == auth()->user()->id ? $this->reciever->name : $this->sender->name;
+    }
+
+       /**
      * @OA\Schema(
-     *     schema="ChatMessage",
+     *     schema="Conversation",
      *     @OA\Property(
      *         property="id",
      *         type="integer",
      *         example=1
      *     ),
      *     @OA\Property(
-     *         property="sender_id",
+     *         property="user1",
      *         type="integer",
      *         example=1
      *     ),
      *     @OA\Property(
-     *         property="reciever_id",
+     *         property="user2",
      *         type="integer",
      *         example=1
-     *     ),
-     *     @OA\Property(
-     *         property="parent_id",
-     *         type="integer",
-     *         example=null
-     *     ),
-     *     @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="This collection avaialable?"
      *     ),
      *     @OA\Property(
      *         property="created_at",
@@ -62,9 +61,14 @@ class ChatMessage extends Model
      * )
      */
 
-    public function replies()
+    public function messages()
     {
-        return $this->hasMany(ChatMessage::class, 'parent_id');
+        return $this->hasMany(ChatMessage::class);
+    }
+
+    public function last_message()
+    {
+        return $this->hasOne(ChatMessage::class)->latestOfMany();
     }
 
     public function sender()
@@ -72,14 +76,8 @@ class ChatMessage extends Model
         return $this->belongsTo(User::class, 'sender_id', 'id');
     }
 
-    public function conversation()
-    {
-        return $this->belongsTo(Conversation::class);
-    }
-
     public function reciever()
     {
         return $this->belongsTo(User::class, 'reciever_id', 'id');
     }
-
 }

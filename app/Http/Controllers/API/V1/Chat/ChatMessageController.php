@@ -7,6 +7,7 @@ use App\Http\Requests\Chat\StoreChatRequest;
 use App\Http\Requests\Chat\UpdateChatRequest;
 use App\Http\Services\Chats\ChatService;
 use App\Http\Transformers\Chats\ChatTransformer;
+use App\Http\Transformers\Users\UserTransformer;
 use App\Models\ChatMessage;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -15,20 +16,22 @@ class ChatMessageController extends Controller
 {
     protected $service;
     protected $transformer;
+    protected $userTransformer;
 
-    public function __construct(ChatService $service, ChatTransformer $transformer)
+    public function __construct(ChatService $service, ChatTransformer $transformer, UserTransformer $userTransformer)
     {
         $this->service = $service;
         $this->transformer = $transformer;
+        $this->userTransformer = $userTransformer;
     }
 
-        /** @OA\Get(
+    /** @OA\Get(
      *     path="/api/chats/",
      *     description="Get current user coversations ",
      *     summary="Get User Conversations ",
      *     operationId="getUserConversations",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Comments"},
+     *     tags={"ChatMessages"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -163,7 +166,157 @@ class ChatMessageController extends Controller
         return $this->service->getAll();
     }
 
-       /** @OA\Get(
+    /** @OA\Get(
+     *     path="/api/get-chat/{user}/details/",
+     *     description="Get current user details ",
+     *     summary="Get User details ",
+     *     operationId="getUserDetails",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"ChatMessages"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="user",
+     *         parameter="user",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                      property="current_page",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/User")
+     *                  ),
+     *                  @OA\Property(
+     *                         property="first_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="from",
+     *                         type="integer",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="last_page",
+     *                         type="integer",
+     *                         example=3
+     *                     ),
+     *                     @OA\Property(
+     *                         property="last_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="links",
+     *                         type="array",
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example=null
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="&laquo; Previous"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=false
+     *                              ),
+     *                         ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example="/?page=1"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="1"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=true
+     *                              ),
+     *                         ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example=null
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="Next & raquo;"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=false
+     *                              ),
+     *                         ),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="next_page_url",
+     *                         type="string",
+     *                         example="/?page=2"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="path",
+     *                         type="string",
+     *                         example="/"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="per_page",
+     *                         type="integer",
+     *                         example=10
+     *                     ),
+     *                     @OA\Property(
+     *                         property="prev_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="to",
+     *                         type="integer",
+     *                         example=10
+     *                     ),
+     *                     @OA\Property(
+     *                         property="total",
+     *                         type="integer",
+     *                         example=30
+     *                     ),
+     *                 ),
+     *             )
+     *     )
+     * )
+     * @param User $user
+     * @return JsonResponse
+     */
+
+    public function getUser(User $user)
+    {
+        return $this->success($user, $this->userTransformer);
+    }
+
+    /** @OA\Get(
      *     path="/api/get-chat/{user}",
      *     description="Get Comment",
      *     summary="Get by id",
@@ -301,7 +454,7 @@ class ChatMessageController extends Controller
     {
         if ($chatMessage && (auth()->user()->hasRole('admin') ||
             auth()->user()->id == $chatMessage->sender_id)) {
-            
+
             $this->service->delete($chatMessage);
             return $this->success([], null, trans('messages.collection_delete_success'));
         }

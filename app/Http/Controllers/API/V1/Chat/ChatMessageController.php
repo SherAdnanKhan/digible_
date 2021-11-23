@@ -163,7 +163,8 @@ class ChatMessageController extends Controller
 
     public function index()
     {
-        return $this->service->getAll();
+        $result = $this->service->getAll();
+        return $this->success($result, null);
     }
 
     /** @OA\Get(

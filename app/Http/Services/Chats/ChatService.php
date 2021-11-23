@@ -26,8 +26,7 @@ class Chatservice extends BaseService
     {
         try {
         Log::info(__METHOD__ . " -- Get all conversation data all fetched: ");
-        $result = $this->repository->getAll();
-        return $this->service->paginate($result);
+        return $this->repository->getAll();
 
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
@@ -57,6 +56,8 @@ class Chatservice extends BaseService
                 ->orWhere([['sender_id', $data['reciever_id']], ['reciever_id', auth()->user()->id]])->first();
             if ($conversation) {
                 $data['conversation_id'] = $conversation->id;
+                $conversation->updated_at = now();
+                $conversation->save();
             }
             else{ 
                $conversation = Conversation::create(['sender_id'=> auth()->user()->id, 'reciever_id' => $data['reciever_id']]);

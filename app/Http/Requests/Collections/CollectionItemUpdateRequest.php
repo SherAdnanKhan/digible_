@@ -28,7 +28,7 @@ class CollectionItemUpdateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'image' => 'base64img',
             'status' => ['string', 'max:255', Rule::in(array_keys(CollectionItem::statuses()))],
-            'description' => ['string', 'max:255'],
+            'description' => ['string', 'max:400'],
             'edition' => ['string', 'max:255'],
             'price' => 'numeric|gte:0',
             'graded' => ['string', 'max:255'],

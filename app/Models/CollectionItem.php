@@ -127,9 +127,9 @@ class CollectionItem extends Model
 
     protected $guarded = ['created_at'];
 
-    protected $appends = ['path'];
+    protected $appends = ['image_path'];
 
-    public function getPathAttribute()
+    public function getImagePathAttribute()
     {
         return $this->image ? asset('/' . $this->image) : null;
     }

@@ -24,7 +24,7 @@ class CollectionItemTransformer extends BaseTransformer
             'name' => $collectionItem->name,
             'label' => $collectionItem->label,
             'image' => $collectionItem->image,
-            'path' => $collectionItem->path,
+            'image_path' => $collectionItem->image_path,
             'description' => $collectionItem->description,
             'edition' => $collectionItem->edition,
             'graded' => $collectionItem->graded,

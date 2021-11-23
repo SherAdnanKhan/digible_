@@ -47,7 +47,7 @@ class Chatservice extends BaseService
 
     public function save(array $data)
     {
-        // try {
+        try {
             $data['sender_id'] = Auth::user()->id;
             $data['parent_id'] = null;
             $data['conversation_id'] = null;
@@ -76,9 +76,9 @@ class Chatservice extends BaseService
             $this->repository->save($data);
             return true;
 
-        // } catch (Exception $e) {
-        //     throw new ErrorException(trans('messages.general_error'));
-        // }
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
     }
 
     public function delete(ChatMessage $chatMessage)

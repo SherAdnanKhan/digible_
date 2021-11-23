@@ -25,7 +25,7 @@ class CollectionItemUpdateRequest extends FormRequest
     {
         return [
             'collection_item_type_id' => 'required|exists:collection_item_types,id',
-            'name' => 'required|string|max:255|unique:collection_items',
+            'name' => 'required|string|max:255',
             'image' => 'base64img',
             'status' => ['string', 'max:255', Rule::in(array_keys(CollectionItem::statuses()))],
             'description' => ['string', 'max:255'],

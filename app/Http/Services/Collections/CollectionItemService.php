@@ -107,11 +107,13 @@ class CollectionItemService extends BaseService
         $collectionItem = $this->repository->updateAFS($collectionItem, $data);
         $data = $collectionItem->favoriteUsers();
         $users = $data->pluck('user');
-        if ($this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->toDateTimeString(), 'gt') &&
-            $this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->addDays(1), 'lt')) {
-            $data['collectionItem'] = $collectionItem;
-            $data['users'] = $users;
-            Event::dispatch('subscribers.notify', $data);
+        if ($collectionItem->available_for_sale == 1) {
+            if ($this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->toDateTimeString(), 'gt') &&
+                $this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->addDays(1), 'lt')) {
+                $data['collectionItem'] = $collectionItem;
+                $data['users'] = $users;
+                Event::dispatch('subscribers.notify', $data);
+            }
         }
         // if ($this->imageService->dateComparision($collectionItem->available_at, Carbon::now()->addDays(1), 'gt')) {
         //     Favourite::query()

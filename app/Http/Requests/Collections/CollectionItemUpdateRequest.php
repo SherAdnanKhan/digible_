@@ -35,7 +35,10 @@ class CollectionItemUpdateRequest extends FormRequest
             'year' => 'digits:4|integer|min:1900|max:'.(date('Y')+1),
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
-            'available_for_sale' => 'boolean',
+            'available_for_sale' => 'integer|min:0|digits_between: 0,2',
+            'available_at' => 'required_if:available_for_sale,==,1|date_format:Y-m-d H:i:s|after:1 minute',
+            'start_date' => 'required_if:available_for_sale,==,2|date_format:Y-m-d H:i:s',
+            'end_date' => 'required_if:available_for_sale,==,2|date_format:Y-m-d H:i:s',
         ];
     }
 }

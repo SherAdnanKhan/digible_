@@ -35,6 +35,8 @@ class CollectionItemTransformer extends BaseTransformer
             'status' => $collectionItem->status,
             'available_for_sale' => $collectionItem->available_for_sale,
             'available_at' => $collectionItem->available_at,
+            'start_date' => $collectionItem->start_date,
+            'end_date' => $collectionItem->end_date,
             'created_at' => $collectionItem->created_at,
             'updated_at' => $collectionItem->updated_at,
             'favorites_count'=> $collectionItem->favorites_count,

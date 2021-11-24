@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Transformers\Collections;
 
+use App\Http\Transformers\Auctions\AuctionTransformer;
 use App\Http\Transformers\BaseTransformer;
 use App\Http\Transformers\Collections\CollectionTransformer;
 use App\Http\Transformers\Collections\ItemTypeTransformer;
@@ -10,11 +11,7 @@ use App\Models\CollectionItem;
 class CollectionItemTransformer extends BaseTransformer
 {
     protected $defaultIncludes = [
-        'status',
-    ];
-
-    protected $availableIncludes = [
-        'user', 'collection',
+        'status', 'auction', 'lastbet', 'collectionItemtype',
     ];
 
     public function transform(CollectionItem $collectionItem)
@@ -39,18 +36,13 @@ class CollectionItemTransformer extends BaseTransformer
             'end_date' => $collectionItem->end_date,
             'created_at' => $collectionItem->created_at,
             'updated_at' => $collectionItem->updated_at,
-            'favorites_count'=> $collectionItem->favorites_count,
+            'favorites_count' => $collectionItem->favorites_count,
+            'collection' => $collectionItem->collection
 
         ];
     }
 
-    public function includeCollection(CollectionItem $collectionItem)
-    {
-        $collection = $collectionItem->collection;
-        return $this->item($collection, new CollectionTransformer);
-    }
-
-    public function includeUser(CollectionItem $collectionItem)
+    public function includeCollectionItemType(CollectionItem $collectionItem)
     {
         $collectionItemType = $collectionItem->collectionItemType;
         return $this->item($collectionItemType, new ItemTypeTransformer);
@@ -63,6 +55,22 @@ class CollectionItemTransformer extends BaseTransformer
             'name' => data_get(CollectionItem::statuses(), $collectionItem->status),
         ];
         return $this->item($item, new ConstantTransformer);
+    }
+
+    public function includeAuction(CollectionItem $collectionItem)
+    {
+        if (isset($collectionItem->auction)) {
+            $auctions = $collectionItem->auction;
+            return $this->collection($auctions, new AuctionTransformer);
+        }
+    }
+
+    public function includeLastBet(CollectionItem $collectionItem)
+    {
+        if (isset($collectionItem->lastBet)) {
+            $lastBet = $collectionItem->lastBet;
+            return $this->item($lastBet, new AuctionTransformer);
+        }
     }
 
 }

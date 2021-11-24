@@ -8,6 +8,7 @@ use App\Http\Controllers\API\V1\Users\AuthController;
 use App\Http\Controllers\API\V1\Users\UserController;
 use App\Http\Controllers\API\V1\Admin\AdminController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
+use App\Http\Controllers\API\V1\Auction\AuctionController;
 use App\Http\Controllers\API\V1\Admin\OrderAdminController;
 use App\Http\Controllers\API\V1\Chat\ChatMessageController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
@@ -127,6 +128,10 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
     });
 
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
+        Route::resource('auctions', AuctionController::class);
+        Route::get('/auction/current', [AuctionController::class, 'getByUser']);
+        Route::get('/auction/won-bets', [AuctionController::class, 'getWonBets']);
+
         Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);
 

@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CollectionItem extends Model
 {
@@ -144,11 +146,21 @@ class CollectionItem extends Model
         return $this->belongsTo(CollectionItemType::class);
     }
 
+    public function auction(): HasMany
+    {
+        return $this->hasMany(Auction::class);
+    }
+
+    public function lastBet(): HasOne
+    {
+        return $this->hasOne(Auction::class)->where('status', 'pending')->orderBy('created_at', 'DESC');
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id')->where(['status' => 'approved']);
     }
-    
+
     public static function statuses(): array
     {
         return [
@@ -173,7 +185,7 @@ class CollectionItem extends Model
 
     public function favorites()
     {
-       return $this->hasMany(Favourite::class);
+        return $this->hasMany(Favourite::class);
     }
 
     public function setAvailableAtAttribute($value)

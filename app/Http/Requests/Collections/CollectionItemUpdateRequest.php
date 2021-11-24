@@ -10,8 +10,8 @@ class CollectionItemUpdateRequest extends FormRequest
 {
     public function authorize()
     {
-        if ($this->collection && ($this->user()->hasRole('admin') ||
-            $this->user()->id == $this->collection->user_id)) {
+        if (($this->collection && $this->collection_item->collection_id == $this->collection->id) &&
+            ($this->user()->hasRole('admin') || $this->user()->id == $this->collection->user_id)) {
             return true;
         }
         return false;
@@ -32,7 +32,7 @@ class CollectionItemUpdateRequest extends FormRequest
             'edition' => ['string', 'max:255'],
             'price' => 'numeric|gte:0',
             'graded' => ['string', 'max:255'],
-            'year' => 'digits:4|integer|min:1900|max:'.(date('Y')+1),
+            'year' => 'digits:4|integer|min:1900|max:' . (date('Y') + 1),
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
             'available_for_sale' => 'integer|min:0|digits_between: 0,2',

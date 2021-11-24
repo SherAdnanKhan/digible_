@@ -14,11 +14,10 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'authenication.api_key' => 'required|string|min:3|max:255',
-            'authenication.api_pass' => 'required|string|min:3|max:255',
+            'secretKey' => 'required|string|min:3|max:255',
             'items.*.collection_item_id' => 'required|exists:collection_items,id',
             'items.*.quantity' => 'required|numeric|gt:0',
-            'items.*.currency' => 'required|string|min:3|max:3',
+            'currency' => 'required|string|min:3|max:3',
             'items.*.discount' => 'numeric|gte:0',
         ];
     }

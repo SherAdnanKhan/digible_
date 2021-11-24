@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Order\OrderCompleteRequest;
-use App\Http\Requests\Order\OrderRequest;
-use App\Http\Services\Users\OrderService;
-use App\Http\Transformers\Orders\OrderTransformer;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\OrderRequest;
+use App\Http\Services\Orders\OrderService;
+use App\Http\Requests\Order\OrderCompleteRequest;
+use App\Http\Transformers\Orders\OrderTransformer;
 
 class OrderController extends Controller
 {
@@ -267,7 +267,8 @@ class OrderController extends Controller
     {
         $result = $this->service->create($request->validated());
         if ($result) {
-            return $this->success([], $this->transformer, trans('messages.order_create_success'));
+            dd($result);
+            return view('payment.creditcard')->with(compact('result'));
         } else {
             return $this->failure('', trans('messages.order_create_failed'));
         }

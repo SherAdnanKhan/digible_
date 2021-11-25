@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\Favourites\FavouriteService;
+use App\Http\Transformers\Collections\CollectionItemTransformer;
 use App\Models\Collection;
 use App\Models\CollectionItem;
 use Illuminate\Support\Facades\Auth;
@@ -11,10 +12,15 @@ use Illuminate\Support\Facades\Auth;
 class FavouriteController extends Controller
 {
     protected $service;
+    /**
+     * @var CollectionItemTransformer
+     */
+    private $collectionItemTransformer;
 
-    public function __construct(FavouriteService $service)
+    public function __construct(FavouriteService $service, CollectionItemTransformer $collectionItemTransformer)
     {
         $this->service = $service;
+        $this->collectionItemTransformer = $collectionItemTransformer;
     }
 
     /** @OA\Post(
@@ -270,6 +276,6 @@ class FavouriteController extends Controller
     public function myFavorites(CollectionItem $collectionItem)
     {
         $result = $this->service->myFavorites($collectionItem);
-        return $result;
+        return $this->success($result, $this->collectionItemTransformer);
     }
 }

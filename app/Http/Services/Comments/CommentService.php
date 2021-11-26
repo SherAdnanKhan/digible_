@@ -69,11 +69,14 @@ class Commentservice extends BaseService
         try {
             $data['user_id'] = Auth::user()->id;
             $data['status'] = Comment::STATUS_PENDING;
+            if (auth()->user()->hasRole('admin')) {
+                $data['status'] = Comment::STATUS_APPROVED;
+            }
             $data['comment_id'] = null;
 
             if (isset($data['id'])) {
                 if (isset($data['collection_item_id'])) {
-                    $commentExist = Comment::where(['id' => $data['id'], 'status' => Comment::STATUS_APPROVED,'commentable_type' => 'App\Models\CollectionItem'])->first();
+                    $commentExist = Comment::where(['id' => $data['id'], 'status' => Comment::STATUS_APPROVED, 'commentable_type' => 'App\Models\CollectionItem'])->first();
                 } else {
                     $commentExist = Comment::where(['id' => $data['id'], 'status' => Comment::STATUS_APPROVED])->first();
                 }

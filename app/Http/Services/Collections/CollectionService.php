@@ -39,7 +39,7 @@ class CollectionService extends BaseService
     public function getPending()
     {
         Log::info(__METHOD__ . " -- Pending Collection data all fetched: ");
-        $result= $this->repository->getPending();
+        $result = $this->repository->getPending();
         return $this->imageService->paginate($result);
     }
 
@@ -66,6 +66,9 @@ class CollectionService extends BaseService
                 $data['banner_image'] = $image;
             }
             $data['status'] = Collection::STATUS_PENDING;
+            if (auth()->user()->hasRole('admin')) {
+                $data['status'] = Collection::STATUS_APPROVED;
+            }
             $data['user_id'] = Auth::user()->id;
             Log::info(__METHOD__ . " -- New collection request info: ", $data);
             $this->repository->save($data);
@@ -100,7 +103,7 @@ class CollectionService extends BaseService
                 $image = $this->imageService->uploadImage($data['featured_image'], 'collections');
                 $data['featured_image'] = $image;
             }
-            
+
             if (isset($data['banner_image'])) {
                 if ($collection['banner_image']) {
                     $this->imageService->removeImage($collection['banner_image']);

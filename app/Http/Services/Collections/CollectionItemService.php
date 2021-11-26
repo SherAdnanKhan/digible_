@@ -60,6 +60,9 @@ class CollectionItemService extends BaseService
                 $data['image'] = $image;
             }
             $data['status'] = CollectionItem::STATUS_PENDING;
+            if (auth()->user()->hasRole('admin')) {
+                $data['status'] = CollectionItem::STATUS_APPROVED;
+            }
             Log::info(__METHOD__ . " -- New collection request info: ", $data);
             $this->repository->save($collection, $data);
         } catch (Exception $e) {

@@ -1,14 +1,15 @@
 <?php
 namespace App\Http\Services\Auctions;
 
-use Exception;
-use App\Models\User;
+use App\Exceptions\ErrorException;
+use App\Http\Repositories\Auctions\AuctionRepository;
+use App\Http\Services\BaseService;
 use App\Models\Auction;
 use App\Models\CollectionItem;
-use App\Exceptions\ErrorException;
-use App\Http\Services\BaseService;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use App\Http\Repositories\Auctions\AuctionRepository;
 
 class AuctionService extends BaseService
 {
@@ -37,28 +38,29 @@ class AuctionService extends BaseService
 
     public function save(array $data)
     {
-        try {
-            $collectionItem = CollectionItem::find($data['collection_item_id']);
-            if (isset($collectionItem)) {
-                if ($data['last_price'] < $collectionItem->price || $collectionItem->available_for_sale !=2 
-                || !isset($collectionItem->collection->user_id)) {
-                    return false;
-                }
-            }
 
-            $Auction = Auction::where(['collection_item_id' => $data['collection_item_id'], "status" => Auction::STATUS_PENDING])->latest('created_at')->first();
-            if (isset($Auction)) {
-                if ($data['last_price'] <= $Auction->last_price) {
-                    return false;
-                }
+        $collectionItem = CollectionItem::find($data['collection_item_id']);
+        if (isset($collectionItem)) {
+            if ($data['last_price'] < $collectionItem->price || $collectionItem->available_for_sale != 2
+                || !isset($collectionItem->collection->user_id) || $collectionItem->status == CollectionItem::STATUS_PENDING) {
+                throw new ErrorException('exception.auction_failed', [], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
+        }
+
+        $last_bet = Auction::where(['collection_item_id' => $data['collection_item_id'], "status" => Auction::STATUS_PENDING])->latest('created_at')->first();
+        if (isset($last_bet)) {
+            if ($data['last_price'] <= $last_bet->last_price) {
+                throw new ErrorException('exception.price_increased', ["last_bet" => $last_bet], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        try {
             $data['status'] = Auction::STATUS_PENDING;
             $data['seller_id'] = $collectionItem->collection->user_id;
             $data['buyer_id'] = auth()->user()->id;
             $data['base_price'] = $collectionItem->price;
             Log::info(__METHOD__ . " -- New Auction request info: ", $data);
-            $this->repository->save($data);
-            return true;
+            return $this->repository->save($data);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }

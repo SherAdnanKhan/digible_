@@ -37,7 +37,8 @@ class CollectionItemTransformer extends BaseTransformer
             'created_at' => $collectionItem->created_at,
             'updated_at' => $collectionItem->updated_at,
             'favorites_count' => $collectionItem->favorites_count,
-            'collection' => $collectionItem->collection
+            'collection' => $collectionItem->collection,
+            'collection_id' => $collectionItem->collection_id
 
         ];
     }

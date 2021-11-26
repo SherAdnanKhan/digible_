@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API\V1\Auction;
 
-use App\Models\User;
-use App\Models\Auction;
-use Illuminate\Http\Request;
-use App\Models\CollectionItem;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Services\Auctions\AuctionService;
 use App\Http\Requests\Auction\AuctionSaveRequest;
+use App\Http\Services\Auctions\AuctionService;
 use App\Http\Transformers\Auctions\AuctionTransformer;
+use App\Models\Auction;
+use App\Models\CollectionItem;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AuctionController extends Controller
 {
@@ -217,10 +217,8 @@ class AuctionController extends Controller
     public function store(AuctionSaveRequest $request): JsonResponse
     {
         $result = $this->service->save($request->validated());
-        if($result){
-            return $this->success([], null, trans('messages.auction_created_success'));
-        }
-        return $this->failure('', trans('messages.messages.auction_place_failed'));
+        return $this->success($result, null, trans('messages.auction_created_success'));
+
     }
 
     /** @OA\Get(
@@ -269,7 +267,7 @@ class AuctionController extends Controller
         return $this->success($auction, $this->transformer);
     }
 
-        /** @OA\Get(
+    /** @OA\Get(
      *     path="/api/auction/current",
      *     description="Get auction",
      *     summary="Get by id",
@@ -305,6 +303,5 @@ class AuctionController extends Controller
     {
         return $this->service->getByUser($user);
     }
-    
 
 }

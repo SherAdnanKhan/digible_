@@ -14,9 +14,9 @@ class AuctionRepository
         return $auctions;
     }
 
-    public function save(array $data): void
+    public function save(array $data)
     {
-        Auction::create($data);
+        return Auction::create($data);
     }
 
     public function getByUser()

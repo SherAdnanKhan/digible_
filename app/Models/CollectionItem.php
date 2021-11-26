@@ -209,4 +209,47 @@ class CollectionItem extends Model
         return $value;
     }
 
+    public function setStartDateAttribute($value)
+    {
+        // dd($value);
+        $user_date = date('Y-m-d H:i:s', strtotime($value));
+        # convert user date to utc date
+        $utc_date = Carbon::createFromFormat('Y-m-d H:i:s', $user_date, auth()->user()->timezone);
+
+        $utc_date->setTimezone('UTC');
+        $this->attributes['start_date'] = $utc_date;
+    }
+
+    public function getStartDateAttribute($value)
+    {
+        if ($value != null && auth()->user()) {
+            # using utc date convert date to user date
+            $user_date = Carbon::createFromFormat('Y-m-d H:i:s', $value, 'UTC');
+            $user_date->setTimezone(auth()->user()->timezone);
+            return $user_date;
+        }
+        return $value;
+    }
+
+    public function setEndDateAttribute($value)
+    {
+        $user_date = date('Y-m-d H:i:s', strtotime($value));
+        # convert user date to utc date
+        $utc_date = Carbon::createFromFormat('Y-m-d H:i:s', $user_date, auth()->user()->timezone);
+
+        $utc_date->setTimezone('UTC');
+        $this->attributes['end_date'] = $utc_date;
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        if ($value != null && auth()->user()) {
+            # using utc date convert date to user date
+            $user_date = Carbon::createFromFormat('Y-m-d H:i:s', $value, 'UTC');
+            $user_date->setTimezone(auth()->user()->timezone);
+            return $user_date;
+        }
+        return $value;
+    }
+
 }

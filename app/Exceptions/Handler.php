@@ -58,6 +58,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ErrorException $exception, $request) {
             return response()->json([
                 'message' => trans($exception->getName(), $exception->getParams()),
+                'data' => $exception->getParams()
             ], $exception->getStatusCode());
         });
 

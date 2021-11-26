@@ -46,10 +46,12 @@ Route::get('collection-item-types', [ItemTypeBuyerController::class, 'index']);
 Route::group(['prefix' => 'collections/{collection}'], function () {
     Route::get('collection-item', [CollectionItemBuyerController::class, 'all']);
 });
+Route::resource('collections', CollectionController::class);
 
 Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'index']);
 Route::get('collection-item/{collectionItem}/comment', [CommentBuyerController::class, 'indexCI']);
 Route::get('/comment/{comment}', [CommentBuyerController::class, 'show']);
+
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
@@ -126,7 +128,6 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
         });
 
     });
-
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::resource('auctions', AuctionController::class);
         Route::get('/auction/current', [AuctionController::class, 'getByUser']);
@@ -137,7 +138,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
         Route::post('/comments/{comment}/reply', [CommentController::class, 'storeReply']);
         Route::resource('comments', CommentController::class);
-        
+
         Route::post('/chat-messages/{chatMessage}/reply', [ChatMessageController::class, 'storeReply']);
         Route::get('/get-chat/{user}', [ChatMessageController::class, 'getChat']);
         Route::get('/get-chat/{user}/details', [ChatMessageController::class, 'getUser']);
@@ -145,7 +146,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);
-        Route::resource('collections', CollectionController::class);
+
 
         Route::group(['prefix' => 'collections/{collection}'], function () {
             Route::resource('collection-items', CollectionItemController::class);

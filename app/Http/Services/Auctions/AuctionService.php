@@ -9,6 +9,7 @@ use App\Models\CollectionItem;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
 class AuctionService extends BaseService
@@ -60,7 +61,13 @@ class AuctionService extends BaseService
             $data['buyer_id'] = auth()->user()->id;
             $data['base_price'] = $collectionItem->price;
             Log::info(__METHOD__ . " -- New Auction request info: ", $data);
-            return $this->repository->save($data);
+            $result = $this->repository->save($data);
+            if (isset($last_bet)) {
+                $emailData['item'] = $collectionItem;
+                $emailData['user_id'] = $last_bet->buyer_id;
+                Event::dispatch('auction.higher_bet', [$emailData]);
+            }
+            return $result;
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\SendDailyEmails::class,
+        \App\Console\Commands\SendWonEmails::class,
     ];
 
     /**
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('jobs:digest')->daily()->at('00:00');
+        $schedule->command('jobs:send_won_bet_emails')->everyMinute();
         // $schedule->command('inspire')->hourly();
     }
 

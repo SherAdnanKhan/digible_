@@ -36,7 +36,7 @@ class CollectionItemUpdateRequest extends FormRequest
             'population' => ['string', 'max:255'],
             'publisher' => ['string', 'max:255'],
             'available_for_sale' => 'integer|min:0|digits_between: 0,2',
-            'available_at' => 'required_if:available_for_sale,==,1|date_format:Y-m-d H:i:s|after:1 minute',
+            'available_at' => 'required_if:available_for_sale,==,1|date_format:Y-m-d H:i:s',
             'start_date' => 'required_if:available_for_sale,==,2|date_format:Y-m-d H:i:s',
             'end_date' => 'required_if:available_for_sale,==,2|date_format:Y-m-d H:i:s',
         ];

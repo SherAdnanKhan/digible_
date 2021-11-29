@@ -1,29 +1,29 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\V1\OrderController;
-use App\Http\Controllers\API\V1\CommentController;
-use App\Http\Controllers\API\V1\FavouriteController;
-use App\Http\Controllers\API\V1\Users\AuthController;
-use App\Http\Controllers\API\V1\Users\UserController;
 use App\Http\Controllers\API\V1\Admin\AdminController;
+use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
+use App\Http\Controllers\API\V1\Admin\CollectionItemAdminController;
+use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Admin\OrderAdminController;
+use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
 use App\Http\Controllers\API\V1\Admin\UserAdminController;
 use App\Http\Controllers\API\V1\Auction\AuctionController;
-use App\Http\Controllers\API\V1\Admin\OrderAdminController;
-use App\Http\Controllers\API\V1\Chat\ChatMessageController;
-use App\Http\Controllers\API\V1\Admin\CommentAdminController;
+use App\Http\Controllers\API\V1\Buyer\CollectionBuyerController;
+use App\Http\Controllers\API\V1\Buyer\CollectionItemBuyerController;
 use App\Http\Controllers\API\V1\Buyer\CommentBuyerController;
 use App\Http\Controllers\API\V1\Buyer\ItemTypeBuyerController;
-use App\Http\Controllers\API\V1\Collections\ItemTypeController;
-use App\Http\Controllers\API\V1\Seller\SellerRequestController;
-use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
-use App\Http\Controllers\API\V1\Buyer\CollectionBuyerController;
+use App\Http\Controllers\API\V1\Chat\ChatMessageController;
 use App\Http\Controllers\API\V1\Collections\CollectionController;
-use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
-use App\Http\Controllers\API\V1\Admin\CollectionItemAdminController;
-use App\Http\Controllers\API\V1\Buyer\CollectionItemBuyerController;
 use App\Http\Controllers\API\V1\Collections\CollectionItemController;
+use App\Http\Controllers\API\V1\Collections\ItemTypeController;
+use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\FavouriteController;
+use App\Http\Controllers\API\V1\OrderController;
 use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
+use App\Http\Controllers\API\V1\Seller\SellerRequestController;
+use App\Http\Controllers\API\V1\Users\AuthController;
+use App\Http\Controllers\API\V1\Users\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,12 +46,11 @@ Route::get('collection-item-types', [ItemTypeBuyerController::class, 'index']);
 Route::group(['prefix' => 'collections/{collection}'], function () {
     Route::get('collection-item', [CollectionItemBuyerController::class, 'all']);
 });
-Route::resource('collections', CollectionController::class);
+Route::resource('collections', CollectionController::class)->only(['show']);
 
 Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'index']);
 Route::get('collection-item/{collectionItem}/comment', [CommentBuyerController::class, 'indexCI']);
 Route::get('/comment/{comment}', [CommentBuyerController::class, 'show']);
-
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
@@ -146,7 +145,7 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
         Route::get('/my_favorites', [FavouriteController::class, 'myFavorites']);
         Route::get('/is_favorite/{collectionItem}', [FavouriteController::class, 'isFavorite']);
-
+        Route::resource('collections', CollectionController::class)->except(['show']);
 
         Route::group(['prefix' => 'collections/{collection}'], function () {
             Route::resource('collection-items', CollectionItemController::class);

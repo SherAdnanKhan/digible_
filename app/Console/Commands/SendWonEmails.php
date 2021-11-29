@@ -45,7 +45,6 @@ class SendWonEmails extends Command
         $last_bets = Auction::where(["status" => Auction::STATUS_PENDING, ['created_at', '>=', Carbon::now()->addMinutes(-5)], ['created_at', '<', Carbon::now()]])->get();
         foreach ($last_bets as $last_bet) {
             $collectionItem = CollectionItem::where(['id' => $last_bet->collection_item_id, ["end_date", '<=', Carbon::now()]])->first();
-            file_put_contents("/var/www/html/laravel-api/test.txt", print_r($collectionItem, true));
             if ($collectionItem) {
                 $user = User::find($last_bet->buyer_id);
                 dispatch(new \App\Jobs\WonBetJob($user, $collectionItem));

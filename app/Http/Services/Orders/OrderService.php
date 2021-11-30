@@ -54,7 +54,7 @@ class OrderService extends BaseService
                 $wallet_address[$item['collection_item_id']] = SellerProfile::where("user_id", $seller[$item['collection_item_id']])->pluck('wallet_address')->first();
             }
             foreach ($items as $item) {
-                if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1) {
+                if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1 || $collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
                     $subtotal = $collectionItem[$item['collection_item_id']]->price * $item['quantity'];
                     $discount = Arr::exists($item, 'discount') ? $item['discount'] : 0.00;
                     $subtotalAfterDiscount = $subtotal - $discount;
@@ -75,9 +75,14 @@ class OrderService extends BaseService
                     $orderItem['status'] = Order::PENDING;
                     $order = $this->orderRepository->create($orderItem);
                     $grandTotal += $total;
+                    $item['auction_id'] = null;
+                    if (isset($item['auction']) && $item['auction']) {
+                        $item['auction_id'] = CollectionItem::where('id', $item->id)->with("last_bet")->pluck('id');
+                    }
                     $result[] = $this->orderCollectionRepository->create($order, $item);
+
                 } else {
-                    throw new ErrorException("Collection id not for sale.");
+                    throw new ErrorException("Collection id not for sale or not for auction.");
                 }
             }
             DB::commit();

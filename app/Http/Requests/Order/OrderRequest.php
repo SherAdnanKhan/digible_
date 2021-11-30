@@ -19,6 +19,7 @@ class OrderRequest extends FormRequest
             'items.*.quantity' => 'required|numeric|gt:0',
             'currency' => 'required|string|min:3|max:3',
             'items.*.discount' => 'numeric|gte:0',
+            'items.*.auction' => 'boolean'
         ];
     }
 }

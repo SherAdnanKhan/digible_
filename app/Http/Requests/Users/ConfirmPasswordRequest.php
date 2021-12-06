@@ -10,7 +10,6 @@ class ConfirmPasswordRequest extends FormRequest
     {
         return [
             'token' => 'required|string',
-            'email' => 'required|string|exists:users,email',
             'password' => 'required|string|confirmed|min:6|max:255',
         ];
     }

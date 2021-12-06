@@ -56,9 +56,9 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
-    'frontend' => 'http://localhost:4200',
+    'frontend' => 'https://dui.staging.doodle.je',
 
-    'client_url' => 'http://localhost:8000/api',
+    'client_url' => 'https://dui.staging.doodle.je/api',
 
     'account_id' => 'AC_L9NT47Z9X66',
 

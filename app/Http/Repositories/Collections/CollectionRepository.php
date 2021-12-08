@@ -9,7 +9,7 @@ class CollectionRepository
 {
     public function getAll()
     {
-        return Collection::with('user')->get();
+        return Collection::where(['status' => Collection::STATUS_APPROVED])->with('user')->get();
     }
 
     public function getCurrentAll()

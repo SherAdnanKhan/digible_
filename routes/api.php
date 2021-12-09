@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\API\V1\Admin\AdminController;
 use App\Http\Controllers\API\V1\Admin\CollectionAdminController;
-use App\Http\Controllers\API\V1\Admin\CollectionItemAdminController;
 use App\Http\Controllers\API\V1\Admin\CommentAdminController;
 use App\Http\Controllers\API\V1\Admin\OrderAdminController;
 use App\Http\Controllers\API\V1\Admin\SellerProfileAdminController;
@@ -101,12 +100,6 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
             Route::get('/pending', [CollectionAdminController::class, 'index']);
             Route::put('/action/{collection}', [CollectionAdminController::class, 'update']);
             Route::get('/approved', [CollectionAdminController::class, 'approved']);
-        });
-
-        Route::group(['prefix' => 'collection-items'], function () {
-            Route::get('/pending', [CollectionItemAdminController::class, 'index']);
-            Route::put('/action/{collectionItem}', [CollectionItemAdminController::class, 'update']);
-            Route::get('/approved', [CollectionItemAdminController::class, 'approved']);
         });
 
         Route::group(['prefix' => 'orders'], function () {

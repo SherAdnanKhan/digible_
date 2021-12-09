@@ -38,30 +38,12 @@ class CollectionItemService extends BaseService
         // return $this->imageService->paginate($result);
     }
 
-    public function getPending()
-    {
-        Log::info(__METHOD__ . " -- Pending Collection Item data all fetched: ");
-        $result = $this->repository->getPending();
-        return $this->imageService->paginate($result);
-    }
-
-    public function getApproved()
-    {
-        Log::info(__METHOD__ . " -- Approved Collection Item data all fetched: ");
-        $result = $this->repository->getApproved();
-        return $this->imageService->paginate($result);
-    }
-
     public function save(Collection $collection, array $data): void
     {
         try {
             if (isset($data['image'])) {
                 $image = $this->imageService->uploadImage($data['image'], 'collectionItems');
                 $data['image'] = $image;
-            }
-            $data['status'] = CollectionItem::STATUS_PENDING;
-            if (auth()->user()->hasRole('admin')) {
-                $data['status'] = CollectionItem::STATUS_APPROVED;
             }
             Log::info(__METHOD__ . " -- New collection request info: ", $data);
             $this->repository->save($collection, $data);
@@ -94,7 +76,6 @@ class CollectionItemService extends BaseService
                 $image = $this->imageService->uploadImage($data['image'], 'collectionItems');
                 $data['image'] = $image;
             }
-            $data['status'] = Arr::exists($data, 'status') ? $data['status'] : CollectionItem::STATUS_PENDING;
             $collectionItem = $this->repository->update($collectionItem, $data);
 
         } catch (Exception $e) {

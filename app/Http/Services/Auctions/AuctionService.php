@@ -43,7 +43,7 @@ class AuctionService extends BaseService
         $collectionItem = CollectionItem::find($data['collection_item_id']);
         if (isset($collectionItem)) {
             if ($data['last_price'] < $collectionItem->price || $collectionItem->available_for_sale != 2
-                || !isset($collectionItem->collection->user_id) || $collectionItem->status == CollectionItem::STATUS_PENDING) {
+                || !isset($collectionItem->collection->user_id)) {
                 throw new ErrorException('exception.auction_failed', [], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         }

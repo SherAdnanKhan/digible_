@@ -240,11 +240,6 @@ class CollectionItemController extends Controller
      *                     example=10
      *                 ),
      *                 @OA\Property(
-     *                     property="status",
-     *                     type="string",
-     *                     example="pending"
-     *                 ),
-     *                 @OA\Property(
      *                     property="available_for_sale",
      *                     type="boolean",
      *                     example=0
@@ -411,11 +406,6 @@ class CollectionItemController extends Controller
      *                     property="publisher",
      *                     type="string",
      *                     example="Pokeman"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="status",
-     *                     type="string",
-     *                     example="pending"
      *                 ),
      *                 @OA\Property(
      *                     property="available_for_sale",

@@ -12,12 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class CollectionItem extends Model
 {
     use HasFactory;
-    const STATUS_PENDING = "pending";
-    const STATUS_APPROVED = "approved";
-    const STATUS_REJECTED = "rejected";
-    const TYPE_BACKED = "backed";
-    const TYPE_NON_BACKED = "nonbacked";
-    const TYPE_NON_NFT = "nonnft";
 
     /**
      * @OA\Schema(
@@ -76,19 +70,6 @@ class CollectionItem extends Model
      *         property="publisher",
      *         type="string",
      *         example="2019-03-10 02:00:39"
-     *     ),
-     *     @OA\Property(
-     *         property="status",
-     *         @OA\Property(
-     *             property="id",
-     *             type="string",
-     *             example=1
-     *         ),
-     *         @OA\Property(
-     *             property="name",
-     *             type="string",
-     *             example="pending/approved"
-     *         )
      *     ),
      *     @OA\Property(
      *         property="available_for_sale",
@@ -161,22 +142,6 @@ class CollectionItem extends Model
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id')->where(['status' => 'approved']);
     }
 
-    public static function statuses(): array
-    {
-        return [
-            static::STATUS_PENDING => "pending",
-            static::STATUS_APPROVED => "approved",
-            static::STATUS_REJECTED => "rejected",
-        ];
-    }
-    public static function nfttype(): array
-    {
-        return [
-            static::TYPE_BACKED => "backed",
-            static::TYPE_NON_BACKED => "nonbacked",
-            static::TYPE_NON_NFT => "nonnft",
-        ];
-    }
     public function favoriteUsers()
     {
         return Favourite::with('user')->where('collection_item_id', $this->id)

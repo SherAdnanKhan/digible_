@@ -48,18 +48,6 @@ class CollectionItemRepository
         return $collectionItems;
     }
 
-    public function getPending()
-    {
-        return CollectionItem::where(['status' => CollectionItem::STATUS_PENDING])->with('collection.user', 'collectionItemType', 'auction', 'auction.seller', 
-        'auction.buyer', 'lastBet', 'lastBet.seller', 'lastBet.buyer')->get();
-    }
-
-    public function getApproved()
-    {
-        return CollectionItem::where(['status' => CollectionItem::STATUS_APPROVED])->with('collection.user', 'collectionItemType', 'auction', 'auction.seller', 
-        'auction.buyer', 'lastBet', 'lastBet.seller', 'lastBet.buyer')->get();
-    }
-
     public function save(Collection $collection, array $data): void
     {
         $collection->collectionitems()->create($data);

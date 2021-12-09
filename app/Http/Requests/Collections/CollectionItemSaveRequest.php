@@ -27,7 +27,6 @@ class CollectionItemSaveRequest extends FormRequest
             'collection_item_type_id' => 'required|exists:collection_item_types,id',
             'name' => 'required|string|max:255',
             'image' => 'base64img',
-            'status' => ['string', 'max:255', Rule::in(array_keys(CollectionItem::statuses()))],
             'description' => ['string', 'max:400'],
             'edition' => ['string', 'max:255'],
             'price' => 'required|numeric|gte:0',

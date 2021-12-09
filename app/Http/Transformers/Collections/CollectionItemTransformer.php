@@ -11,7 +11,7 @@ use App\Models\CollectionItem;
 class CollectionItemTransformer extends BaseTransformer
 {
     protected $defaultIncludes = [
-        'status', 'auction', 'lastbet', 'collectionItemtype',
+        'auction', 'lastbet', 'collectionItemtype',
     ];
 
     public function transform(CollectionItem $collectionItem)
@@ -29,7 +29,6 @@ class CollectionItemTransformer extends BaseTransformer
             'price' => $collectionItem->price,
             'population' => $collectionItem->population,
             'publisher' => $collectionItem->publisher,
-            'status' => $collectionItem->status,
             'available_for_sale' => $collectionItem->available_for_sale,
             'available_at' => $collectionItem->available_at,
             'start_date' => $collectionItem->start_date,
@@ -47,15 +46,6 @@ class CollectionItemTransformer extends BaseTransformer
     {
         $collectionItemType = $collectionItem->collectionItemType;
         return $this->item($collectionItemType, new ItemTypeTransformer);
-    }
-
-    public function includeStatus(CollectionItem $collectionItem)
-    {
-        $item = [
-            'id' => $collectionItem->id,
-            'name' => data_get(CollectionItem::statuses(), $collectionItem->status),
-        ];
-        return $this->item($item, new ConstantTransformer);
     }
 
     public function includeAuction(CollectionItem $collectionItem)

@@ -27,7 +27,8 @@ class AddAuctionIdToCollectionItemOrder extends Migration
     public function down()
     {
         Schema::table('collection_item_order', function (Blueprint $table) {
-            //
+            $table->dropForeign(['auction_id']);
+            $table->dropColumn('auction_id');
         });
     }
 }

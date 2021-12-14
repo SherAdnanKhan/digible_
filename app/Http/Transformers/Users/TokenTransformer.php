@@ -22,7 +22,8 @@ class TokenTransformer extends BaseTransformer
             'timezone' => Auth::user()->timezone,
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
-            'expires_at' => $token->token->expires_at
+            'expires_at' => $token->token->expires_at,
+            'verified' => Auth::user()->email_verified_at ? true: false,
         ];
     } 
 

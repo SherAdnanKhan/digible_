@@ -2,6 +2,9 @@
 
 namespace App\Http\Repositories\Orders;
 
+use App\Models\Auction;
+use App\Models\Collection;
+use App\Models\CollectionItem;
 use App\Models\OrderTransaction;
 
 class OrderTransactionRepository
@@ -16,6 +19,18 @@ class OrderTransactionRepository
             'currency' => $data['currency'],
             'total' => $order->total,
         ]);
+        $item = CollectionItem::find($data['collection_item_id']);
+        $item->available_for_sale = 3;
+        $item->save();
+        $exist_item = CollectionItem::where([['collection_id', $item['collection_id']], ['available_for_sale', '!=', 3]])->first();
+        
+        if (!$exist_item) {
+            Collection::where('id', $item['collection_id'])->update(['status' => Collection::STATUS_SOLD]);
+        }
+        if (isset($data['auction'])) {
+            $item->lastBet()->first()->update(['status' => Auction::STATUS_PURCHASED]);
+            $item->pendingAuction()->update(['status' => Auction::STATUS_LOST]);
+        }
     }
 
     public function failed($order, $data, $response)

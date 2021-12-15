@@ -13,6 +13,7 @@ class Collection extends Model
     const STATUS_PENDING = "pending";
     const STATUS_APPROVED = "approved";
     const STATUS_REJECTED = "rejected";
+    const STATUS_SOLD = "sold";
 
     protected $guarded = [
         'created_at',
@@ -181,5 +182,15 @@ class Collection extends Model
             static::STATUS_APPROVED => "approved",
             static::STATUS_REJECTED => "rejected",
         ];
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where(['status' => Collection::STATUS_APPROVED]);
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where(['status' => Collection::STATUS_REJECTED]);
     }
 }

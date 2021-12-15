@@ -122,6 +122,13 @@ class CollectionItem extends Model
         return $query->where('available_for_sale', '!=', 3);
     }
 
+    public function scopeApprovedCollection($query)
+    {
+        return $query->whereHas('collection', function($query) {
+            $query->where('status', Collection::STATUS_APPROVED);
+        });
+    }
+
     public function collection(): BelongsTo
     {
         return $this->belongsTo(Collection::class);

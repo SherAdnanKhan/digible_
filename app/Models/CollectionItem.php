@@ -117,6 +117,11 @@ class CollectionItem extends Model
         return $this->image ? asset('/' . $this->image) : null;
     }
 
+    public function scopeNotSold($query)
+    {
+        return $query->where('available_for_sale', '!=', 3);
+    }
+
     public function collection(): BelongsTo
     {
         return $this->belongsTo(Collection::class);
@@ -130,6 +135,11 @@ class CollectionItem extends Model
     public function auction(): HasMany
     {
         return $this->hasMany(Auction::class);
+    }
+
+    public function pendingAuction(): HasMany
+    {
+        return $this->hasMany(Auction::class)->where('status', 'pending');
     }
 
     public function lastBet(): HasOne

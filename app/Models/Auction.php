@@ -11,8 +11,9 @@ class Auction extends Model
     use HasFactory;
 
     const STATUS_PENDING = "pending";
-    const STATUS_SUCCESS = "success";
-    const STATUS_FAILED = "failed";
+    const STATUS_WON = "won";
+    const STATUS_LOST = "lost";
+    const STATUS_PURCHASED = "purchased";
     const STATUS_EXPIRED = "expired";
 
     protected $guarded = ['created_at'];
@@ -21,8 +22,8 @@ class Auction extends Model
     {
         return [
             static::STATUS_PENDING => "pending",
-            static::STATUS_SUCCESS => "success",
-            static::STATUS_FAILED => "failed",
+            static::STATUS_WON => "success",
+            static::STATUS_LOST => "failed",
             static::STATUS_EXPIRED => "expired",
         ];
     }

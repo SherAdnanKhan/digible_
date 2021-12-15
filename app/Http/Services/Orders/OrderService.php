@@ -16,6 +16,7 @@ use App\Models\SellerProfile;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -54,7 +55,8 @@ class OrderService extends BaseService
                 $wallet_address[$item['collection_item_id']] = SellerProfile::where("user_id", $seller[$item['collection_item_id']])->pluck('wallet_address')->first();
             }
             foreach ($items as $item) {
-                if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1 || $collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
+                if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1 || ($collectionItem[$item['collection_item_id']]->available_for_sale == 2 &&
+                ($collectionItem[$item['collection_item_id']]->lastBet()->exists() && $collectionItem[$item['collection_item_id']]->lastBet->buyer_id == auth()->user()->id))) {
                     $subtotal = $collectionItem[$item['collection_item_id']]->price * $item['quantity'];
                     $discount = Arr::exists($item, 'discount') ? $item['discount'] : 0.00;
                     $subtotalAfterDiscount = $subtotal - $discount;
@@ -74,13 +76,12 @@ class OrderService extends BaseService
                     $orderItem['status'] = Order::PENDING;
                     $order = $this->orderRepository->create($orderItem);
                     $grandTotal += $total;
-                    $item['auction_id'] = null;
-                    if (isset($item['auction']) && $item['auction']) {
-                        $currentItem = CollectionItem::where('id', 18)->with("lastBet")->first();
-                        if ($currentItem->lastBet) {
-                            $item['auction_id'] = $currentItem->lastBet->id;
-                        }
+                    if ($collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
+                            $item['auction_id'] = $collectionItem[$item['collection_item_id']]->lastBet->id;
+                    } else {
+                        $item['auction_id'] = null;
                     }
+                    
                     $result[] = $this->orderCollectionRepository->create($order, $item);
 
                 } else {
@@ -89,11 +90,23 @@ class OrderService extends BaseService
             }
             DB::commit();
             $response = $this->paymentGateService->transaction((string) $grandTotal, $data['currency'], $data['secretKey']);
+            $emailData['item'] = $collectionItem;
+            $emailData['order'] = $order;
             if ($response) {
-                $result['reservation'] = $response;
-                return $result;
+                foreach ($items as $item) {
+                    $item['transaction_type'] = OrderTransaction::DEBIT;
+                    $item['currency'] = $data['currency'];
+                    $this->orderRepository->update($order);
+                    $this->orderTransactionRepository->success($order, $item, $response);
+                    Event::dispatch('orders.success', [$emailData]);
+                }
             } else {
-                throw new ErrorException("Reversation id doesnt exist.");
+                foreach ($items as $item) {
+                    $item['transaction_type'] = OrderTransaction::DEBIT;
+                    $item['currency'] = $data['currency'];
+                    $this->orderTransactionRepository->failed($order, $item, $response);
+                    Event::dispatch('orders.failed', [$emailData]);
+                }
             }
         } catch (ErrorException $e) {
             DB::rollback();
@@ -139,25 +152,11 @@ class OrderService extends BaseService
 
     public function todo()
     {
-        // $response = $this->paymentGateService->transaction((string) $grandTotal, $data['currency'], $data['secretKey']);
-        //     $emailData['item'] = $collectionItem;
-        //     $emailData['order'] = $order;
-        //     if ($response) {
-
-        //         foreach ($items as $item) {
-        //             $item['transaction_type'] = OrderTransaction::DEBIT;
-        //             $item['currency'] = $data['currency'];
-        //             $this->orderRepository->update($order);
-        //             $this->orderTransactionRepository->success($order, $item, $response);
-        //             Event::dispatch('orders.success', [$emailData]);
-        //         }
-        //     } else {
-        //         foreach ($items as $item) {
-        //             $item['transaction_type'] = OrderTransaction::DEBIT;
-        //             $item['currency'] = $data['currency'];
-        //             $this->orderTransactionRepository->failed($order, $item, $response);
-        //             Event::dispatch('orders.failed', [$emailData]);
-        //         }
-        //     }
+        // if ($response) {
+        //     $result['reservation'] = $response;
+        //     return $result;
+        // } else {
+        //     throw new ErrorException("Reversation id doesnt exist.");
+        // }
     }
 }

@@ -189,8 +189,8 @@ class Collection extends Model
         return $query->where(['status' => Collection::STATUS_APPROVED]);
     }
 
-    public function scopeRejected($query)
+    public function scopePending($query)
     {
-        return $query->where(['status' => Collection::STATUS_REJECTED]);
+        return $query->where(['status' => Collection::STATUS_PENDING]);
     }
 }

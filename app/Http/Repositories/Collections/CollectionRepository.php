@@ -18,7 +18,7 @@ class CollectionRepository
 
     public function getPending()
     {
-        return Collection::rejected()->get();
+        return Collection::pending()->get();
     }
 
     public function getApproved()

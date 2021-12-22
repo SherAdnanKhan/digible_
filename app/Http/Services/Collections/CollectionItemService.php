@@ -87,7 +87,7 @@ class CollectionItemService extends BaseService
 
     public function updateAFS(CollectionItem $collectionItem, array $data)
     {
-        Log::info(__METHOD__ . " -- Collection item data updated: ");
+        Log::info(__METHOD__ . "-- Collection item data updated: ");
         $collectionItem = $this->repository->updateAFS($collectionItem, $data);
         $data = $collectionItem->favoriteUsers();
         $users = $data->pluck('user');

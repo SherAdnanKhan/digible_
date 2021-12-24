@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Collections;
 
-use App\Models\CollectionItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -31,13 +30,13 @@ class CollectionItemSaveRequest extends FormRequest
             'edition' => ['string', 'max:255'],
             'price' => 'required|numeric|gte:0',
             'graded' => ['string', 'max:255'],
-            'year' => 'required|digits:4|integer|min:1900|max:'.(date('Y')+1),
+            'year' => 'required|digits:4|integer|min:1900|max:' . (date('Y') + 1),
             'population' => ['integer'],
             'publisher' => ['string', 'max:255'],
             'available_for_sale' => 'required|integer|min:0|digits_between: 0,2',
-            'available_at' => 'required_if:available_for_sale,==,1|date_format:Y-m-d H:i:s|after:1 minute',
-            'start_date' => 'required_if:available_for_sale,==,2|date_format:Y-m-d H:i:s',
-            'end_date' => 'required_if:available_for_sale,==,2|date_format:Y-m-d H:i:s|after:1 minute',
+            'available_at' => 'date_format:Y-m-d H:i:s|after:1 minute',
+            'start_date' => 'date_format:Y-m-d H:i:s|after:1 minute',
+            'end_date' => 'date_format:Y-m-d H:i:s|after:1 minute',
         ];
     }
 }

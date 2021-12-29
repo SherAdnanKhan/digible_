@@ -121,9 +121,10 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
 
     });
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
-        Route::resource('auctions', AuctionController::class);
+        Route::resource('/auctions', AuctionController::class);
         Route::get('/auction/current', [AuctionController::class, 'getByUser']);
         Route::get('/auction/won-bets', [AuctionController::class, 'getWonBets']);
+        Route::put('/auction/update-won',  [AuctionController::class, 'updateWonAuction']);
 
         Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);

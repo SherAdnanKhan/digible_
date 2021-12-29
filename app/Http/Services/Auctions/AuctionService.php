@@ -7,6 +7,7 @@ use App\Http\Services\BaseService;
 use App\Models\Auction;
 use App\Models\CollectionItem;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
@@ -68,6 +69,29 @@ class AuctionService extends BaseService
                 Event::dispatch('auction.higher_bet', [$emailData]);
             }
             return $result;
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
+    }
+
+    public function updateWonAuction(array $data)
+    {
+        Log::info(__METHOD__ . " -- Get User Won Bets: ");
+        try {
+            if (isset($data['collection_item_id'])) {
+                $auction = Auction::where(['collection_item_id' => $data['collection_item_id'], 'status' => Auction::STATUS_WON])->first();
+                if ($auction) {
+                    throw new ErrorException('exception.auction_failed', [], Response::HTTP_UNPROCESSABLE_ENTITY);
+                } else {
+                    $collectionItem = CollectionItem::find($data['collection_item_id']);
+                    if ($this->service->dateComparision($collectionItem->start_date, Carbon::now()->toDateTimeString(), 'lt') &&
+                        $this->service->dateComparision($collectionItem->end_date, Carbon::now(), 'lt')) {
+                        return $this->repository->updateWonAuction($data);
+                    } else {
+                        throw new ErrorException('exception.auction_failed', [], Response::HTTP_UNPROCESSABLE_ENTITY);
+                    }
+                }
+            }
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }

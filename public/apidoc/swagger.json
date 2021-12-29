@@ -7,7 +7,10 @@
     },
     "servers": [
         {
-            "url": "http://digible-api.stagging.je"
+            "url": "http://127.0.0.1:8000"
+        },
+        {
+            "url": "https://digible-api.staging.doodle.je"
         }
     ],
     "paths": {
@@ -1049,7 +1052,7 @@
                 ]
             }
         },
-        "/api/auctions/": {
+        "/api/auction/won-bets": {
             "get": {
                 "tags": [
                     "Auctions"
@@ -1071,7 +1074,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/CollectionItemType"
+                                                "$ref": "#/components/schemas/Auction"
                                             }
                                         },
                                         "first_page_url": {
@@ -1149,6 +1152,63 @@
             }
         },
         "/api/auctions": {
+            "put": {
+                "tags": [
+                    "Auctions"
+                ],
+                "summary": "Update",
+                "description": "Update auctions",
+                "operationId": "updateAuction",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "collection_item_id": {
+                                        "type": "string",
+                                        "example": 1
+                                    },
+                                    "last_price": {
+                                        "type": "double",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Auction request update successfully"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Auction"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Auctions"
@@ -1187,7 +1247,11 @@
                                             "example": "Auction request created successfully"
                                         },
                                         "data": {
-                                            "example": "[]"
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Auction"
+                                                }
+                                            ]
                                         }
                                     },
                                     "type": "object"
@@ -1238,7 +1302,7 @@
                                         "data": {
                                             "allOf": [
                                                 {
-                                                    "$ref": "#/components/schemas/CollectionItemType"
+                                                    "$ref": "#/components/schemas/Auction"
                                                 }
                                             ]
                                         }
@@ -1261,9 +1325,9 @@
                 "tags": [
                     "Auctions"
                 ],
-                "summary": "Get by id",
+                "summary": "Get by current",
                 "description": "Get auction",
-                "operationId": "getAuction",
+                "operationId": "getAuctionCurrent",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1278,7 +1342,7 @@
                                         "data": {
                                             "allOf": [
                                                 {
-                                                    "$ref": "#/components/schemas/CollectionItemType"
+                                                    "$ref": "#/components/schemas/Auction"
                                                 }
                                             ]
                                         }
@@ -2471,17 +2535,17 @@
                                     "logo_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "featured_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "banner_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "external_url": {
                                         "type": "string",
@@ -2650,17 +2714,17 @@
                                     "logo_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "featured_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "banner_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "external_url": {
                                         "type": "string",
@@ -2954,7 +3018,7 @@
                                     },
                                     "year": {
                                         "type": "date",
-                                        "example": "2019-03-10 02:00:39"
+                                        "example": "2019"
                                     },
                                     "population": {
                                         "type": "string",
@@ -3127,7 +3191,7 @@
                                     },
                                     "year": {
                                         "type": "date",
-                                        "example": "2019-03-10 02:00:39"
+                                        "example": "2021"
                                     },
                                     "population": {
                                         "type": "string",
@@ -4181,20 +4245,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "authenication": {
-                                        "properties": {
-                                            "api_key": {
-                                                "type": "string",
-                                                "default": 1,
-                                                "example": "Key123"
-                                            },
-                                            "api_pass": {
-                                                "type": "string",
-                                                "default": 1,
-                                                "example": "pass123"
-                                            }
-                                        },
-                                        "type": "object"
+                                    "secretKey": {
+                                        "type": "string",
+                                        "example": "SK-FV3CFCGM-TN3PZ4XW-CDYGWZAC-M6EAEMVR"
                                     },
                                     "items": {
                                         "type": "array",
@@ -4211,14 +4264,14 @@
                                                 "discount": {
                                                     "type": "string",
                                                     "example": 2
-                                                },
-                                                "currency": {
-                                                    "type": "number",
-                                                    "example": "USD"
                                                 }
                                             },
                                             "type": "object"
                                         }
+                                    },
+                                    "currency": {
+                                        "type": "number",
+                                        "example": "USD"
                                     }
                                 },
                                 "type": "object"
@@ -4632,6 +4685,11 @@
                                         "format": "password",
                                         "example": "1234567"
                                     },
+                                    "confirm_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "1234567"
+                                    },
                                     "timezone": {
                                         "type": "string",
                                         "example": "Asia/Jerusalem"
@@ -4707,6 +4765,39 @@
                                         },
                                         "data": {
                                             "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": 1
+                                                },
+                                                "email": {
+                                                    "type": "email",
+                                                    "example": "user@email.com"
+                                                },
+                                                "role": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "oneOf": [
+                                                            {
+                                                                "property": "name",
+                                                                "type": "string",
+                                                                "example": "user"
+                                                            },
+                                                            {
+                                                                "property": "name",
+                                                                "type": "string",
+                                                                "example": "admin"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "user"
+                                                },
+                                                "timezone": {
+                                                    "type": "string",
+                                                    "example": "UTC"
+                                                },
                                                 "access_token": {
                                                     "type": "string",
                                                     "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYwMTU1NzYzNywiZXhwIjoxNjAxNjQ0MDM3LCJuYmYiOjE2MDE1NTc2MzcsImp0aSI6IkRTMnNhRFJkVDVyVmhaUDUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.IJuX7ncjt6FBx8QU1md3ELGrB-5cPfKiZ6iSA5tAouQ"
@@ -4715,9 +4806,34 @@
                                                     "type": "string",
                                                     "example": "Bearer"
                                                 },
-                                                "expires_in": {
+                                                "expires_at": {
                                                     "type": "integer",
-                                                    "example": 86400
+                                                    "example": "2022-12-29T06:49:55.000000Z"
+                                                },
+                                                "verified": {
+                                                    "type": "bool",
+                                                    "example": true
+                                                },
+                                                "addresses": {
+                                                    "properties": {
+                                                        "data": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string",
+                                                                        "example": 1
+                                                                    },
+                                                                    "address": {
+                                                                        "type": "string",
+                                                                        "example": "0x49614661737efbfc6a102efaeefdc8e197f7cc0e"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -4791,6 +4907,13 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/User"
                                             }
+                                        },
+                                        "collections": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Collection"
+                                                }
+                                            ]
                                         }
                                     },
                                     "type": "object"
@@ -4969,6 +5092,64 @@
     },
     "components": {
         "schemas": {
+            "Auction": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "collection_item_id": {
+                        "type": "interger",
+                        "example": 1
+                    },
+                    "buyer_id": {
+                        "type": "interger",
+                        "example": 1
+                    },
+                    "seller_id": {
+                        "type": "interger",
+                        "example": 2
+                    },
+                    "base_price": {
+                        "type": "float",
+                        "example": 10
+                    },
+                    "last_price": {
+                        "type": "float",
+                        "example": 11
+                    },
+                    "status": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "pending"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "seller": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "buyer": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
             "ChatMessage": {
                 "properties": {
                     "id": {
@@ -5026,17 +5207,8 @@
                         "example": "John"
                     },
                     "status": {
-                        "properties": {
-                            "id": {
-                                "type": "string",
-                                "example": 1
-                            },
-                            "name": {
-                                "type": "string",
-                                "example": "pending/approved"
-                            }
-                        },
-                        "type": "object"
+                        "type": "string",
+                        "example": "pending/approved"
                     },
                     "logo_image": {
                         "type": "string",
@@ -5108,6 +5280,18 @@
                         "format": "date-time",
                         "example": "22020-10-21T09:33:59.000000Z"
                     },
+                    "logo_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+                    },
+                    "featured_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/6c27f03d7e05fafe06f225bcbeb42d3a_1637924327.png"
+                    },
+                    "banner_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+                    },
                     "user": {
                         "allOf": [
                             {
@@ -5136,9 +5320,17 @@
                         "type": "string",
                         "example": "Cresselia"
                     },
+                    "label": {
+                        "type": "string",
+                        "example": "Cresselia"
+                    },
                     "image": {
                         "type": "string",
                         "example": "sdasdwre32r.jpg"
+                    },
+                    "image_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
                     },
                     "description": {
                         "type": "string",
@@ -5154,7 +5346,11 @@
                     },
                     "year": {
                         "type": "date",
-                        "example": "2019-03-10 02:00:39"
+                        "example": "2019"
+                    },
+                    "price": {
+                        "type": "double",
+                        "example": 10
                     },
                     "population": {
                         "type": "integer",
@@ -5162,15 +5358,26 @@
                     },
                     "publisher": {
                         "type": "string",
-                        "example": "2019-03-10 02:00:39"
+                        "example": "yugyu uyu"
                     },
                     "available_for_sale": {
                         "type": "boolean",
                         "example": 1
                     },
-                    "price": {
-                        "type": "double",
-                        "example": 10
+                    "available_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null
                     },
                     "created_at": {
                         "type": "string",
@@ -5181,6 +5388,11 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "22020-10-21T09:33:59.000000Z"
+                    },
+                    "favorites_count": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": 1
                     },
                     "collection": {
                         "allOf": [
@@ -5193,6 +5405,36 @@
                         "allOf": [
                             {
                                 "$ref": "#/components/schemas/CollectionItemType"
+                            }
+                        ]
+                    },
+                    "auction": {
+                        "type": "array",
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "property": "guarded",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Auction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "property": "guarded",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Auction"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "last_bet": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
                             }
                         ]
                     }
@@ -5649,6 +5891,14 @@
                     "timezone": {
                         "type": "string",
                         "example": "Asia/Jerusalem"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "new"
+                    },
+                    "activation_token": {
+                        "type": "string",
+                        "example": null
                     },
                     "created_at": {
                         "type": "string",

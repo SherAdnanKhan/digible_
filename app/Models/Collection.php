@@ -39,16 +39,8 @@ class Collection extends Model
      *     ),
      *     @OA\Property(
      *         property="status",
-     *         @OA\Property(
-     *             property="id",
-     *             type="string",
-     *             example=1
-     *         ),
-     *         @OA\Property(
-     *             property="name",
-     *             type="string",
-     *             example="pending/approved"
-     *         )
+     *         type="string",
+     *         example="pending/approved"
      *     ),
      *     @OA\Property(
      *         property="logo_image",
@@ -133,6 +125,21 @@ class Collection extends Model
      *         type="string",
      *         format="date-time",
      *         example="22020-10-21T09:33:59.000000Z"
+     *     ),
+     *     @OA\Property(
+     *         property="logo_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+     *     ),
+     *     @OA\Property(
+     *         property="featured_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/6c27f03d7e05fafe06f225bcbeb42d3a_1637924327.png"
+     *     ),
+     *     @OA\Property(
+     *         property="banner_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
      *     ),
      *     @OA\Property(
      *         property="user",

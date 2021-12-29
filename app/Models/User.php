@@ -44,6 +44,16 @@ class User extends Authenticatable
      *         example="Asia/Jerusalem"
      *     ),
      *     @OA\Property(
+     *         property="status",
+     *         type="string",
+     *         example="new"
+     *     ),
+     *     @OA\Property(
+     *         property="activation_token",
+     *         type="string",
+     *         example=null
+     *     ),
+     *     @OA\Property(
      *         property="created_at",
      *         type="string",
      *         format="date-time",

@@ -68,6 +68,12 @@ class AuthController extends Controller
      *                     example="1234567"
      *                 ),
      *                 @OA\Property(
+     *                     property="confirm_password",
+     *                     type="string",
+     *                     format="password",
+     *                     example="1234567"
+     *                 ),
+     *                 @OA\Property(
      *                     property="timezone",
      *                     type="string",
      *                     example="Asia/Jerusalem"
@@ -144,6 +150,42 @@ class AuthController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     @OA\Property(
+     *                         property="id",
+     *                         type="string",
+     *                         example=1
+     *                     ),
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="email",
+     *                         example="user@email.com"
+     *                     ),
+
+     *                     @OA\Property(
+     *                        property="role",
+     *                        type="array",
+     *                         @OA\Items(oneOf={
+     *                              @OA\Property(
+     *                                   property="name",
+     *                                   type="string",
+     *                                    example="user"
+     *                              ),
+     *                              @OA\Property(
+     *                                   property="name",
+     *                                   type="string",
+     *                                    example="admin"
+     *                              ),
+     *                        }),),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="user"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="timezone",
+     *                         type="string",
+     *                         example="UTC"
+     *                     ),
+     *                     @OA\Property(
      *                         property="access_token",
      *                         type="string",
      *                         example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYwMTU1NzYzNywiZXhwIjoxNjAxNjQ0MDM3LCJuYmYiOjE2MDE1NTc2MzcsImp0aSI6IkRTMnNhRFJkVDVyVmhaUDUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.IJuX7ncjt6FBx8QU1md3ELGrB-5cPfKiZ6iSA5tAouQ"
@@ -154,10 +196,45 @@ class AuthController extends Controller
      *                         example="Bearer"
      *                     ),
      *                     @OA\Property(
-     *                         property="expires_in",
+     *                         property="expires_at",
      *                         type="integer",
-     *                         example=86400
-     *                     )
+     *                         example="2022-12-29T06:49:55.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="verified",
+     *                         type="bool",
+     *                         example=true
+     *                     ),
+     *                     @OA\Property(
+     *                        property="addresses",
+     *                        type="object",
+     *                        @OA\Property(
+     *                            property="data",
+     *                            type="array",
+     *                          @OA\Items(
+     *                              @OA\Property(
+     *                                  property="id",
+     *                                  type="string",
+     *                                  example=1
+     *                              ),
+     *                              @OA\Property(
+     *                                  property="address",
+     *                                  type="string",
+     *                                  example="0x49614661737efbfc6a102efaeefdc8e197f7cc0e"
+     *                              ),
+     *                          ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                                  property="addresses",
+     *                                  type="string",
+     *                                  example=2
+     *                              ),
+     *                              @OA\Property(
+     *                                  property="address",
+     *                                 type="string",
+     *                                 example="0x521db06bf657ed1d6c98553a70319a8ddbac75a3"
+     *                              ),
+     *                        ),),),
      *                 ),
      *             )
      *         )

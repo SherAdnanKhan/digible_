@@ -77,7 +77,7 @@ class OrderService extends BaseService
                     $order = $this->orderRepository->create($orderItem);
                     $grandTotal += $total;
                     if ($collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
-                            $item['auction_id'] = $collectionItem[$item['collection_item_id']]->lastBet->id;
+                            $item['auction_id'] = $collectionItem[$item['collection_item_id']]->lastWonBet->id;
                     } else {
                         $item['auction_id'] = null;
                     }

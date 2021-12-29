@@ -172,23 +172,11 @@ class OrderController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *         @OA\Property(
-     *           property="authenication",
-     *           type="object",
-     *           @OA\Property(
-     *             property="api_key",
-     *             type="string",
-     *             default=1,
-     *             example="Key123"
+     *              @OA\Property(
+     *                property="secretKey",
+     *                type="string",
+     *                example="SK-FV3CFCGM-TN3PZ4XW-CDYGWZAC-M6EAEMVR"
      *             ),
-     *           @OA\Property(
-     *             property="api_pass",
-     *             type="string",
-     *             default=1,
-     *             example="pass123"
-     *             )
-     *         ),
-
      *             @OA\Property(
      *                property="items",
      *                type="array",
@@ -208,35 +196,13 @@ class OrderController extends Controller
      *                         type="string",
      *                         example=2
      *                      ),
-     *                      @OA\Property(
-     *                         property="currency",
-     *                         type="number",
-     *                         example="USD"
      *                      ),
-     *                ),
-     *                @OA\Items(
-     *                      @OA\Property(
-     *                         property="collection_item_id",
-     *                         type="string",
-     *                         example=2
-     *                      ),
-     *                      @OA\Property(
-     *                         property="quantity",
-     *                         type="string",
-     *                         example=5
-     *                      ),
-     *                      @OA\Property(
-     *                         property="discount",
-     *                         type="string",
-     *                         example=20
-     *                      ),
-     *                      @OA\Property(
-     *                         property="currency",
-     *                         type="number",
-     *                         example="USD"
-     *                      ),
-     *                ),
      *             ),
+     *                      @OA\Property(
+     *                         property="currency",
+     *                         type="number",
+     *                         example="USD"
+     *                      ),
      *             ),
      *         )
      *     ),

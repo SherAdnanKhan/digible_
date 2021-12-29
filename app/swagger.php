@@ -6,7 +6,7 @@
  *         description="<h1>Description</h1>",
  * ),
  *
- * @OA\Server(url=API_PATH),
+ * @OA\Server(url="http://127.0.0.1:8000"),
  *
  * @OA\PathItem(
  *     path="/"
@@ -19,5 +19,10 @@
  *      type="http",
  *      scheme="bearer",
  *      bearerFormat="JWT",
+ * ),
+ * * @OA\Server(url="https://digible-api.staging.doodle.je"),
+ *
+ * @OA\PathItem(
+ *     path="/"
  * ),
  */

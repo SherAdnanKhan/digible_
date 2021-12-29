@@ -54,7 +54,13 @@ class UserController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     type="array",
-     *                     @OA\Items(ref="#/components/schemas/User")
+     *                     @OA\Items(ref="#/components/schemas/User"),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="collections",
+     *                     allOf={
+     *                      @OA\Schema(ref="#/components/schemas/Collection")
+     *                   }
      *                 ),
      *             )
      *         )

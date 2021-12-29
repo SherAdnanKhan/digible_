@@ -184,19 +184,19 @@ class CollectionController extends Controller
      *                     property="logo_image",
      *                     type="string",
      *                     format="string",
-     *                     example="12232332.jpg"
+     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
      *                 ),
      *                 @OA\Property(
      *                     property="featured_image",
      *                     type="string",
      *                     format="string",
-     *                     example="12232332.jpg"
+     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
      *                 ),
      *                 @OA\Property(
      *                     property="banner_image",
      *                     type="string",
      *                     format="string",
-     *                     example="12232332.jpg"
+     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
      *                 ),
      *                 @OA\Property(
      *                     property="external_url",
@@ -363,19 +363,19 @@ class CollectionController extends Controller
      *                     property="logo_image",
      *                     type="string",
      *                     format="string",
-     *                     example="12232332.jpg"
+     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
      *                 ),
      *                 @OA\Property(
      *                     property="featured_image",
      *                     type="string",
      *                     format="string",
-     *                     example="12232332.jpg"
+     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
      *                 ),
      *                 @OA\Property(
      *                     property="banner_image",
      *                     type="string",
      *                     format="string",
-     *                     example="12232332.jpg"
+     *                     example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
      *                 ),
      *                 @OA\Property(
      *                     property="external_url",

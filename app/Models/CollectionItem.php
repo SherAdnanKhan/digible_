@@ -37,9 +37,19 @@ class CollectionItem extends Model
      *         example="Cresselia"
      *     ),
      *     @OA\Property(
+     *         property="label",
+     *         type="string",
+     *         example="Cresselia"
+     *     ),
+     *     @OA\Property(
      *         property="image",
      *         type="string",
      *         example="sdasdwre32r.jpg"
+     *     ),
+     *     @OA\Property(
+     *         property="image_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
      *     ),
      *     @OA\Property(
      *         property="description",
@@ -59,7 +69,12 @@ class CollectionItem extends Model
      *     @OA\Property(
      *         property="year",
      *         type="date",
-     *         example="2019-03-10 02:00:39"
+     *         example="2019"
+     *     ),
+     *     @OA\Property(
+     *         property="price",
+     *         type="double",
+     *         example=10
      *     ),
      *     @OA\Property(
      *         property="population",
@@ -69,7 +84,7 @@ class CollectionItem extends Model
      *     @OA\Property(
      *         property="publisher",
      *         type="string",
-     *         example="2019-03-10 02:00:39"
+     *         example="yugyu uyu"
      *     ),
      *     @OA\Property(
      *         property="available_for_sale",
@@ -77,9 +92,22 @@ class CollectionItem extends Model
      *         example=1
      *     ),
      *     @OA\Property(
-     *         property="price",
-     *         type="double",
-     *         example=10
+     *         property="available_at",
+     *         type="string",
+     *         format="date-time",
+     *         example="2020-10-21T09:33:59.000000Z"
+     *     ),
+     *     @OA\Property(
+     *         property="start_date",
+     *         type="string",
+     *         format="date-time",
+     *         example=null
+     *     ),
+     *     @OA\Property(
+     *         property="end_date",
+     *         type="string",
+     *         format="date-time",
+     *         example=null
      *     ),
      *     @OA\Property(
      *         property="created_at",
@@ -94,6 +122,12 @@ class CollectionItem extends Model
      *         example="22020-10-21T09:33:59.000000Z"
      *     ),
      *     @OA\Property(
+     *         property="favorites_count",
+     *         type="string",
+     *         format="date-time",
+     *         example=1
+     *     ),
+     *     @OA\Property(
      *         property="collection",
      *         allOf={
      *             @OA\Schema(ref="#/components/schemas/Collection")
@@ -103,6 +137,27 @@ class CollectionItem extends Model
      *         property="collectionItemType",
      *         allOf={
      *             @OA\Schema(ref="#/components/schemas/CollectionItemType")
+     *         }
+     *     ),
+     *     @OA\Property(
+     *       property="auction",
+     *       type="array",
+     *       @OA\Items(oneOf={
+     *         @OA\Property(
+     *                 allOf={
+     *                @OA\Schema(ref="#/components/schemas/Auction")
+     *                }
+     *               ),
+     *                @OA\Property(
+     *                 allOf={
+     *                @OA\Schema(ref="#/components/schemas/Auction")
+     *                }
+     *               ),
+     *     }),),
+     *     @OA\Property(
+     *         property="last_bet",
+     *         allOf={
+     *             @OA\Schema(ref="#/components/schemas/User")
      *         }
      *     ),
      * )
@@ -153,6 +208,12 @@ class CollectionItem extends Model
     {
         return $this->hasOne(Auction::class)->where('status', 'pending')->orderBy('created_at', 'DESC');
     }
+
+    public function lastWonBet(): HasOne
+    {
+        return $this->hasOne(Auction::class)->where('status', 'won')->orderBy('created_at', 'DESC');
+    }
+
 
     public function comments()
     {

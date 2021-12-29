@@ -222,7 +222,7 @@ class CollectionItemController extends Controller
      *                 @OA\Property(
      *                     property="year",
      *                     type="date",
-     *                     example="2019-03-10 02:00:39"
+     *                     example="2019"
      *                 ),
      *                 @OA\Property(
      *                     property="population",
@@ -390,7 +390,7 @@ class CollectionItemController extends Controller
      *                 @OA\Property(
      *                     property="year",
      *                     type="date",
-     *                     example="2019-03-10 02:00:39"
+     *                     example="2021"
      *                 ),
      *                 @OA\Property(
      *                     property="population",

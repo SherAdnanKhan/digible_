@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\API\V1\Auction;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auction\AuctionSaveRequest;
-use App\Http\Services\Auctions\AuctionService;
-use App\Http\Transformers\Auctions\AuctionTransformer;
-use App\Models\Auction;
-use App\Models\CollectionItem;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use App\Models\Auction;
 use Illuminate\Http\Request;
+use App\Models\CollectionItem;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Auctions\AuctionService;
+use App\Http\Requests\Auction\AuctionSaveRequest;
+use App\Http\Requests\Auction\AuctionUpdateRequest;
+use App\Http\Transformers\Auctions\AuctionTransformer;
 
 class AuctionController extends Controller
 {
@@ -29,7 +30,7 @@ class AuctionController extends Controller
     }
 
     /** @OA\Get(
-     *     path="/api/auctions/",
+     *     path="/api/auction/won-bets",
      *     description="Get auctions details",
      *     summary="Get all",
      *     operationId="getAuctions",
@@ -49,7 +50,7 @@ class AuctionController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     type="array",
-     *                     @OA\Items(ref="#/components/schemas/CollectionItemType")
+     *                     @OA\Items(ref="#/components/schemas/Auction")
      *                  ),
      *                  @OA\Property(
      *                         property="first_page_url",
@@ -205,8 +206,10 @@ class AuctionController extends Controller
      *                 ),
      *                  @OA\Property(
      *                     property="data",
-     *                     example="[]"
-     *                 ),
+     *                     allOf={
+     *                         @OA\Schema(ref="#/components/schemas/Auction")
+     *                     }
+     *                  ),
      *             )
      *         )
      *     )
@@ -251,7 +254,7 @@ class AuctionController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     allOf={
-     *                         @OA\Schema(ref="#/components/schemas/CollectionItemType")
+     *                         @OA\Schema(ref="#/components/schemas/Auction")
      *                     }
      *                  ),
      *             )
@@ -270,8 +273,8 @@ class AuctionController extends Controller
     /** @OA\Get(
      *     path="/api/auction/current",
      *     description="Get auction",
-     *     summary="Get by id",
-     *     operationId="getAuction",
+     *     summary="Get by current",
+     *     operationId="getAuctionCurrent",
      *     security={{"bearerAuth":{}}},
      *     tags={"Auctions"},
      *     @OA\Response(
@@ -288,7 +291,7 @@ class AuctionController extends Controller
      *                  @OA\Property(
      *                     property="data",
      *                     allOf={
-     *                         @OA\Schema(ref="#/components/schemas/CollectionItemType")
+     *                         @OA\Schema(ref="#/components/schemas/Auction")
      *                     }
      *                  ),
      *             )
@@ -302,6 +305,61 @@ class AuctionController extends Controller
     public function getByUser(User $user)
     {
         return $this->service->getByUser($user);
+    }
+
+        /** @OA\put(
+     *     path="/api/auctions",
+     *     description="Update auctions",
+     *     summary="Update",
+     *     operationId="updateAuction",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Auctions"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="collection_item_id",
+     *                     type="string",
+     *                     example=1
+     *                 ),
+     *                 @OA\Property(
+     *                     property="last_price",
+     *                     type="double",
+     *                     example=5.0
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Auction request update successfully"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     allOf={
+     *                         @OA\Schema(ref="#/components/schemas/Auction")
+     *                     }
+     *                  ),
+     *             )
+     *         )
+     *     )
+     * )
+     * @return JsonResponse
+     */
+
+    public function updateWonAuction(AuctionUpdateRequest $request): JsonResponse
+    {
+        $result = $this->service->updateWonAuction($request->validated());
+        return $this->success($result, null, trans('messages.auction_update_success'));
+
     }
 
 }

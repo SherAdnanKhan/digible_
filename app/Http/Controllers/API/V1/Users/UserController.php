@@ -178,34 +178,17 @@ class UserController extends Controller
      *                     type="string",
      *                     example="Asia/Jerusalem"
      *                 ),
-
      *             @OA\Property(
      *                property="addresses",
      *                type="array",
-     *                 @OA\Items(
-     *                      @OA\Property(
-     *                         property="id",
-     *                         type="string",
-     *                         example=1
-     *                      ),
+     *                @OA\Items(
      *                      @OA\Property(
      *                         property="address",
      *                         type="string",
-     *                         example="0x49614661737efbfc6a102efaeefdc8e197f7cc0e"
+     *                         example="Doge street, mars"
+     *                      ),
      *                      ),
      *                  ),
-     *                 @OA\Items(
-     *                      @OA\Property(
-     *                         property="addresses",
-     *                         type="string",
-     *                         example=2
-     *                      ),
-     *                      @OA\Property(
-     *                         property="address",
-     *                         type="string",
-     *                         example="0x521db06bf657ed1d6c98553a70319a8ddbac75a3"
-     *                      ),
-     *                ),),
      *             )
      *         )
      *     ),

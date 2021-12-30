@@ -17,7 +17,8 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|max:255|email|unique:users',
-            'password' => 'required|confirmed|string|min:6|max:255',
+            'password' => 'required|string|min:6|max:255',
+            'confirm_password'=> 'required_with:password|same:password|string|min:6|max:255',
             'timezone' => 'required|timezone',
         ];
     }

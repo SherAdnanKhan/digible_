@@ -25,9 +25,9 @@ class FavouriteController extends Controller
 
     /** @OA\Post(
      *     path="/api/collections/{collection}/favourite/{collectionItem}",
-     *     description="Store Comment",
-     *     summary="Store",
-     *     operationId="StoreComment",
+     *     description="Favourite a item",
+     *     summary="Favourite Item",
+     *     operationId="favouriteItem",
      *     security={{"bearerAuth":{}}},
      *     tags={"Favourites"},
      *     @OA\Parameter(
@@ -77,6 +77,51 @@ class FavouriteController extends Controller
         return $this->success([], null, trans('messages.collection_item_favourite_success'));
     }
 
+        /** @OA\get(
+     *     path="/api/is_favorite/{collectionItem}",
+     *     description="Is item Favourite",
+     *     summary="Is Item Favourite?",
+     *     operationId="isFavorite",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Favourites"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="collectionItem",
+     *         parameter="collectionItem",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="success"
+     *                 ),
+     *                  @OA\Property(
+     *                      property="data",
+     *                      type="array",
+     *                      @OA\Items(
+     *                           @OA\Property(
+     *                           property="isfavourite",
+     *                           type="string",
+     *                           example=true
+     *                           ),
+     *                      ),),
+     *             )
+     *         )
+     *     )
+     * )
+     * @param Favourite $favourite
+     * @return JsonResponse
+     */
+
     public function isFavorite(CollectionItem $collectionItem)
     {
         $isFavourite=(object) ['isfavourite' => Auth::user()->favourites->contains($collectionItem->id)];
@@ -85,9 +130,9 @@ class FavouriteController extends Controller
 
     /** @OA\Post(
      *     path="/api/collections/{collection}/unfavourite/{collectionItem}",
-     *     description="Store Comment",
-     *     summary="Store",
-     *     operationId="StoreComment",
+     *     description="Unfavourite a item",
+     *     summary="Unfavourite Item",
+     *     operationId="unfavouriteItem",
      *     security={{"bearerAuth":{}}},
      *     tags={"Favourites"},
      *     @OA\Parameter(

@@ -38,6 +38,11 @@ class Order extends Model
      *         example=1
      *     ),
      *     @OA\Property(
+     *         property="seller_id",
+     *         type="integer",
+     *         example=1
+     *     ),
+     *     @OA\Property(
      *         property="discount",
      *         type="double",
      *         example=4
@@ -76,6 +81,12 @@ class Order extends Model
      *     ),
      *     @OA\Property(
      *         property="user",
+     *         allOf={
+     *             @OA\Schema(ref="#/components/schemas/User")
+     *         }
+     *     ),
+     *     @OA\Property(
+     *         property="seller",
      *         allOf={
      *             @OA\Schema(ref="#/components/schemas/User")
      *         }

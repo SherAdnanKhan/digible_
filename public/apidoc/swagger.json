@@ -15,6 +15,339 @@
     ],
     "paths": {
         "/": {},
+        "/api/admin/admins": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get all",
+                "description": "Get admins",
+                "operationId": "getAdmins",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Store",
+                "description": "Store admin",
+                "operationId": "storeAdmin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "admin@admin.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "1234567"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "1234567"
+                                    },
+                                    "timezone": {
+                                        "type": "string",
+                                        "example": "Asia/Jerusalem"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Admin created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Admin created successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/admins/{user}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get by id",
+                "description": "Get Admin",
+                "operationId": "getAdmin",
+                "parameters": [
+                    {
+                        "parameter": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update",
+                "description": "Update admin",
+                "operationId": "updateAdmin",
+                "parameters": [
+                    {
+                        "parameter": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "elon"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Admin updated successfully"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete",
+                "description": "Delete collection item type",
+                "operationId": "deleteAdmin",
+                "parameters": [
+                    {
+                        "parameter": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Admin Deleted successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/collections/pending": {
             "get": {
                 "tags": [
@@ -544,9 +877,233 @@
                 "tags": [
                     "Orders"
                 ],
-                "summary": "Store",
+                "summary": "Get All Orders",
                 "description": "Get orders",
                 "operationId": "GetOrder",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders/seller/{user}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get Buyer Transcation Data",
+                "description": "Get seller transcation data",
+                "operationId": "getSellerTranscation",
+                "parameters": [
+                    {
+                        "parameter": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "/"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "/?page=1"
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 30
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders/buyer/{user}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get Buyer Transcation data",
+                "description": "Get buyer transcation data",
+                "operationId": "GetBuyerTranscation",
+                "parameters": [
+                    {
+                        "parameter": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1152,63 +1709,6 @@
             }
         },
         "/api/auctions": {
-            "put": {
-                "tags": [
-                    "Auctions"
-                ],
-                "summary": "Update",
-                "description": "Update auctions",
-                "operationId": "updateAuction",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "collection_item_id": {
-                                        "type": "string",
-                                        "example": 1
-                                    },
-                                    "last_price": {
-                                        "type": "double",
-                                        "example": 5
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Auction request update successfully"
-                                        },
-                                        "data": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/components/schemas/Auction"
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "post": {
                 "tags": [
                     "Auctions"
@@ -1338,6 +1838,61 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Auction"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auction/update-won": {
+            "put": {
+                "tags": [
+                    "Auctions"
+                ],
+                "summary": "Update won",
+                "description": "Update auction",
+                "operationId": "updateAuction",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "collection_item_id": {
+                                        "type": "string",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Auction request update successfully"
                                         },
                                         "data": {
                                             "allOf": [
@@ -3919,9 +4474,9 @@
                 "tags": [
                     "Favourites"
                 ],
-                "summary": "Store",
-                "description": "Store Comment",
-                "operationId": "StoreComment",
+                "summary": "Favourite Item",
+                "description": "Favourite a item",
+                "operationId": "favouriteItem",
                 "parameters": [
                     {
                         "parameter": "collection",
@@ -3974,14 +4529,72 @@
                 ]
             }
         },
+        "/api/is_favorite/{collectionItem}": {
+            "get": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Is Item Favourite?",
+                "description": "Is item Favourite",
+                "operationId": "isFavorite",
+                "parameters": [
+                    {
+                        "parameter": "collectionItem",
+                        "name": "collectionItem",
+                        "in": "path",
+                        "required": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "isfavourite": {
+                                                        "type": "string",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/collections/{collection}/unfavourite/{collectionItem}": {
             "post": {
                 "tags": [
                     "Favourites"
                 ],
-                "summary": "Store",
-                "description": "Store Comment",
-                "operationId": "StoreComment",
+                "summary": "Unfavourite Item",
+                "description": "Unfavourite a item",
+                "operationId": "unfavouriteItem",
                 "parameters": [
                     {
                         "parameter": "collection",
@@ -4136,7 +4749,7 @@
         "/api/orders/pending": {
             "get": {
                 "tags": [
-                    "Collections"
+                    "Orders"
                 ],
                 "summary": "Get pending orders",
                 "description": "Get pending orders",
@@ -4408,30 +5021,6 @@
                                         "type": "string",
                                         "example": "0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
                                     },
-                                    "address": {
-                                        "type": "string",
-                                        "example": "3th Street. 47 W 13th St, New York"
-                                    },
-                                    "address2": {
-                                        "type": "string",
-                                        "example": "3th Street. 47 W 13th St, New York"
-                                    },
-                                    "country": {
-                                        "type": "string",
-                                        "example": "India"
-                                    },
-                                    "city": {
-                                        "type": "string",
-                                        "example": "mumbai"
-                                    },
-                                    "state": {
-                                        "type": "string",
-                                        "example": "Kerla"
-                                    },
-                                    "postalcode": {
-                                        "type": "string",
-                                        "example": "1234"
-                                    },
                                     "phone_no": {
                                         "type": "string",
                                         "example": "+1-202-555-0180"
@@ -4451,6 +5040,34 @@
                                     "type": {
                                         "type": "string",
                                         "example": "individual"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending/approved"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "87214 Margarita Radial"
+                                    },
+                                    "address2": {
+                                        "type": "string",
+                                        "example": "87214 Margarita Radial"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Bilzen"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Hoppeshire"
+                                    },
+                                    "postalcode": {
+                                        "type": "string",
+                                        "example": "22186"
                                     }
                                 },
                                 "type": "object"
@@ -4486,7 +5103,7 @@
                 ]
             }
         },
-        "/get-seller-verify-request": {
+        "api/get-seller-verify-request": {
             "get": {
                 "tags": [
                     "Sellers"
@@ -4555,22 +5172,22 @@
                                     "id_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "address_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "insurance_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "code_image": {
                                         "type": "string",
                                         "format": "string",
-                                        "example": "12232332.jpg"
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                                     },
                                     "surname": {
                                         "type": "string",
@@ -4678,7 +5295,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "admin@admin.com"
+                                        "example": "user@user.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -5039,13 +5656,9 @@
                                         "type": "array",
                                         "items": {
                                             "properties": {
-                                                "id": {
-                                                    "type": "string",
-                                                    "example": 1
-                                                },
                                                 "address": {
                                                     "type": "string",
-                                                    "example": "0x49614661737efbfc6a102efaeefdc8e197f7cc0e"
+                                                    "example": "Doge street, mars"
                                                 }
                                             },
                                             "type": "object"
@@ -5092,6 +5705,61 @@
     },
     "components": {
         "schemas": {
+            "Address": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "87214 Margarita Radial"
+                    },
+                    "address2": {
+                        "type": "string",
+                        "example": "87214 Margarita Radial"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "state": {
+                        "type": "string",
+                        "example": "Bilzen"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Hoppeshire"
+                    },
+                    "postalcode": {
+                        "type": "string",
+                        "example": "22186"
+                    },
+                    "modelable_type": {
+                        "type": "string",
+                        "example": "App\\Models\\SellerProfile"
+                    },
+                    "modelable_id": {
+                        "type": "string",
+                        "example": 1
+                    },
+                    "kind": {
+                        "type": "string",
+                        "example": "permanent/temporary/shipping"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-10-21T09:33:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "22020-10-21T09:33:59.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "Auction": {
                 "properties": {
                     "id": {
@@ -5645,6 +6313,10 @@
                         "type": "integer",
                         "example": 1
                     },
+                    "seller_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
                     "discount": {
                         "type": "double",
                         "example": 4
@@ -5676,6 +6348,13 @@
                         "example": "22020-10-21T09:33:59.000000Z"
                     },
                     "user": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "seller": {
                         "allOf": [
                             {
                                 "$ref": "#/components/schemas/User"
@@ -5805,10 +6484,6 @@
                         "type": "string",
                         "example": "0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
                     },
-                    "physical_address": {
-                        "type": "string",
-                        "example": "3th Street. 47 W 13th St, New York"
-                    },
                     "phone_no": {
                         "type": "string",
                         "example": "+1-202-555-0180"
@@ -5863,10 +6538,33 @@
                         "format": "date-time",
                         "example": "22020-10-21T09:33:59.000000Z"
                     },
+                    "code_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+                    },
+                    "insurance_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/6c27f03d7e05fafe06f225bcbeb42d3a_1637924327.png"
+                    },
+                    "address_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+                    },
+                    "id_path": {
+                        "type": "string",
+                        "example": "https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+                    },
                     "user": {
                         "allOf": [
                             {
                                 "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "addresses": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Address"
                             }
                         ]
                     }

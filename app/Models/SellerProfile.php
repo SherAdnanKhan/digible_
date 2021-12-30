@@ -10,38 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SellerProfile extends Model
 {
     use HasFactory;
-    const TYPE_INDIVIDUAL = 'individual';
-    const TYPE_CARDHOUSE = 'cardhouse';
-    const TYPE_DIGI = 'digi';
-    const STATUS_PENDING = "pending";
-    const STATUS_APPROVED = "approved";
-    const STATUS_REJECTED = "rejected";
 
-    protected $guarded = ['created_at'];
-
-    protected $appends = ['code_path', 'insurance_path', 'address_path', 'id_path'];
-
-    public function getCodePathAttribute()
-    {
-        return $this->code_image ? asset('/' . $this->code_image) : null;
-    }
-
-    public function getInsurancePathAttribute()
-    {
-        return $this->insurance_image ? asset('/' . $this->insurance_image) : null;
-    }
-
-    public function getAddressPathAttribute()
-    {
-        return $this->address_image ? asset('/' . $this->address_image) : null;
-    }
-
-    public function getIDPathAttribute()
-    {
-        return $this->id_image ? asset('/' . $this->id_image) : null;
-    }
-
-    /**
+        /**
      * @OA\Schema(
      *     schema="SellerProfile",
      *     @OA\Property(
@@ -68,11 +38,6 @@ class SellerProfile extends Model
      *         property="wallet_address",
      *         type="string",
      *         example="0xfbed75735e69c0b78fd70730ae92bd2b075cec2f"
-     *     ),
-     *     @OA\Property(
-     *         property="physical_address",
-     *         type="string",
-     *         example="3th Street. 47 W 13th St, New York"
      *     ),
      *     @OA\Property(
      *         property="phone_no",
@@ -141,13 +106,70 @@ class SellerProfile extends Model
      *         example="22020-10-21T09:33:59.000000Z"
      *     ),
      *     @OA\Property(
+     *         property="code_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+     *     ),
+     *     @OA\Property(
+     *         property="insurance_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/6c27f03d7e05fafe06f225bcbeb42d3a_1637924327.png"
+     *     ),
+     *     @OA\Property(
+     *         property="address_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+     *     ),
+     *     @OA\Property(
+     *         property="id_path",
+     *         type="string",
+     *         example="https://digible-api.staging.doodle.je/ac8596485fcdd6ee2d708a4a6cb24291_1637924326.png"
+     *     ),
+     *     @OA\Property(
      *         property="user",
      *         allOf={
      *             @OA\Schema(ref="#/components/schemas/User")
      *         }
      *     ),
+     *     @OA\Property(
+     *         property="addresses",
+     *         allOf={
+     *             @OA\Schema(ref="#/components/schemas/Address")
+     *         }
+     *     ),
      * )
      */
+    const TYPE_INDIVIDUAL = 'individual';
+    const TYPE_CARDHOUSE = 'cardhouse';
+    const TYPE_DIGI = 'digi';
+    const STATUS_PENDING = "pending";
+    const STATUS_APPROVED = "approved";
+    const STATUS_REJECTED = "rejected";
+
+    protected $guarded = ['created_at'];
+
+    protected $appends = ['code_path', 'insurance_path', 'address_path', 'id_path'];
+
+    public function getCodePathAttribute()
+    {
+        return $this->code_image ? asset('/' . $this->code_image) : null;
+    }
+
+    public function getInsurancePathAttribute()
+    {
+        return $this->insurance_image ? asset('/' . $this->insurance_image) : null;
+    }
+
+    public function getAddressPathAttribute()
+    {
+        return $this->address_image ? asset('/' . $this->address_image) : null;
+    }
+
+    public function getIDPathAttribute()
+    {
+        return $this->id_image ? asset('/' . $this->id_image) : null;
+    }
+
 
     public function user(): BelongsTo
     {

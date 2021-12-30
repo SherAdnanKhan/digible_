@@ -308,9 +308,9 @@ class AuctionController extends Controller
     }
 
         /** @OA\put(
-     *     path="/api/auctions",
-     *     description="Update auctions",
-     *     summary="Update",
+     *     path="/api/auction/update-won",
+     *     description="Update auction",
+     *     summary="Update won",
      *     operationId="updateAuction",
      *     security={{"bearerAuth":{}}},
      *     tags={"Auctions"},
@@ -322,11 +322,6 @@ class AuctionController extends Controller
      *                     property="collection_item_id",
      *                     type="string",
      *                     example=1
-     *                 ),
-     *                 @OA\Property(
-     *                     property="last_price",
-     *                     type="double",
-     *                     example=5.0
      *                 ),
      *             )
      *         )

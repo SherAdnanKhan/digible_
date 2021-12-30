@@ -18,7 +18,7 @@ class OrderAdminController extends Controller
     /** @OA\Get(
      *     path="/api/admin/orders/",
      *     description="Get orders",
-     *     summary="Store",
+     *     summary="Get All Orders",
      *     operationId="GetOrder",
      *     security={{"bearerAuth":{}}},
      *     tags={"Orders"},
@@ -157,11 +157,301 @@ class OrderAdminController extends Controller
         return $this->success($data, null);
     }
 
+    /** @OA\Get(
+     *     path="/api/orders/seller/{user}",
+     *     description="Get seller transcation data",
+     *     summary="Get Buyer Transcation Data",
+     *     operationId="getSellerTranscation",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Orders"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="user",
+     *         parameter="user",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                      property="current_page",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Order")
+     *                  ),
+     *                  @OA\Property(
+     *                         property="first_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="from",
+     *                         type="integer",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="last_page",
+     *                         type="integer",
+     *                         example=3
+     *                     ),
+     *                     @OA\Property(
+     *                         property="last_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="links",
+     *                         type="array",
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example=null
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="&laquo; Previous"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=false
+     *                              ),
+     *                         ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example="/?page=1"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="1"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=true
+     *                              ),
+     *                         ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example=null
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="Next & raquo;"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=false
+     *                              ),
+     *                         ),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="next_page_url",
+     *                         type="string",
+     *                         example="/?page=2"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="path",
+     *                         type="string",
+     *                         example="/"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="per_page",
+     *                         type="integer",
+     *                         example=10
+     *                     ),
+     *                     @OA\Property(
+     *                         property="prev_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="to",
+     *                         type="integer",
+     *                         example=10
+     *                     ),
+     *                     @OA\Property(
+     *                         property="total",
+     *                         type="integer",
+     *                         example=30
+     *                     ),
+     *                 ),
+     *             )
+     *     )
+     * )
+     * @param Order $order
+     * @return JsonResponse
+     */    
+
     public function indexSeller(User $user)
     {
         $data= $this->service->getSellerData($user);
         return $this->success($data, null);
     }
+
+        /** @OA\Get(
+     *     path="/api/orders/buyer/{user}",
+     *     description="Get buyer transcation data",
+     *     summary="Get Buyer Transcation data",
+     *     operationId="GetBuyerTranscation",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Orders"},
+     *     @OA\Parameter(
+     *         @OA\Schema(type="integer"),
+     *         in="path",
+     *         allowReserved=true,
+     *         required=true,
+     *         name="user",
+     *         parameter="user",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                      property="current_page",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                     property="data",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Order")
+     *                  ),
+     *                  @OA\Property(
+     *                         property="first_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="from",
+     *                         type="integer",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="last_page",
+     *                         type="integer",
+     *                         example=3
+     *                     ),
+     *                     @OA\Property(
+     *                         property="last_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="links",
+     *                         type="array",
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example=null
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="&laquo; Previous"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=false
+     *                              ),
+     *                         ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example="/?page=1"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="1"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=true
+     *                              ),
+     *                         ),
+     *                         @OA\Items(
+     *                              @OA\Property(
+     *                              property="url",
+     *                              type="string",
+     *                              example=null
+     *                              ),
+     *                              @OA\Property(
+     *                              property="label",
+     *                              type="string",
+     *                              example="Next & raquo;"
+     *                              ),
+     *                              @OA\Property(
+     *                              property="active",
+     *                              type="boolean",
+     *                              example=false
+     *                              ),
+     *                         ),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="next_page_url",
+     *                         type="string",
+     *                         example="/?page=2"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="path",
+     *                         type="string",
+     *                         example="/"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="per_page",
+     *                         type="integer",
+     *                         example=10
+     *                     ),
+     *                     @OA\Property(
+     *                         property="prev_page_url",
+     *                         type="string",
+     *                         example="/?page=1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="to",
+     *                         type="integer",
+     *                         example=10
+     *                     ),
+     *                     @OA\Property(
+     *                         property="total",
+     *                         type="integer",
+     *                         example=30
+     *                     ),
+     *                 ),
+     *             )
+     *     )
+     * )
+     * @param Order $order
+     * @return JsonResponse
+     */
 
     public function indexBuyer(User $user)
     {

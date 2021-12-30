@@ -27,7 +27,7 @@ class OrderController extends Controller
      *     summary="Get pending orders",
      *     operationId="getPendingOrders",
      *     security={{"bearerAuth":{}}},
-     *     tags={"Collections"},
+     *     tags={"Orders"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",

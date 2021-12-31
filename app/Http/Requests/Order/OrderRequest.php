@@ -15,6 +15,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'secretKey' => 'required|string|min:3|max:255',
+            "items"    => "required|array",
             'items.*.collection_item_id' => 'required|exists:collection_items,id',
             'items.*.quantity' => 'required|numeric|gt:0',
             'currency' => 'required|string|min:3|max:3',

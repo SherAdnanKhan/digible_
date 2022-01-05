@@ -112,7 +112,7 @@ class OrderService extends BaseService
             DB::rollback();
             return false;
         }
-        return true;
+        return $response;
     }
 
     public function completed(Order $order, $data)

@@ -6,6 +6,7 @@ use App\Models\Auction;
 use App\Models\Collection;
 use App\Models\CollectionItem;
 use App\Models\OrderTransaction;
+use Illuminate\Support\Facades\Event;
 
 class OrderTransactionRepository
 {
@@ -23,9 +24,11 @@ class OrderTransactionRepository
         $item->available_for_sale = 3;
         $item->save();
         $exist_item = CollectionItem::where([['collection_id', $item['collection_id']], ['available_for_sale', '!=', 3]])->first();
-        
+
         if (!$exist_item) {
             Collection::where('id', $item['collection_id'])->update(['status' => Collection::STATUS_SOLD]);
+            $collection = Collection::where('id', $item['collection_id'])->first();
+            Event::dispatch('collection.sold', [$collection]);
         }
         if (isset($data['auction'])) {
             $item->lastBet()->first()->update(['status' => Auction::STATUS_PURCHASED]);

@@ -18,6 +18,7 @@ use App\Http\Controllers\API\V1\Collections\ItemTypeController;
 use App\Http\Controllers\API\V1\CommentController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\OrderController;
+use App\Http\Controllers\API\V1\Seller\SellerCollectionController;
 use App\Http\Controllers\API\V1\Seller\SellerCollectionItemController;
 use App\Http\Controllers\API\V1\Seller\SellerRequestController;
 use App\Http\Controllers\API\V1\Users\AuthController;
@@ -100,6 +101,8 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
             Route::get('/pending', [CollectionAdminController::class, 'index']);
             Route::put('/action/{collection}', [CollectionAdminController::class, 'update']);
             Route::get('/approved', [CollectionAdminController::class, 'approved']);
+            Route::get('/rejected', [CollectionAdminController::class, 'rejected']);
+            Route::get('/sold', [CollectionAdminController::class, 'sold']);
         });
 
         Route::group(['prefix' => 'orders'], function () {
@@ -119,12 +122,19 @@ Route::group(['middleware' => ['auth:api', 'email_verify']], function () {
             Route::put('/collection-items/{collectionItem}', [SellerCollectionItemController::class, 'update']);
         });
 
+        Route::group(['prefix' => 'collections'], function () {
+            Route::get('/pending', [SellerCollectionController::class, 'index']);
+            Route::get('/approved', [SellerCollectionController::class, 'approved']);
+            Route::get('/rejected', [SellerCollectionController::class, 'rejected']);
+            Route::get('/sold', [SellerCollectionController::class, 'sold']);
+        });
+
     });
     Route::group(['middleware' => ['role:admin|user|seller']], function () {
         Route::resource('/auctions', AuctionController::class);
         Route::get('/auction/current', [AuctionController::class, 'getByUser']);
         Route::get('/auction/won-bets', [AuctionController::class, 'getWonBets']);
-        Route::put('/auction/update-won',  [AuctionController::class, 'updateWonAuction']);
+        Route::put('/auction/update-won', [AuctionController::class, 'updateWonAuction']);
 
         Route::get('/get-seller-verify-request', [SellerRequestController::class, 'index']);
         Route::put('/seller-reverify-request/{sellerProfile}', [SellerRequestController::class, 'update']);

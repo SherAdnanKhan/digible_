@@ -200,4 +200,14 @@ class Collection extends Model
     {
         return $query->where(['status' => Collection::STATUS_PENDING]);
     }
+
+    public function scopeRejected($query)
+    {
+        return $query->where(['status' => Collection::STATUS_REJECTED]);
+    }
+
+    public function scopeSold($query)
+    {
+        return $query->where(['status' => Collection::STATUS_SOLD]);
+    }
 }

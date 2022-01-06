@@ -18,6 +18,7 @@ class CollectionItemTransformer extends BaseTransformer
     {
         return [
             'id' => $collectionItem->id,
+            'collection_item_type_id' => $collectionItem->collection_item_type_id,
             'name' => $collectionItem->name,
             'label' => $collectionItem->label,
             'image' => $collectionItem->image,

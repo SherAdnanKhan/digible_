@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API\V1\Admin;
+namespace App\Http\Controllers\API\V1\Seller;
 
-use App\Models\Collection;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Event;
 use App\Http\Services\Collections\CollectionService;
-use App\Http\Requests\Collections\Admin\CollectionUpdateRequest;
 
-class CollectionAdminController extends Controller
+class SellerCollectionController extends Controller
 {
     protected $service;
 
@@ -19,10 +16,10 @@ class CollectionAdminController extends Controller
     }
 
     /** @OA\Get(
-     *     path="/api/admin/collections/pending",
-     *     description="Get Pending Collections ",
-     *     summary="Get all pending collections",
-     *     operationId="getPendingCollections",
+     *     path="/api/seller/collections/pending",
+     *     description="Get Seller Pending Collections ",
+     *     summary="Get all seller pending collections",
+     *     operationId="getSellerPendingCollections",
      *     security={{"bearerAuth":{}}},
      *     tags={"Collections"},
      *     @OA\Response(
@@ -159,68 +156,11 @@ class CollectionAdminController extends Controller
         return $this->service->getPending();
     }
 
-    /** @OA\Put(
-     *     path="/api/admin/collections/action/{collection}",
-     *     description="Approved or Reject Collection",
-     *     summary="Collection approve/reject",
-     *     operationId="actionCollection",
-     *     security={{"bearerAuth":{}}},
-     *     tags={"Collections"},
-     *     @OA\Parameter(
-     *         @OA\Schema(type="integer"),
-     *         in="path",
-     *         allowReserved=true,
-     *         required=true,
-     *         name="collection",
-     *         parameter="collection",
-     *         example=1
-     *     ),
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     property="status",
-     *                     type="string",
-     *                     example="approved"
-     *                 ),
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                  @OA\Property(
-     *                     property="message",
-     *                     type="string",
-     *                     example="Collection updated successfully"
-     *                 ),
-     *                  @OA\Property(
-     *                     property="data",
-     *                     example="[]"
-     *                 ),
-     *             )
-     *         )
-     *     )
-     * )
-     * @param Collection $collection
-     * @return Json
-     */
-
-    public function update(CollectionUpdateRequest $request, Collection $collection): JsonResponse
-    {
-        $this->service->updateStatus($collection, $request->validated());
-        return $this->success([], null, trans('messages.collection_update_success'));
-    }
-
     /** @OA\Get(
-     *     path="/api/admin/collections/approved",
-     *     description="Get Approved Collections ",
-     *     summary="Get all approved collections",
-     *     operationId="getApprovedCollections",
+     *     path="/api/seller/collections/approved",
+     *     description="Get Seller Approved Collections ",
+     *     summary="Get all seller approved collections",
+     *     operationId="getSellerApprovedCollections",
      *     security={{"bearerAuth":{}}},
      *     tags={"Collections"},
      *     @OA\Response(
@@ -357,11 +297,11 @@ class CollectionAdminController extends Controller
         return $this->service->getApproved();
     }
 
-        /** @OA\Get(
-     *     path="/api/admin/collections/sold",
-     *     description="Get Sold Collections ",
-     *     summary="Get all sold collections",
-     *     operationId="getSoldCollections",
+    /** @OA\Get(
+     *     path="/api/seller/collections/rejected",
+     *     description="Get Seller Rejected Collections ",
+     *     summary="Get all seller rejected collections",
+     *     operationId="getSellerRejectedCollections",
      *     security={{"bearerAuth":{}}},
      *     tags={"Collections"},
      *     @OA\Response(
@@ -498,11 +438,11 @@ class CollectionAdminController extends Controller
         return $this->service->getRejected();
     }
 
-            /** @OA\Get(
-     *     path="/api/admin/collections/rejected",
-     *     description="Get Rejected Collections ",
-     *     summary="Get all rejected collections",
-     *     operationId="getRejectedCollections",
+        /** @OA\Get(
+     *     path="/api/seller/collections/sold",
+     *     description="Get Seller Sold Collections ",
+     *     summary="Get all seller sold collections",
+     *     operationId="getSellerSoldCollections",
      *     security={{"bearerAuth":{}}},
      *     tags={"Collections"},
      *     @OA\Response(

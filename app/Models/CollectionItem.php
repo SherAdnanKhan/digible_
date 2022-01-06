@@ -177,6 +177,11 @@ class CollectionItem extends Model
         return $query->where('available_for_sale', '!=', 3);
     }
 
+    public function scopeNotForSale($query)
+    {
+        return $query->where('available_for_sale', '!=', 0);
+    }
+
     public function scopeApprovedCollection($query)
     {
         return $query->whereHas('collection', function($query) {

@@ -17,6 +17,7 @@ class CollectionItemRepository
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->where('collection_id', $collection->id)
                 ->notSold()
+                ->notForSale()
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
                                  AllowedFilter::callback('priceBetween', function (Builder $query, $priceBetween) {
                                     $query->where('price', '>=', $priceBetween[0]);
@@ -37,6 +38,7 @@ class CollectionItemRepository
         $collectionItems = QueryBuilder::for(new CollectionItem)
                 ->approvedCollection()
                 ->notSold()
+                ->notForSale()
                 ->allowedFilters([AllowedFilter::exact("collection_item_type_id"),
                                  AllowedFilter::callback('priceBetween', function (Builder $query, $priceBetween) {
                                     $query->where('price', '>=', $priceBetween[0]);

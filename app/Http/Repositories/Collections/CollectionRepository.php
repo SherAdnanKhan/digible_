@@ -3,6 +3,7 @@
 namespace App\Http\Repositories\Collections;
 
 use App\Models\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class CollectionRepository
 {
@@ -18,12 +19,35 @@ class CollectionRepository
 
     public function getPending()
     {
+        if (Auth::user()->hasRole(['seller'])) {
+            return Collection::pending()->where('user_id', Auth::user()->id)->get();
+        }
         return Collection::pending()->get();
+
     }
 
     public function getApproved()
     {
+        if (Auth::user()->hasRole(['seller'])) {
+            return Collection::approved()->where('user_id', Auth::user()->id)->get();
+        }
         return Collection::approved()->get();
+    }
+
+    public function getRejected()
+    {
+        if (Auth::user()->hasRole(['seller'])) {
+            return Collection::rejected()->where('user_id', Auth::user()->id)->get();
+        }
+        return Collection::rejected()->get();
+    }
+
+    public function getSold()
+    {
+        if (Auth::user()->hasRole(['seller'])) {
+            return Collection::sold()->where('user_id', Auth::user()->id)->get();
+        }
+        return Collection::sold()->get();
     }
 
     public function save(array $data): void

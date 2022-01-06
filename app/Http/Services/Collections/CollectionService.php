@@ -9,6 +9,7 @@ use App\Models\Collection;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
 class CollectionService extends BaseService
@@ -50,6 +51,20 @@ class CollectionService extends BaseService
         return $this->imageService->paginate($result);
     }
 
+    public function getRejected()
+    {
+        Log::info(__METHOD__ . " -- Rejected Collection data all fetched: ");
+        $result = $this->repository->getRejected();
+        return $this->imageService->paginate($result);
+    }
+
+    public function getSold()
+    {
+        Log::info(__METHOD__ . " -- Sold Collection data all fetched: ");
+        $result = $this->repository->getSold();
+        return $this->imageService->paginate($result);
+    }
+
     public function save(array $data): void
     {
         try {
@@ -72,6 +87,7 @@ class CollectionService extends BaseService
             $data['user_id'] = Auth::user()->id;
             Log::info(__METHOD__ . " -- New collection request info: ", $data);
             $this->repository->save($data);
+            Event::dispatch('collection.store', [$data]);
         } catch (Exception $e) {
             throw new ErrorException(trans('messages.general_error'));
         }
@@ -121,5 +137,15 @@ class CollectionService extends BaseService
             throw new ErrorException(trans('messages.general_error'));
         }
         return $collection;
+    }
+
+    public function updateStatus(Collection $collection, array $data)
+    {
+        $collection->update($data);
+        if (isset($data['status']) && $data['status'] == Collection::STATUS_APPROVED) {
+            Event::dispatch('collection.approved', [$collection]);
+        } else if (isset($data['status']) && $data['status'] == Collection::STATUS_REJECTED) {
+            Event::dispatch('collection.rejected', [$collection]);
+        }
     }
 }

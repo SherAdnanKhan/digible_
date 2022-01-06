@@ -23,7 +23,7 @@ class AuctionRepository
     public function getByUser()
     {
         $auctions = Auction::where(['buyer_id' => auth()->user()->id, 'status' => Auction::STATUS_PENDING])
-            ->with('collectionItem')->get()->groupBy('collection_item_id');
+            ->with('collectionItem', 'buyer', 'seller')->get()->groupBy('collection_item_id');
         return $auctions;
     }
 

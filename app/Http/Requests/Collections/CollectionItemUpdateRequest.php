@@ -26,7 +26,7 @@ class CollectionItemUpdateRequest extends FormRequest
             'collection_item_type_id' => 'exists:collection_item_types,id',
             'name' => 'string|max:255',
             'image' => 'base64img',
-            'description' => ['string', 'max:400'],
+            'description' => ['string', 'max:2000'],
             'edition' => ['string', 'max:255'],
             'price' => 'numeric|gte:0',
             'graded' => ['string', 'max:255'],

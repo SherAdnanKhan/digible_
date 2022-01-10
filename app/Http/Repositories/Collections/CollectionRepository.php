@@ -14,7 +14,7 @@ class CollectionRepository
 
     public function getCurrentAll()
     {
-        return Collection::where("user_id", auth()->user()->id)->get();
+        return Collection::where("user_id", auth()->user()->id)->with('user')->get();
     }
 
     public function getPending()

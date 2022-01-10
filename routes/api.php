@@ -48,6 +48,8 @@ Route::group(['prefix' => 'collections/{collection}'], function () {
 });
 Route::resource('collections', CollectionController::class)->only(['show']);
 
+Route::resource('collection-items', CollectionItemController::class)->only(['show']);
+
 Route::get('collection/{collection}/comment', [CommentBuyerController::class, 'index']);
 Route::get('collection-item/{collectionItem}/comment', [CommentBuyerController::class, 'indexCI']);
 Route::get('/comment/{comment}', [CommentBuyerController::class, 'show']);

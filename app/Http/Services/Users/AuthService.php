@@ -82,7 +82,7 @@ class AuthService extends BaseService
      * @param $token
      * @return User|null
      */
-    public function userActivate($token): ?User
+    public function userActivate($token)
     {
         $user = $this->repository->getUserFromToken($token);
         if (!$user) {
@@ -91,13 +91,14 @@ class AuthService extends BaseService
 
         $user = $this->repository->userActivate($user);
 
+
         Log::info(__METHOD__ . " -- user: " . $user->email . " -- User email verification success");
 
         Event::dispatch('email.verified', [$user]);
 
         Log::info(__METHOD__ . " -- Email verification success notification sent to user", ["email" => $user->email]);
 
-        return $user;
+        return $this->repository->createUserToken($user, null);
     }
 
     public function forget(array $data)

@@ -30,11 +30,11 @@ class CollectionItemUpdateRequest extends FormRequest
             'edition' => ['string', 'max:255'],
             'price' => 'numeric|gte:0',
             'graded' => ['string', 'max:255'],
-            'year' => 'digits:4|integer|min:1900|max:' . (date('Y') + 1) . '|' .
+            'year' => ['required','digits:4','integer','min:1900','max:' . (date('Y') + 1) . "'", 
             Rule::unique('collection_items')->where(function ($query) {
                 $query->where('name', $this->name)
                     ->where('year', $this->year);
-            })->ignore($this->collection_item->id),
+            })->ignore($this->collection_item->id)],
             'population' => ['integer'],
             'publisher' => ['string', 'max:255'],
             'available_for_sale' => 'integer|min:0|digits_between: 0,2',

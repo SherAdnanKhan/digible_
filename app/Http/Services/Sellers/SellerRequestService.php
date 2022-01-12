@@ -1,13 +1,14 @@
 <?php
 namespace App\Http\Services\Sellers;
 
-use App\Http\Repositories\Sellers\SellerRequestRepository;
-use App\Http\Services\BaseService;
-use App\Http\Services\Images\ImageService;
-use App\Models\SellerProfile;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\SellerProfile;
+use App\Http\Services\BaseService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
+use App\Http\Services\Images\ImageService;
+use App\Http\Repositories\Sellers\SellerRequestRepository;
 
 class SellerRequestService extends BaseService
 {
@@ -97,9 +98,12 @@ class SellerRequestService extends BaseService
     {
         $sellerProfile->status = $data['status'];
         $sellerProfile->update();
+        $user = User::find($sellerProfile->user_id);
         if ($data['status'] == 'approved') {
-            $user = User::find($sellerProfile->user_id);
             $user->assignRole(['seller']);
         }
+        $emailData['user_id'] = $user->id;
+        $emailData['status'] = $data['status'];
+        Event::dispatch('seller.status', [$emailData]);
     }
 }

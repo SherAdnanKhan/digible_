@@ -1,17 +1,18 @@
 <?php
 namespace App\Http\Services\Auctions;
 
-use App\Exceptions\ErrorException;
-use App\Http\Repositories\Auctions\AuctionRepository;
-use App\Http\Services\BaseService;
-use App\Models\Auction;
-use App\Models\CollectionItem;
-use App\Models\User;
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Auction;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Event;
+use App\Models\CollectionItem;
+use App\Exceptions\ErrorException;
+use App\Http\Services\BaseService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
+use App\Http\Repositories\Auctions\AuctionRepository;
 
 class AuctionService extends BaseService
 {
@@ -63,7 +64,7 @@ class AuctionService extends BaseService
             $data['base_price'] = $collectionItem->price;
             Log::info(__METHOD__ . " -- New Auction request info: ", $data);
             $result = $this->repository->save($data);
-            if (isset($last_bet)) {
+            if (isset($last_bet) && $last_bet->buyer_id != Auth::user()->id) {
                 $emailData['item'] = $collectionItem;
                 $emailData['user_id'] = $last_bet->buyer_id;
                 Event::dispatch('auction.higher_bet', [$emailData]);

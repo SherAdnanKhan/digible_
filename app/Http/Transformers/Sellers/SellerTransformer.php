@@ -25,7 +25,7 @@ class SellerTransformer extends BaseTransformer
             'name' => $sellerProfile->name,
             'surname' => $sellerProfile->surname,
             'wallet_address' => $sellerProfile->wallet_address,
-            'phone_number' => $sellerProfile->phone_number,
+            'phone_number' => $sellerProfile->phone_no,
             'twitter_link' => $sellerProfile->twitter_link,
             'insta_link' => $sellerProfile->insta_link,
             'twitch_link' => $sellerProfile->twitch_link,

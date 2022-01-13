@@ -42,7 +42,7 @@ class SendWonEmails extends Command
      */
     public function handle()
     {
-        $last_bets = Auction::where(["status" => Auction::STATUS_PENDING, ['created_at', '>=', Carbon::now()->addMinutes(-5)], ['created_at', '<', Carbon::now()]])->get();
+        $last_bets = Auction::where(["status" => Auction::STATUS_WON, ['created_at', '>=', Carbon::now()->addMinutes(-5)], ['created_at', '<', Carbon::now()]])->get();
         foreach ($last_bets as $last_bet) {
             $collectionItem = CollectionItem::where(['id' => $last_bet->collection_item_id, ["end_date", '<=', Carbon::now()]])->first();
             if ($collectionItem) {

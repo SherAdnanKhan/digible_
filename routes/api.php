@@ -56,6 +56,7 @@ Route::get('/comment/{comment}', [CommentBuyerController::class, 'show']);
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
+    Route::post('reset-token', [AuthController::class, 'resetToken']);
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::get('signup/activate/{token}', [AuthController::class, 'userActivate'])->name('token-activation');
     Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:api');

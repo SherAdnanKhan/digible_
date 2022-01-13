@@ -27,6 +27,8 @@ return [
     'forget_password_success' => 'Forget password mail sent successfully',
     'forget_password_token_validate_success' => 'Forget password token validated successfully',
     'forget_password_reset_success' => 'Forget password reset successfully',
+    'token_reset_success' => 'Verification Email Sent successfully',
+    'user_already_verifed' => 'User is already verified',
     'forget_password_invalid_token' => 'Invalid Token!',
     'forget_password_invalid_token_or_email' => 'Invalid Token or Email!',
     'collection_create_success' => 'Collection created successfully',

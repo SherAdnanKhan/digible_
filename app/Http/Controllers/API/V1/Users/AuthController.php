@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Users;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -14,9 +15,9 @@ use App\Http\Services\Users\AuthService;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Users\UserLoginRequest;
 use App\Http\Requests\Users\UserStoreRequest;
+use App\Http\Requests\Users\ForgetUserRequest;
 use App\Http\Transformers\Users\UserTransformer;
 use App\Http\Transformers\Users\TokenTransformer;
-use App\Http\Requests\Users\ForgetPasswordRequest;
 use App\Http\Requests\Users\ConfirmPasswordRequest;
 
 class AuthController extends Controller
@@ -301,7 +302,7 @@ class AuthController extends Controller
         return Redirect::to(config('app.frontend') . '/email/verify-success/'.$verified->accessToken);
     }
 
-    public function forget(ForgetPasswordRequest $request)
+    public function forget(ForgetUserRequest $request)
     {
         $this->service->forget($request->validated());
         return $this->success([], null, trans('messages.forget_password_success'));
@@ -323,5 +324,58 @@ class AuthController extends Controller
             return $this->failure('', trans('messages.forget_password_invalid_token_or_email'), Response::HTTP_BAD_REQUEST);
         }
         return $this->success([], null, trans('messages.forget_password_reset_success'));
+    }
+
+        /**
+     * @OA\Post(
+     *     path="/api/auth/reset-token",
+     *     description="Reset token",
+     *     summary="ResetToken",
+     *     operationId="token",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="string",
+     *                     format="email",
+     *                     example="user@user.com"
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Verification Email Sent successfully",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     example="Verification Email Sent successfully"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="data",
+     *                     example="[]"
+     *                 )
+     *            )
+     *         )
+     *     )
+     * )
+     * @param ForgetUserRequest $request
+     * @return JsonResponse
+     */
+    public function resetToken(ForgetUserRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $user = User::where('email', $data['email'])->first();
+        if($user->email_verified_at) {
+            return $this->success([], null, trans('messages.user_already_verifed'));
+        }
+        $this->service->resetToken($user);
+        return $this->success([], null, trans('messages.token_reset_success'));
     }
 }

@@ -19,7 +19,6 @@ class AuthRepository
     public function register(array $userData): void
     {
         $user = new User($userData);
-
         $user->notify(new SignupActivate($user));
         Log::info(__METHOD__ . " -- Email verification notification sent to user", ["email" => $user->email]);
         $user->save();
@@ -120,5 +119,11 @@ class AuthRepository
             return null;
         }
         return $passwordReset->user;
+    }
+
+    public function resetToken(User $user)
+    {
+        $user->update(['activation_token' => str_random(5)]);
+        $user->notify(new SignupActivate($user));
     }
 }

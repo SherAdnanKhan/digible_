@@ -1,16 +1,16 @@
 <?php
 namespace App\Http\Services\Users;
 
-use App\Exceptions\ErrorException;
-use App\Http\Repositories\Users\AuthRepository;
-use App\Http\Services\BaseService;
-use App\Http\Transformers\Users\UserTransformer;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Exceptions\ErrorException;
+use App\Http\Services\BaseService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Event;
+use App\Http\Repositories\Users\AuthRepository;
 use Laravel\Passport\PersonalAccessTokenResult;
+use App\Http\Transformers\Users\UserTransformer;
 
 class AuthService extends BaseService
 {
@@ -123,5 +123,10 @@ class AuthService extends BaseService
     public function validateTokenAndGetUser(string $token)
     {
         return $this->repository->validateTokenAndGetUser($token);
+    }
+
+    public function resetToken(User $user)
+    {
+        return $this->repository->resetToken($user);
     }
 }

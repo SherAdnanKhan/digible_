@@ -4,7 +4,7 @@ namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ForgetPasswordRequest extends FormRequest
+class ForgetUserRequest extends FormRequest
 {
     public function rules()
     {

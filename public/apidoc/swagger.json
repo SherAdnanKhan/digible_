@@ -6094,6 +6094,53 @@
                 ]
             }
         },
+        "/api/auth/reset-token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "ResetToken",
+                "description": "Reset token",
+                "operationId": "token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@user.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verification Email Sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Verification Email Sent successfully"
+                                        },
+                                        "data": {
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user": {
             "get": {
                 "tags": [

@@ -299,7 +299,7 @@ class AuthController extends Controller
         if (!$verified) {
             return Redirect::to(config('app.frontend') . '/email/verify-failure');
         }
-        return Redirect::to(config('app.frontend') . '/email/verify-success/'.$verified->accessToken);
+        return Redirect::to(config('app.frontend') . '/email/verify-success/.?token='.$verified->accessToken);
     }
 
     public function forget(ForgetUserRequest $request)

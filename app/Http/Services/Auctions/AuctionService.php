@@ -78,7 +78,7 @@ class AuctionService extends BaseService
     public function updateWonAuction(array $data)
     {
         Log::info(__METHOD__ . " -- Get User Won Bets: ");
-        // try {
+        try {
             if (isset($data['collection_item_id'])) {
                 $auction = Auction::where(['collection_item_id' => $data['collection_item_id'], 'status' => Auction::STATUS_WON])->first();
                 if ($auction) {
@@ -95,8 +95,8 @@ class AuctionService extends BaseService
                     }
                 }
             }
-        // } catch (Exception $e) {
-        //     throw new ErrorException(trans('messages.general_error'));
-        // }
+        } catch (Exception $e) {
+            throw new ErrorException(trans('messages.general_error'));
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories\Collections;
 
+use Carbon\Carbon;
 use App\Models\Collection;
 use App\Models\CollectionItem;
 use Illuminate\Support\Facades\Event;
@@ -26,6 +27,9 @@ class CollectionItemRepository
                                 AllowedFilter::callback('status', function (Builder $query, $status) {
                                     $query->where('available_for_sale', $status);
                                 }),
+                                AllowedFilter::callback('date', function (Builder $query, $status) {
+                                    $query->whereDate('created_at', '>', Carbon::today()->subDays(env('DAYS_LIMIT')));
+                                }),
                 ])
                 ->with('collection.user', 'collectionItemType', 'auction', 'auction.seller', 
                        'auction.buyer', 'lastBet', 'lastBet.seller', 'lastBet.buyer')->withCount('favorites')->get();
@@ -47,6 +51,9 @@ class CollectionItemRepository
                                 AllowedFilter::callback('status', function (Builder $query, $status) {
                                     $query->where('available_for_sale', $status);
                                 }),
+                                AllowedFilter::callback('day', function (Builder $query, $day) {
+                                    $query->whereDate('created_at', '>', Carbon::today()->subDays($day));
+                                }),
                 ])
                 ->with('collection.user', 'collectionItemType', 'auction', 'auction.seller', 
                 'auction.buyer', 'lastBet', 'lastBet.seller', 'lastBet.buyer')->withCount('favorites')->get();
@@ -56,6 +63,9 @@ class CollectionItemRepository
     public function save(Collection $collection, array $data): void
     {
         $collection->collectionitems()->create($data);
+        if($collection->status == 'sold') {
+            $collection->update(['status' => Collection::STATUS_APPROVED]);
+        }
     }
 
     public function update(CollectionItem $collectionItem, array $data)

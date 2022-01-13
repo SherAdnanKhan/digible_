@@ -78,7 +78,7 @@ class AuctionService extends BaseService
     public function updateWonAuction(array $data)
     {
         Log::info(__METHOD__ . " -- Get User Won Bets: ");
-        try {
+        // try {
             if (isset($data['collection_item_id'])) {
                 $auction = Auction::where(['collection_item_id' => $data['collection_item_id'], 'status' => Auction::STATUS_WON])->first();
                 if ($auction) {
@@ -87,14 +87,16 @@ class AuctionService extends BaseService
                     $collectionItem = CollectionItem::find($data['collection_item_id']);
                     if ($this->service->dateComparision($collectionItem->start_date, Carbon::now()->toDateTimeString(), 'lt') &&
                         $this->service->dateComparision($collectionItem->end_date, Carbon::now(), 'lt')) {
+                        $user = User::find($collectionItem->lastbet->buyer_id);
+                        dispatch(new \App\Jobs\WonBetJob($user, $collectionItem));
                         return $this->repository->updateWonAuction($data);
                     } else {
                         throw new ErrorException('exception.auction_failed', [], Response::HTTP_UNPROCESSABLE_ENTITY);
                     }
                 }
             }
-        } catch (Exception $e) {
-            throw new ErrorException(trans('messages.general_error'));
-        }
+        // } catch (Exception $e) {
+        //     throw new ErrorException(trans('messages.general_error'));
+        // }
     }
 }

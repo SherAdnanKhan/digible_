@@ -48,6 +48,10 @@ class OrderService extends BaseService
         try {
             $items = $data['items'];
             $grandTotal = 0;
+            $orderItem['discount'] = 0;
+            $orderItem['subtotal'] = 0;
+            $orderItem['tax'] = 0;
+            $orderItem['total'] = 0;
             $result = [];
             foreach ($items as $item) {
                 $collectionItem[$item['collection_item_id']] = CollectionItem::find($item['collection_item_id']);
@@ -56,8 +60,12 @@ class OrderService extends BaseService
             }
             foreach ($items as $item) {
                 if ($collectionItem[$item['collection_item_id']]->available_for_sale == 1 || ($collectionItem[$item['collection_item_id']]->available_for_sale == 2 &&
-                ($collectionItem[$item['collection_item_id']]->lastBet()->exists() && $collectionItem[$item['collection_item_id']]->lastBet->buyer_id == auth()->user()->id))) {
-                    $subtotal = $collectionItem[$item['collection_item_id']]->price * $item['quantity'];
+                ($collectionItem[$item['collection_item_id']]->lastWonBet()->exists() && $collectionItem[$item['collection_item_id']]->lastWonBet->buyer_id == auth()->user()->id))) {
+                    if ($collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
+                        $subtotal = $collectionItem[$item['collection_item_id']]->lastWonBet->last_price * $item['quantity'];
+                    } else {
+                        $subtotal = $collectionItem[$item['collection_item_id']]->price * $item['quantity'];
+                    } 
                     $discount = Arr::exists($item, 'discount') ? $item['discount'] : 0.00;
                     $subtotalAfterDiscount = $subtotal - $discount;
                     if ($subtotalAfterDiscount < 0) {
@@ -69,24 +77,26 @@ class OrderService extends BaseService
                     $orderItem['ref_id'] = 'ORD-' . Str::random(15);
                     $orderItem['seller_id'] = $seller[$item['collection_item_id']];
                     $orderItem['user_id'] = auth()->id();
-                    $orderItem['discount'] = $discount;
-                    $orderItem['subtotal'] = $subtotal;
-                    $orderItem['tax'] = $productTax;
-                    $orderItem['total'] = $total;
+                    $orderItem['discount'] += $discount;
+                    $orderItem['subtotal'] += $subtotal;
+                    $orderItem['tax'] += $productTax;
+                    $orderItem['total'] += $total;
                     $orderItem['status'] = Order::PENDING;
-                    $order = $this->orderRepository->create($orderItem);
                     $grandTotal += $total;
-                    if ($collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
-                            $item['auction_id'] = $collectionItem[$item['collection_item_id']]->lastWonBet->id;
-                    } else {
-                        $item['auction_id'] = null;
-                    }
-                    
-                    $result[] = $this->orderCollectionRepository->create($order, $item);
-
-                } else {
+                }
+                
+                else {
                     throw new ErrorException("Collection id not for sale or not for auction.");
                 }
+            }
+            $order = $this->orderRepository->create($orderItem);
+            foreach ($items as $item) {
+                if ($collectionItem[$item['collection_item_id']]->available_for_sale == 2) {
+                    $item['auction_id'] = $collectionItem[$item['collection_item_id']]->lastWonBet->id;
+            } else {
+                $item['auction_id'] = null;
+            }
+                $this->orderCollectionRepository->create($order, $item);
             }
             DB::commit();
             $response = $this->paymentGateService->transaction((string) $grandTotal, $data['currency'], $data['secretKey']);

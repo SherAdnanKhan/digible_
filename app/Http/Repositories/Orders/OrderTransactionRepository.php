@@ -12,14 +12,16 @@ class OrderTransactionRepository
 {
     public function success($order, $data, $response)
     {
-        $order->transactions()->create([
-            'payment_id' => 'todoPayment_id',
-            'transaction_type' => $data['transaction_type'],
-            'transaction_number' => 'todoRefnumber',
-            'status' => OrderTransaction::SUCCESS,
-            'currency' => $data['currency'],
-            'total' => $order->total,
-        ]);
+        if (!$order->transactions()->exists()) {
+            $order->transactions()->create([
+                'payment_id' => 'todoPayment_id',
+                'transaction_type' => $data['transaction_type'],
+                'transaction_number' => 'todoRefnumber',
+                'status' => OrderTransaction::SUCCESS,
+                'currency' => $data['currency'],
+                'total' => $order->total,
+            ]);
+        }
         $item = CollectionItem::find($data['collection_item_id']);
         $item->available_for_sale = 3;
         $item->save();
@@ -31,21 +33,23 @@ class OrderTransactionRepository
             Event::dispatch('collection.sold', [$collection]);
         }
         if (isset($data['auction'])) {
-            $item->lastBet()->first()->update(['status' => Auction::STATUS_PURCHASED]);
+            $item->lastWonBet()->first()->update(['status' => Auction::STATUS_PURCHASED]);
             $item->pendingAuction()->update(['status' => Auction::STATUS_LOST]);
         }
     }
 
     public function failed($order, $data, $response)
     {
-        $order->transactions()->create([
-            'payment_id' => 'todoPayment_id',
-            'transaction_type' => $data['transaction_type'],
-            'transaction_number' => 'todoRefnumber',
-            'status' => OrderTransaction::FAILED,
-            'currency' => $data['currency'],
-            'total' => $order->total,
-        ]);
+        if (!$order->transactions()->exists()) {
+            $order->transactions()->create([
+                'payment_id' => 'todoPayment_id',
+                'transaction_type' => $data['transaction_type'],
+                'transaction_number' => 'todoRefnumber',
+                'status' => OrderTransaction::FAILED,
+                'currency' => $data['currency'],
+                'total' => $order->total,
+            ]);
+        }
     }
 
 }

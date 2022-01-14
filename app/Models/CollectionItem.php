@@ -219,6 +219,11 @@ class CollectionItem extends Model
         return $this->hasOne(Auction::class)->where('status', 'won')->orderBy('created_at', 'DESC');
     }
 
+    public function lastPurchasedBet(): HasOne
+    {
+        return $this->hasOne(Auction::class)->where('status', 'purchased')->orderBy('created_at', 'DESC');
+    }
+
 
     public function comments()
     {

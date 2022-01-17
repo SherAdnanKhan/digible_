@@ -34,11 +34,11 @@ class OrderRepository
 
     public function getSellerData(User $user)
     {
-        return Order::where(['seller_id' => $user->id, 'status' => Order::COMPLETED])->with('seller', 'transactions', 'orderDetails', 'orderDetails.collectionitem', 'orderDetails.collectionitem.lastPurchasedBet')->get();
+        return Order::where(['seller_id' => $user->id, 'status' => Order::COMPLETED])->with('seller', 'user', 'transactions', 'orderDetails', 'orderDetails.collectionitem.collection', 'orderDetails.collectionitem.lastPurchasedBet')->get();
     }
 
     public function getBuyerData(User $user)
     {
-        return Order::where(['user_id' => $user->id, 'status' => Order::COMPLETED])->with('user', 'seller', 'transactions', 'orderDetails', 'orderDetails.collectionitem', 'orderDetails.collectionitem.lastPurchasedBet')->get();
+        return Order::where(['user_id' => $user->id, 'status' => Order::COMPLETED])->with('user', 'seller', 'transactions', 'orderDetails', 'orderDetails.collectionitem', 'orderDetails.collectionitem.collection', 'orderDetails.collectionitem.lastPurchasedBet')->get();
     }
 }

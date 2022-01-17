@@ -12,6 +12,7 @@ class OrderTransactionRepository
 {
     public function success($order, $data, $response)
     {
+        $order->update(['purchased_at' => now()]);
         if (!$order->transactions()->exists()) {
             $order->transactions()->create([
                 'payment_id' => 'todoPayment_id',

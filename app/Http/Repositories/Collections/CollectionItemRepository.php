@@ -27,8 +27,8 @@ class CollectionItemRepository
                                 AllowedFilter::callback('status', function (Builder $query, $status) {
                                     $query->where('available_for_sale', $status);
                                 }),
-                                AllowedFilter::callback('date', function (Builder $query, $status) {
-                                    $query->whereDate('created_at', '>', Carbon::today()->subDays(env('DAYS_LIMIT')));
+                                AllowedFilter::callback('day', function (Builder $query, $day) {
+                                    $query->whereDate('created_at', '>', Carbon::today()->subDays($day));
                                 }),
                 ])
                 ->with('collection.user', 'collectionItemType', 'auction', 'auction.seller', 

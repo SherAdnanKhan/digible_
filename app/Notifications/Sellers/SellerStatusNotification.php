@@ -3,8 +3,8 @@
 namespace App\Notifications\Sellers;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class SellerStatusNotification extends Notification
 {
@@ -36,10 +36,15 @@ class SellerStatusNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $url = config('app.frontend') . '/login';
+        $response = (new MailMessage)
             ->subject('Seller Request is ' . $this->data['status'])
             ->line('Your request for become seller has been ' . $this->data['status'])
-            ->line($this->data['status'] == 'approved' ? "You can now sell on our platform!" : "Please provide all details correctly.");
+            ->line($this->data['status'] == 'approved' ? "You can now sell on our platform, please click on login to sell!" : "Please provide all details correctly.");
+        if ($this->data['status'] == 'approved') {
+            $response->action('Login', $url);
+        }
+        return $response;
     }
 
     /**
